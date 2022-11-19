@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>States Management</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link th:replace="@{/common/css.html}"></link>
+</head>
+
+<body>
+
+  <div th:replace="@{/common/header.html}"></div>
+  <div th:replace="@{/common/sidebar.html}"></div>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h3>List States</h3>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/index}">Home</a></li>
+          <li class="breadcrumb-item">Globals</li>
+          <li class="breadcrumb-item active">States</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" id="addButton">New State</button>
+
+    <!-- Default Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Details</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="state:${states}">
+          <td th:text="${state.id}"></td>
+          <td th:text="${state.name}"></td>
+          <td th:text="${state.details}"></td>
+          <td>
+            <div class="btn-group">
+              <a th:href="@{/states/findById/(id=${state.id})}" class="btn btn-primary" id="editButton"><i
+                  class="bi bi-pencil-fill"></i></a>
+              <a th:href="@{/states/findById/(id=${state.id})}" class="btn btn-success" id="detailsButton"><i
+                  class="bi bi-journal-bookmark-fill"></i></a>
+              <a th:href="@{/states/delete/(id=${state.id})}" class="btn btn-danger" id="deleteButton"><i
+                  class="bi bi-trash-fill"></i></a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </main><!-- End #main -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="stateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel"></h5>
+        </div>
+        <div class="modal-body">
+          <form id="formID">
+
+            <div class="form-group">
+              <label for="ddlCountryAdd" class="col-form-label">Country:</label>
+              <select class="form-control" id="ddlCountryAdd" name="countryid">
+                <option>-SELECT-</option>
+                <option th:each="country:${countries}" th:value="${country.id}" th:text="${country.description}">
+                </option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Capital:</label>
+              <input type="text" class="form-control" id="capitalAdd" name="capital">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Code:</label>
+              <input type="text" class="form-control" id="codeAdd" name="code">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="nameAdd" name="name">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Details:</label>
+              <input type="text" class="form-control" id="detailsAdd" name="details">
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Add Modal -->
+
+  <div th:replace="@{/common/delete-modal.html}"></div>
+  <div th:replace="@{/common/footer.html}"></div>
+
+  <script th:replace="@{/common/javascript.html}"></script>
+  <script th:src="@{/assets/js/state.js}"></script>
+</body>
+
+</html>

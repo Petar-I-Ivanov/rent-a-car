@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Country Management</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link th:replace="@{/common/css.html}"></link>
+</head>
+
+<body>
+
+  <div th:replace="@{/common/header.html}"></div>
+  <div th:replace="@{/common/sidebar.html}"></div>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h3>List Contries</h3>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/index}">Home</a></li>
+          <li class="breadcrumb-item">Globals</li>
+          <li class="breadcrumb-item active">Countries</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" id="addButton">New Country</button>
+
+    <!-- Default Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Description</th>
+          <th scope="col">Capital</th>
+          <th scope="col">Code</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="country:${countries}">
+          <td th:text="${country.id}"></td>
+          <td th:text="${country.description}"></td>
+          <td th:text="${country.capital}"></td>
+          <td th:text="${country.code}"></td>
+          <td>
+            <div class="btn-group">
+              <a th:href="@{/countries/findById/(id=${country.id})}" class="btn btn-primary" id="editButton">
+                <i class="bi bi-pencil-fill"></i></a>
+              <a th:href="@{/countries/findById/(id=${country.id})}" class="btn btn-success" id="detailsButton">
+                <i class="bi bi-journal-bookmark-fill"></i></a>
+              <a th:href="@{/countries/delete/(id=${country.id})}" class="btn btn-danger" id="deleteButton">
+                <i class="bi bi-trash-fill"></i></a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- End Default Table -->
+
+  </main><!-- End #main -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="countryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="countryModalLabel"></h5>
+        </div>
+        <div class="modal-body">
+          <form id="form">
+
+            <div class="form-group">
+              <label for="id" class="col-form-label">Id:</label>
+              <input type="text" class="form-control" id="id" name="id">
+            </div>
+
+            <div class="form-group">
+              <label for="description" class="col-form-label">Description:</label>
+              <input type="text" class="form-control" id="description" name="description">
+            </div>
+
+            <div class="form-group">
+              <label for="capital" class="col-form-label">Capital:</label>
+              <input type="text" class="form-control" id="capital" name="capital">
+            </div>
+
+            <div class="form-group">
+              <label for="code" class="col-form-label">Code:</label>
+              <input type="text" class="form-control" id="code" name="code">
+            </div>
+
+            <div class="form-group">
+              <label for="continent" class="col-form-label">Continent:</label>
+              <input type="text" class="form-control" id="continent" name="continent">
+            </div>
+
+            <div class="form-group">
+              <label for="nationality" class="col-form-label">Nationality:</label>
+              <input type="text" class="form-control" id="nationality" name="nationality">
+            </div>
+
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" id="submitButton"></button>
+              <button type="button" class="btn btn-secondary"
+                onclick="$('#countryModal').modal('hide');">Cancel</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Modal -->
+
+  <div th:replace="@{/common/delete-modal.html}"></div>
+  <div th:replace="@{/common/footer.html}"></div>
+
+  <script th:replace="@{/common/javascript.html}"></script>
+  <script th:src="@{/assets/js/country.js}"></script>
+
+</body>
+
+</html>
