@@ -2,6 +2,7 @@ package com.rent.car.models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
@@ -18,9 +19,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable<T> {
 
+	@Column(name = "createdBy", updatable = false)
     @CreatedBy
     protected T createdBy;
 
+    @Column(name = "createdDate", updatable = false)
     @CreatedDate
     @Temporal(TIMESTAMP)
     protected Date createdDate;

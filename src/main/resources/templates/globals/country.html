@@ -9,18 +9,18 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/common/css.html}"></link>
+  <link th:replace="@{/fragments/css.html}">
 </head>
 
 <body>
 
-  <div th:replace="@{/common/header.html}"></div>
-  <div th:replace="@{/common/sidebar.html}"></div>
+  <div th:replace="@{/fragments/header.html}"></div>
+  <div th:replace="@{/fragments/sidebar.html}"></div>
 
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h3>List Contries</h3>
+      <h3>List Countries</h3>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a th:href="@{/index}">Home</a></li>
@@ -68,11 +68,11 @@
   </main><!-- End #main -->
 
   <!-- Modal -->
-  <div class="modal fade" id="countryModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="countryModalLabel"></h5>
+          <h5 class="modal-title" id="modalLabel"></h5>
         </div>
         <div class="modal-body">
           <form id="form">
@@ -110,7 +110,7 @@
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary" id="submitButton"></button>
               <button type="button" class="btn btn-secondary"
-                onclick="$('#countryModal').modal('hide');">Cancel</button>
+                onclick="$('#modal').modal('hide');">Cancel</button>
             </div>
 
           </form>
@@ -119,10 +119,10 @@
     </div>
   </div><!-- End Modal -->
 
-  <div th:replace="@{/common/delete-modal.html}"></div>
-  <div th:replace="@{/common/footer.html}"></div>
+  <div th:replace="@{/fragments/delete-modal.html}"></div>
+  <div th:replace="@{/fragments/footer.html}"></div>
 
-  <script th:replace="@{/common/javascript.html}"></script>
+  <script th:replace="@{/fragments/javascript.html}"></script>
   <script th:src="@{/assets/js/country.js}"></script>
 
 </body>

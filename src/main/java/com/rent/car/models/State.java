@@ -45,8 +45,8 @@ public class State {
 	@OneToMany(mappedBy = "state")
 	private List<Client> clients;
 	
-//	@OneToMany(mappedBy = "country")
-//	private List<Employee> employees;
+	@OneToMany(mappedBy = "state")
+	private List<Employee> employees;
 	
 	@OneToMany(mappedBy = "state")
 	private List<Location> locations;

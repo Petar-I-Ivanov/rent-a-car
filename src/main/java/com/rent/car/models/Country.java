@@ -46,12 +46,12 @@ public class Country {
 	
 //	one country have many states
 //	used when the relationship is created
-//	mappedBy tells the hyperlink that the connection is done by State
+//	mappedBy tells the hyperlink that the connection is done by Client in parameter "country"
 	@OneToMany(mappedBy = "country")
 	private List<Client> clients;
 	
-//	@OneToMany(mappedBy = "country")
-//	private List<Employee> employees;
+	@OneToMany(mappedBy = "country")
+	private List<Employee> employees;
 	
 	@OneToMany(mappedBy = "country")
 	private List<Location> locations;

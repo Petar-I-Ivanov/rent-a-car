@@ -10,6 +10,12 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class CommonObject extends Auditable<String> {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String description;
+	private String details;
+	
 	public CommonObject() {
 		
 	}
@@ -19,12 +25,6 @@ public class CommonObject extends Auditable<String> {
 		this.description = description;
 		this.details = details;
 	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String description;
-	private String details;
 	
 	public int getId() {
 		return id;

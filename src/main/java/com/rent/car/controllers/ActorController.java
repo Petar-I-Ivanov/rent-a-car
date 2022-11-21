@@ -33,7 +33,7 @@ public class ActorController {
 		return actorService.findById(id);
 	}
 	
-	@PostMapping("/actor/addNew")
+	@PostMapping("/actors/addNew")
 	public RedirectView addNew(Actor actor, RedirectAttributes redir) {
 		
 		actorService.save(actor);
