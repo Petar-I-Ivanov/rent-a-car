@@ -113,7 +113,6 @@ function setInputFields(href) {
                 input.val(response[id]).change();
             }
             else {
-
 //              check if input is date, gets the first 10 chars of the string
                 if(id.includes('Date') || id.includes('date')) {
                     input.val(response[id].substr(0, 10));

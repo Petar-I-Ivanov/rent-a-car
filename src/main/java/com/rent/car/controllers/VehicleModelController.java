@@ -32,7 +32,7 @@ public class VehicleModelController {
 	@PostMapping("/vehicleModels/addNew")
 	public String addNew(VehicleModel vehicleModel) {
 		vehicleModelService.save(vehicleModel);
-		return "redirect:/parameters/vehicleModels";
+		return "redirect:/vehicleModels";
 	}
 	
 	@RequestMapping("/vehicleModels/findById")

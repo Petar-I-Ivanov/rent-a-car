@@ -1,59 +1,23 @@
 $('document').ready(function() {
 
-    $('table #editButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('#addButton').on('click', function () {
 
-        $.get(href, function(supplier, status) {
-            $('#idEdit').val(supplier.id);
-            $('#nameEdit').val(supplier.name);
-            $('#addressEdit').val(supplier.address);
-            $('#cityEdit').val(supplier.city);
-            $('#phoneEdit').val(supplier.phone);
-            $('#mobileEdit').val(supplier.mobile);
-            $('#websiteEdit').val(supplier.website);
-            $('#emailEdit').val(supplier.email);
-            $('#ddlCountryEdit').val(supplier.countryid).change();
-            $('#ddlStateEdit').val(supplier.stateid).change();
-            $('#detailsEdit').val(supplier.details);
-        });
-        
-        $('#editModal').modal('show');
+        $('#modalLabel').text('Add Supplier');
+        $('#form').prop('action', '/suppliers/addNew');
+        $('#form').prop('method', 'post');
     });
 
-    $('table #detailsButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('table #editButton').on('click', function () {
 
-        $.get(href, function(supplier, status) {
-            $('#idDetails').val(supplier.id);
-            $('#nameDetails').val(supplier.name);
-            $('#addressDetails').val(supplier.address);
-            $('#cityDetails').val(supplier.city);
-            $('#phoneDetails').val(supplier.phone);
-            $('#mobileDetails').val(supplier.mobile);
-            $('#websiteDetails').val(supplier.website);
-            $('#emailDetails').val(supplier.email);
-            $('#countryDetails').val(supplier.country.description);
-            $('#stateDetails').val(supplier.state.name);
-            $('#detailsDetails').val(supplier.details);
-        });
-        
-        $('#detailsModal').modal('show');
+        $('#modalLabel').text('Edit Supplier');
+        $('#form').prop('action', '/suppliers/update');
+        $('#form').prop('method', 'put');
     });
 
-	$('table #deleteButton').on('click', function(event) {
+    $('table #detailsButton').on('click', function () {
 
-		event.preventDefault();
-		
-        var href = $(this).attr("href");
-		
-		$('#confirmDeleteButton').attr('href', href);
-		
-		$('#deleteModal').modal('show');
-	});
+        $('#modalLabel').text('Supplier Details');
+        $('#form').prop('action', '');
+        $('#form').prop('method', '');
+    });
 });

@@ -1,43 +1,23 @@
 $('document').ready(function() {
 
-    $('table #editButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('#addButton').on('click', function () {
 
-        $.get(href, function(invoiceStatus, status) {
-            $('#idEdit').val(invoiceStatus.id);
-            $('#descriptionEdit').val(invoiceStatus.description);
-            $('#detailsEdit').val(invoiceStatus.details);
-        });
-        
-        $('#editModal').modal('show');
+        $('#modalLabel').text('Add Invoice Status');
+        $('#form').prop('action', '/invoiceStatuses/addNew');
+        $('#form').prop('method', 'post');
     });
 
-    $('table #detailsButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('table #editButton').on('click', function () {
 
-        $.get(href, function(invoiceStatus, status) {
-            $('#idDetails').val(invoiceStatus.id);
-            $('#descriptionDetails').val(invoiceStatus.description);
-            $('#detailsDetails').val(invoiceStatus.details);
-        });
-        
-        $('#detailsModal').modal('show');
+        $('#modalLabel').text('Edit Invoice Status');
+        $('#form').prop('action', '/invoiceStatuses/update');
+        $('#form').prop('method', 'put');
     });
 
-	$('table #deleteButton').on('click', function(event) {
+    $('table #detailsButton').on('click', function () {
 
-		event.preventDefault();
-
-		var href = $(this).attr("href");
-
-		$('#confirmDeleteButton').attr('href', href);
-		
-		$('#deleteModal').modal('show');
-	});
+        $('#modalLabel').text('Invoice Status Details');
+        $('#form').prop('action', '');
+        $('#form').prop('method', '');
+    });
 });

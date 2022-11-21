@@ -1,49 +1,23 @@
 $('document').ready(function() {
 
-    $('table #editButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
-//      FIX DATE
-        $.get(href, function(invoice, status) {
-            $('#idEdit').val(invoice.id);
-            var invoiceDate = invoice.invoiceDate.substr(0,10);
-            $('#invoiceDateEdit').val(invoiceDate);
-            $('#ddlInvoiceStatusEdit').val(invoice.invoicestatusid).change();
-            $('#ddlClientEdit').val(invoice.clientid).change();
-            $('#remarksEdit').val(invoice.remarks);
-        });
-        
-        $('#editModal').modal('show');
+    $('#addButton').on('click', function () {
+
+        $('#modalLabel').text('Add Invoice');
+        $('#form').prop('action', '/invoices/addNew');
+        $('#form').prop('method', 'post');
     });
 
-    $('table #detailsButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('table #editButton').on('click', function () {
 
-        $.get(href, function(invoice, status) {
-            $('#idDetails').val(invoice.id);
-            var invoiceDate = invoice.invoiceDate.substr(0,10);
-            $('#invoiceDateDetails').val(invoiceDate);
-            $('#ddlInvoiceStatusDetails').val(invoice.invoicestatusid).change();
-            $('#ddlClientDetails').val(invoice.clientid).change();
-            $('#remarksDetails').val(invoice.remarks);
-        });
-        
-        $('#detailsModal').modal('show');
+        $('#modalLabel').text('Edit Invoice');
+        $('#form').prop('action', '/invoices/update');
+        $('#form').prop('method', 'put');
     });
 
-	$('table #deleteButton').on('click', function(event) {
+    $('table #detailsButton').on('click', function () {
 
-		event.preventDefault();
-		
-        var href = $(this).attr("href");
-		
-		$('#confirmDeleteButton').attr('href', href);
-		
-		$('#deleteModal').modal('show');
-	});
+        $('#modalLabel').text('Invoice Details');
+        $('#form').prop('action', '');
+        $('#form').prop('method', '');
+    });
 });

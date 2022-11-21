@@ -68,7 +68,7 @@ public class VehicleController {
 	@PostMapping("/vehicles/addNew")
 	public String addNew(Vehicle vehicle) {
 		vehicleService.save(vehicle);
-		return "redirect:/vehicle";
+		return "redirect:/vehicles";
 	}
 	
 	@RequestMapping("/vehicles/findById")
@@ -77,7 +77,7 @@ public class VehicleController {
 		return vehicleService.findById(id);
 	}
 	
-	@RequestMapping(value="/vehiclse/update", method= {RequestMethod.PUT, RequestMethod.GET})
+	@RequestMapping(value="/vehicles/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(Vehicle vehicle) {
 		vehicleService.save(vehicle);
 		return "redirect:/vehicles";

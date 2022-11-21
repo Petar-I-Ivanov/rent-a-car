@@ -1,43 +1,23 @@
 $('document').ready(function() {
 
-    $('table #editButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('#addButton').on('click', function () {
 
-        $.get(href, function(vehicleType, status) {
-            $('#idEdit').val(vehicleType.id);
-            $('#descriptionEdit').val(vehicleType.description);
-            $('#detailsEdit').val(vehicleType.details);
-        });
-        
-        $('#editModal').modal('show');
+        $('#modalLabel').text('Add Vehicle Type');
+        $('#form').prop('action', '/vehicleTypes/addNew');
+        $('#form').prop('method', 'post');
     });
 
-    $('table #detailsButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('table #editButton').on('click', function () {
 
-        $.get(href, function(vehicleType, status) {
-            $('#idDetails').val(vehicleType.id);
-            $('#descriptionDetails').val(vehicleType.description);
-            $('#detailsDetails').val(vehicleType.details);
-        });
-        
-        $('#detailsModal').modal('show');
+        $('#modalLabel').text('Edit Vehicle Type');
+        $('#form').prop('action', '/vehicleTypes/update');
+        $('#form').prop('method', 'put');
     });
 
-	$('table #deleteButton').on('click', function(event) {
+    $('table #detailsButton').on('click', function () {
 
-		event.preventDefault();
-
-		var href = $(this).attr("href");
-
-		$('#confirmDeleteButton').attr('href', href);
-		
-		$('#deleteModal').modal('show');
-	});
+        $('#modalLabel').text('Vehicle Type Details');
+        $('#form').prop('action', '');
+        $('#form').prop('method', '');
+    });
 });

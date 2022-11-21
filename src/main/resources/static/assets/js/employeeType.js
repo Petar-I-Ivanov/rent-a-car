@@ -1,43 +1,23 @@
 $('document').ready(function() {
 
-    $('table #editButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('#addButton').on('click', function () {
 
-        $.get(href, function(employeeType, status) {
-            $('#idEdit').val(employeeType.id);
-            $('#descriptionEdit').val(employeeType.description);
-            $('#detailsEdit').val(employeeType.details);
-        });
-        
-        $('#editModal').modal('show');
+        $('#modalLabel').text('Add Employee Type');
+        $('#form').prop('action', '/employeeTypes/addNew');
+        $('#form').prop('method', 'post');
     });
 
-    $('table #detailsButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('table #editButton').on('click', function () {
 
-        $.get(href, function(employeeType, status) {
-            $('#idDetails').val(employeeType.id);
-            $('#descriptionDetails').val(employeeType.description);
-            $('#detailsDetails').val(employeeType.details);
-        });
-        
-        $('#detailsModal').modal('show');
+        $('#modalLabel').text('Edit Employee Type');
+        $('#form').prop('action', '/employeeTypes/update');
+        $('#form').prop('method', 'put');
     });
 
-	$('table #deleteButton').on('click', function(event) {
+    $('table #detailsButton').on('click', function () {
 
-		event.preventDefault();
-
-		var href = $(this).attr("href");
-
-		$('#confirmDeleteButton').attr('href', href);
-		
-		$('#deleteModal').modal('show');
-	});
+        $('#modalLabel').text('Employee Type Details');
+        $('#form').prop('action', '');
+        $('#form').prop('method', '');
+    });
 });
