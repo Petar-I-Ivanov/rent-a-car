@@ -62,10 +62,10 @@ public class RoleController {
 		
 		Actor actor = actorService.findById(id).orElse(null);
 		model.addAttribute("actor", actor);
-		model.addAttribute("userRoles", roleService.getActorRoles(actor));
-		model.addAttribute("userNotRoles", roleService.getActorNotRoles(actor));
+		model.addAttribute("actorRoles", roleService.getActorRoles(actor));
+		model.addAttribute("actorNotRoles", roleService.getActorNotRoles(actor));
 		
-		return "/people/userEdit";
+		return "/people/actorEdit";
 	}
 	
 	@RequestMapping("/security/role/assign/{actorId}/{roleId}")

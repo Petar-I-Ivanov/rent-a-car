@@ -1,51 +1,23 @@
 $('document').ready(function() {
 
-    $('table #editButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('#addButton').on('click', function () {
 
-        $.get(href, function(role, status) {
-            $('#idEdit').val(role.id);
-            $('#descriptionEdit').val(role.description);
-            $('#detailsEdit').val(role.details);
-        });
-        
-        $('#editModal').modal('show');
+        $('#modalLabel').text('Add Role');
+        $('#form').prop('action', '/roles/addNew');
+        $('#form').prop('method', 'post');
     });
 
-    $('table #detailsButton').on('click', function(event) {
-        
-        event.preventDefault();
-        
-        var href = $(this).attr('href');
+    $('table #editButton').on('click', function () {
 
-        $.get(href, function(role, status) {
-
-            var createdDate = role.createdDate.substr(0,10);
-            var lastModifiedDate = role.lastModifiedDate.substr(0,10);
-
-            $('#idDetails').val(role.id);
-            $('#descriptionDetails').val(role.description);
-            $('#detailsDetails').val(role.details);
-            $('#createdByDetails').val(role.createdBy);
-            $('#createdOnDetails').val(createdDate);
-            $('#modifiedByDetails').val(role.lastModifiedBy);
-            $('#modifiedOnDetails').val(lastModifiedDate);
-        });
-        
-        $('#detailsModal').modal('show');
+        $('#modalLabel').text('Edit Role');
+        $('#form').prop('action', '/roles/update');
+        $('#form').prop('method', 'put');
     });
 
-	$('table #deleteButton').on('click', function(event) {
+    $('table #detailsButton').on('click', function () {
 
-		event.preventDefault();
-
-		var href = $(this).attr("href");
-
-		$('#confirmDeleteButton').attr('href', href);
-		
-		$('#deleteModal').modal('show');
-	});
+        $('#modalLabel').text('Role Details');
+        $('#form').prop('action', '');
+        $('#form').prop('method', '');
+    });
 });

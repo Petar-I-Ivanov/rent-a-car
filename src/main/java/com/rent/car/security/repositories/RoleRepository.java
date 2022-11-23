@@ -14,8 +14,8 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 	@Query(
 		value  = "SELECT * FROM ROLE "
 				+ "WHERE ID NOT IN "
-				+ "(SELECT ROLE_ID FROM REGISTERED_USER_ROLE "
-				+ "WHERE REGISTERED_USER_ID = ?)",
+				+ "(SELECT ROLE_ID FROM ACTOR_ROLE "
+				+ "WHERE ACTOR_ID = ?)",
 				nativeQuery = true
 	)
 	Set<Role> getActorNotRoles(int userId);
