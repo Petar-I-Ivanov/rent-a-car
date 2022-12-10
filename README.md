@@ -1,4 +1,4 @@
-Features included in the MVC project:
+#Features included in the MVC project:
   - Bootstrap 'Nice Admin' template
   - Models with CRUD controlls
   - JPA, Lombok
@@ -16,7 +16,7 @@ Features included in the MVC project:
     3. Password encoding
   - Header based on User (username, photo link)
 
-TODO:
+#TODO:
   - Data Validation
 	  1. Validate with annotations in the models
 	  2. Validate at the Views
