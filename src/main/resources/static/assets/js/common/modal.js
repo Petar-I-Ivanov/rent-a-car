@@ -60,6 +60,10 @@ $('document').ready(function () {
 		$('#confirmDeleteButton').attr('href', href);
 		$('#deleteModal').modal('show');
 	});
+
+    $('#cancelButton').on('click', function() {
+        $('#modal').modal('hide');
+	});
 });
 
 function resetModal() {
