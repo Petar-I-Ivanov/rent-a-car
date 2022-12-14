@@ -75,7 +75,7 @@
           <h5 class="modal-title" id="modalLabel"></h5>
         </div>
         <div class="modal-body">
-          <form id="form">
+          <form id="form" th:object="${country}">
 
             <div class="form-group">
               <label for="id" class="col-form-label">Id:</label>
@@ -84,33 +84,37 @@
 
             <div class="form-group">
               <label for="description" class="col-form-label">Description:</label>
-              <input type="text" class="form-control" id="description" name="description">
+              <input type="text" class="form-control" id="description" name="description" required minlength="4" maxlength="60">
+              <p class="validation-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</p>
             </div>
 
             <div class="form-group">
               <label for="capital" class="col-form-label">Capital:</label>
-              <input type="text" class="form-control" id="capital" name="capital">
+              <input type="text" class="form-control" id="capital" name="capital" required minlength="4" maxlength="105">
+              <p class="validation-message" th:if="${#fields.hasErrors('capital')}" th:errors="*{capital}">Capital Error</p>
             </div>
 
             <div class="form-group">
               <label for="code" class="col-form-label">Code:</label>
-              <input type="text" class="form-control" id="code" name="code">
+              <input type="text" class="form-control" id="code" name="code" required minlength="4" maxlength="4">
+              <p class="validation-message" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Code Error</p>
             </div>
 
             <div class="form-group">
               <label for="continent" class="col-form-label">Continent:</label>
-              <input type="text" class="form-control" id="continent" name="continent">
+              <input type="text" class="form-control" id="continent" name="continent" required minlength="4" maxlength="15">
+              <p class="validation-message" th:if="${#fields.hasErrors('continent')}" th:errors="*{continent}">Continent Error</p>
             </div>
 
             <div class="form-group">
               <label for="nationality" class="col-form-label">Nationality:</label>
-              <input type="text" class="form-control" id="nationality" name="nationality">
+              <input type="text" class="form-control" id="nationality" name="nationality" required minlength="4" maxlength="60">
+              <p class="validation-message" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}">Nationality Error</p>
             </div>
 
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary" id="submitButton"></button>
-              <button type="button" class="btn btn-secondary"
-                onclick="$('#modal').modal('hide');">Cancel</button>
+              <button type="button" class="btn btn-secondary" id="cancelButton">Cancel</button>
             </div>
 
           </form>
@@ -123,7 +127,15 @@
   <div th:replace="@{/fragments/footer.html}"></div>
 
   <script th:replace="@{/fragments/javascript.html}"></script>
+  
   <script th:src="@{/assets/js/country.js}"></script>
+  <script th:src="@{/assets/js/countryValidation.js}"></script>
+
+  <script th:if="${#fields.hasErrors('${country.*}')}">
+    $('document').ready(function() {
+      $('#addButton').click();
+    });
+  </script>
 
 </body>
 
