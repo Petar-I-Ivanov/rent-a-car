@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -45,31 +46,35 @@ public class Country {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Pattern(regexp = "^[0-9]{4}$", message = "Field should be 4 digits.")
-	@Column(nullable = false, unique = true, length = 4)
-	private String code;
-	
-	@Size(min = 4, max = 105, message = "Field size must be between 4 and 105.")
-	@Pattern(regexp = "^[A-Z][a-z]+(?: [A-Z][a-z]+)*$",
-	message = "Field should contains only letters with capitalized first and after space.")
-	@Column(nullable = false, unique = true, length = 105)
-	private String capital;
-	
-	@Size(min = 4, max = 60, message = "Field size must be between 4 and 60.")
+	@NotBlank(message = "Field cannot be blank.")
+	@Size(min = 4, max = 60, message = "Field length should be between 4 and 60.")
 	@Pattern(regexp = "^[A-Z][a-z]+(?: [A-Z][a-z]+)*$",
 	message = "Field should contains only letters with capitalized first and after space.")
 	@Column(nullable = false, unique = true, length = 60)
 	private String description;
 	
-	@Size(min = 4, max = 60, message = "Field size must be between 4 and 60.")
+	@NotBlank(message = "Field cannot be blank.")
+	@Size(min = 4, max = 105, message = "Field length should be be between 4 and 105.")
+	@Pattern(regexp = "^[A-Z][a-z]+(?: [A-Z][a-z]+)*$",
+	message = "Field should contains only letters with capitalized first and after space.")
+	@Column(nullable = false, unique = true, length = 105)
+	private String capital;
+	
+	@NotBlank(message = "Field cannot be blank.")
+	@Size(min = 4, max = 60, message = "Field length should be between 4 and 60.")
 	@Pattern(regexp = "^[A-Z][a-z]+(?: [A-Z][a-z]+)*$",
 	message = "Field should contains only letters with capitalized first and after space.")
 	@Column(nullable = false, unique = true, length = 60)
 	private String nationality;
 	
-	@NotNull(message = "Field should not be null.")
+	@NotNull(message = "Field cannot be null.")
+	@Pattern(regexp = "^[0-9]{4}$", message = "Field should be 4 digits.")
+	@Column(nullable = false, unique = true, length = 4)
+	private String code;
+	
+	@NotNull(message = "Field cannot be null.")
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, length = 15)
+	@Column(nullable = false)
 	private ContinentEnum continent;
 	
 //	one country have many states

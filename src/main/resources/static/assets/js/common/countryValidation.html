@@ -1,0 +1,34 @@
+<script th:inline="javascript">
+    $('document').ready(function () {
+
+        jQuery.validator.addMethod("range105", function (value, element, upperBorder) {
+            return this.optional(element) || (value.length >= 4 && value.length <= upperBorder);
+        }, "Field size must be between 4 and " + upperBorder + ".");
+
+        jQuery.validator.addMethod("range60", function (value, element) {
+            return this.optional(element) || (value.length >= 4 && value.length <= 60);
+        }, "Field size must be between 4 and 60.");
+
+        jQuery.validator.addMethod("pascalCaseWithSpace", function (value, element) {
+            return this.optional(element) || /^[A-Z][a-z]+(?: [A-Z][a-z]+)*$/gm.test(value);
+        }, "Field should contains only letters with capitalized first and after space.");
+
+        jQuery.validator.addMethod("fourDigitsOnly", function (value, element) {
+            return this.optional(element) || /^[0-9]{4}$/i.test(value);
+        }, "Field must be 4 digits.");
+
+        jQuery.validator.addMethod("continentEnums", function (value, element) {
+            return this.optional(element) || [[${continents}]].includes(value)
+        }, "Field must be continent.");
+
+        $('#form').validate({
+            rules: {
+                description: { pascalCaseWithSpace: true, range105: 60 },
+                capital: { pascalCaseWithSpace: true, range105: true },
+                code: { fourDigitsOnly: true },
+                continent: { continentEnums: true },
+                nationality: { pascalCaseWithSpace: true, range60: true }
+            }
+        });
+    });
+</script>

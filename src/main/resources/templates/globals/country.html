@@ -84,31 +84,35 @@
 
             <div class="form-group">
               <label for="description" class="col-form-label">Description:</label>
-              <input type="text" class="form-control" id="description" name="description" required minlength="4" maxlength="60">
+              <input type="text" class="form-control" id="description" name="description">
               <p class="validation-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</p>
             </div>
 
             <div class="form-group">
               <label for="capital" class="col-form-label">Capital:</label>
-              <input type="text" class="form-control" id="capital" name="capital" required minlength="4" maxlength="105">
+              <input type="text" class="form-control" id="capital" name="capital">
               <p class="validation-message" th:if="${#fields.hasErrors('capital')}" th:errors="*{capital}">Capital Error</p>
             </div>
 
             <div class="form-group">
               <label for="code" class="col-form-label">Code:</label>
-              <input type="text" class="form-control" id="code" name="code" required minlength="4" maxlength="4">
+              <input type="text" class="form-control" id="code" name="code">
               <p class="validation-message" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Code Error</p>
             </div>
 
             <div class="form-group">
               <label for="continent" class="col-form-label">Continent:</label>
-              <input type="text" class="form-control" id="continent" name="continent" required minlength="4" maxlength="15">
+              <select class="form-control" id="continent" name="continent">
+                <option value="0">-SELECT-</option>
+                <option th:each="continent:${continents}" th:value="${continent}" th:text="${continent}">
+                </option>
+              </select>
               <p class="validation-message" th:if="${#fields.hasErrors('continent')}" th:errors="*{continent}">Continent Error</p>
             </div>
 
             <div class="form-group">
               <label for="nationality" class="col-form-label">Nationality:</label>
-              <input type="text" class="form-control" id="nationality" name="nationality" required minlength="4" maxlength="60">
+              <input type="text" class="form-control" id="nationality" name="nationality">
               <p class="validation-message" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}">Nationality Error</p>
             </div>
 
@@ -129,7 +133,7 @@
   <script th:replace="@{/fragments/javascript.html}"></script>
   
   <script th:src="@{/assets/js/country.js}"></script>
-  <script th:src="@{/assets/js/countryValidation.js}"></script>
+  <div th:replace="@{/fragments/countryValidation.html}"></div>
 
   <script th:if="${#fields.hasErrors('${country.*}')}">
     $('document').ready(function() {
