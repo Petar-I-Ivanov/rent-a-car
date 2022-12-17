@@ -1,0 +1,30 @@
+<script th:inline="javascript">
+    $('document').ready(function () {
+
+        jQuery.validator.addMethod("lengthRange", function (value, element, params) {
+            return this.optional(element) || (value.length >= params[0] && value.length <= params[1]);
+        }, "Field length should be between {0} and {1}.");
+
+        jQuery.validator.addMethod("pascalCaseWithSpace", function (value, element) {
+            return this.optional(element) || /^[A-Z][a-z]+(?: [A-Z][a-z]+)*$/gm.test(value);
+        }, "Field should contains only letters with capitalized first and after space.");
+
+        jQuery.validator.addMethod("fourDigitsOnly", function (value, element) {
+            return this.optional(element) || /^[0-9]{4}$/i.test(value);
+        }, "Field should be 4 digits.");
+
+        jQuery.validator.addMethod("continentEnums", function (value, element) {
+            return this.optional(element) || [[${ continents }]].includes(value)
+        }, "Field should be continent.");
+
+        $('#form').validate({
+            rules: {
+                description: { required: true, pascalCaseWithSpace: true, lengthRange: [4, 60] },
+                capital: { required: true, pascalCaseWithSpace: true, lengthRange: [4, 105] },
+                code: { required: true, fourDigitsOnly: true },
+                continent: { required: true, continentEnums: true },
+                nationality: { required: true, pascalCaseWithSpace: true, lengthRange: [4, 60] }
+            }
+        });
+    });
+</script>
