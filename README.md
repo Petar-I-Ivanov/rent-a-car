@@ -4,9 +4,6 @@
   - JPA, Lombok
   - H2 database connection
   - Thymeleaf
-    1. objects passing through Model
-    2. listing each record with th:each
-    3. common header, footer, etc. with th:fragment
   - Auditable Aware
   - SuperClass for models with common fields
   - OneToMany and ManyToMany relationships ([click for diagram](https://github.com/Petar-I-Ivanov/rent-a-car/blob/main/diagrams/ERDiagram.jpg))
@@ -20,7 +17,8 @@
   - Data Validation
 	  1. Validate with annotations in the models
 	  2. Validate at the Views
-	  3. If Country is selected (at ddl), the state have to be from that country
+	  3. Validate at the Controller
+	  4. If Country is selected (at ddl), the state have to be from that country
   - Verification
 	  1. Users only can read ?
 	  2. Clients can only Hire Vehicles, Invoice and above ^
