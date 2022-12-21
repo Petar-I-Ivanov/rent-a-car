@@ -64,6 +64,11 @@ $('document').ready(function () {
     $('#cancelButton').on('click', function() {
         $('#modal').modal('hide');
 	});
+
+//  clear validation on Edit or Details Click
+    $('#editButton, #detailsButton').on('click', function() {
+        $('#form').clearValidation();
+    });
 });
 
 function resetModal() {

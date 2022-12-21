@@ -1,10 +1,13 @@
-package com.rent.car.test;
+package com.rent.car.custom.validator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class UniqueCheck<T> {
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+public class UniqueValidator<T> {
 
 	public boolean isValueUniqueForItsField(List<T> list, String value, String fieldName) {
 		

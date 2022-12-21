@@ -21,54 +21,54 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rent.car.models.ContinentEnum;
 import com.rent.car.models.Country;
 import com.rent.car.services.CountryService;
-import com.rent.car.test.UniqueCheck;
 
 @Controller
 public class CountryController {
 	
 //	Autowire the service into the controller
 	@Autowired private CountryService countryService;
-
+	
+//	TODO: find better way to validate if id is changed	
+	private Country lastGivenCountry;
+	
 	@GetMapping("/countries")
-	public String getCountries(Model model) {
+	public String getCountries(Country country, Model model) {
 		
-		List<Country> countryList = countryService.getCountries();
-		model.addAttribute("countries", countryList);
-		
-		model.addAttribute("country", new Country());
-		
-		model.addAttribute("continents", getContinentList());
-		
+		model = setModel(model);
 		return "/globals/country";
 	}
 	
 	@PostMapping("/countries/addNew")
-	public String addNew(@Valid Country country, BindingResult bindingResult) {
+	public String addNew(@Valid Country country, BindingResult bindingResult, Model model) {
 		
-		country.setId(0);
-		checks(countryService.getCountries(), country, bindingResult);
+		if (country.getId() != 0) {
+			bindingResult.addError(new FieldError("country", "Id", "Don't change id's value."));
+		}
 		
-		return save(country, bindingResult);
+		if (bindingResult.hasErrors()) {
+			return "/globals/country";
+		}
+		
+		countryService.save(country);
+		model = setModel(model);
+		
+		return "redirect:/countries";
 	}
 	
-	@RequestMapping("countries/findById")
+	@RequestMapping("/countries/findById")
 	@ResponseBody
 	public Optional<Country> findById(int id) {
+		
+		lastGivenCountry = countryService.findById(id).orElse(null);
 		return countryService.findById(id);
 	}
 	
 	@RequestMapping(value="/countries/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Country country, BindingResult bindingResult) {
-		return save(country, bindingResult);
-	}
-	
-	@RequestMapping(value="/countries/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
-	public String delete(int id) {
-		countryService.delete(id);
-		return "redirect:/countries";
-	}
-	
-	private String save(Country country, BindingResult bindingResult) {
+		
+		if (lastGivenCountry.getId() != country.getId()) {
+			bindingResult.addError(new FieldError("country", "Id", "Don't change id's value."));
+		}
 		
 		if (bindingResult.hasErrors()) {
 			return "/globals/country";
@@ -78,31 +78,25 @@ public class CountryController {
 		return "redirect:/countries";
 	}
 	
+	@RequestMapping(value="/countries/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
+	public String delete(int id) {
+		
+		countryService.delete(id);
+		return "redirect:/countries";
+	}
+	
+	private Model setModel(Model model) {
+		
+		model.addAttribute("countries", countryService.getCountries());
+		model.addAttribute("continents", getContinentList());
+		
+		return model;
+	}
+	
 	private List<String> getContinentList() {
 		
 		return Stream.of(ContinentEnum.values())
                 .map(ContinentEnum::name)
                 .collect(Collectors.toList());
 	}
-	
-	private void checks(List<Country> countries, Country country, BindingResult bindingResult) {
-		
-		UniqueCheck<Country> check = new UniqueCheck<Country>();
-		
-		if (!check.isValueUniqueForItsField(countries, country.getCode(), "Code")) {
-			bindingResult.addError(new FieldError("country", "code", "Code should be unique."));
-		}
-		
-		if (!check.isValueUniqueForItsField(countries, country.getDescription(), "Description")) {
-			bindingResult.addError(new FieldError("country", "description", "Description should be unique."));
-		}
-		
-		if (!check.isValueUniqueForItsField(countries, country.getCapital(), "Capital")) {
-			bindingResult.addError(new FieldError("country", "capital", "Capital should be unique."));
-		}
-		
-		if (!check.isValueUniqueForItsField(countries, country.getNationality(), "Nationality")) {
-			bindingResult.addError(new FieldError("country", "nationality", "Nationality should be unique."));
-		}
-	}	
 }

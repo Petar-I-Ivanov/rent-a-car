@@ -1,0 +1,15 @@
+<div class="form-group" th:fragment="field (fieldNameCC, fieldNamePC, fieldType)">
+    <label class="col-form-label" th:for="${fieldNameCC}" th:text="${fieldNamePC} + ':'">Field:</label>
+    <input class="form-control" th:type="${fieldType}" th:id="${fieldNameCC}" th:name="${fieldNameCC}">
+    <p class="validation-message" th:if="${#fields.hasErrors(fieldNameCC)}" th:errors="*{fieldNameCC}" th:text="${fieldNamePC} + ' Error'">Error</p>
+</div>
+
+<div class="form-group" th:fragment="ddlField (fieldNameCC, fieldNamePC, objects)">
+    <label class="col-form-label" th:for="${fieldNameCC}" th:text="${fieldNamePC} + ':'">Field:</label>
+    <select class="form-control" th:id="${fieldNameCC}" th:name="${fieldNameCC}">
+        <option value="0">-SELECT-</option>
+        <option th:each="fieldNameCC:${objects}" th:value="${fieldNameCC}" th:text="${fieldNameCC}">
+        </option>
+      </select>
+    <p class="validation-message" th:if="${#fields.hasErrors(fieldNameCC)}" th:errors="*{fieldNameCC}" th:text="${fieldNamePC} + ' Error'">Error</p>
+</div>

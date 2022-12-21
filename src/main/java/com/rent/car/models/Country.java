@@ -80,6 +80,7 @@ public class Country {
 //	one country have many states
 //	used when the relationship is created
 //	mappedBy tells the hyperlink that the connection is done by Client in parameter "country"
+//	it keeps the records where country is used in any of those models
 	@OneToMany(mappedBy = "country")
 	private List<Client> clients;
 	

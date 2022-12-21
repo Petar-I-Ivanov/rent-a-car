@@ -14,7 +14,7 @@
   - Header based on User (username, photo link)
 
 # TODO:
-  - Data Validation (id shouldn't update and unique check at frontend ?)
+  - Data Validation
 	  1. Validate with annotations in the models
 	  2. Validate at the Views
 	  3. Validate at the Controller
