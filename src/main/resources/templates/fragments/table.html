@@ -1,0 +1,53 @@
+<!-- in this fragment is visualized the table with the needed properties and object -->
+
+<!-- @param objects is the list of object records to visualize -->
+<!-- used to loop through records -->
+
+<!-- @param objName is the name of objects entity (the name of the table/class) -->
+<!-- used to form action href links -->
+
+<!-- @param fieldNames is array of all the property names that should be shown in the table -->
+<!-- used to loop trough when creating the Table Headers and when calling object.property (value) -->
+
+<!-- __${?}__ (preprocessor) is used when sintactically first is called one method and then another -->
+<!-- like: #{one__${two}__} or @{one__${two}__} and so... In this case method 'two' is called first and than 'one' -->
+
+<th:block th:fragment="table (objects, objName, fieldNames)">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" id="addButton">New Record</button>
+
+    <!-- Default Table -->
+    <table class="table">
+
+        <thead>
+
+            <tr>
+                <th scope="col" th:each="field : ${fieldNames}" th:text="${field}"></th>
+                <th scope="col">actions</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr th:each="obj : ${objects}">
+                <td th:each="field : ${fieldNames}" th:text="${obj.__${field}__}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a th:href="@{/__${objName}__/findById/(id=${obj.id})}" class="btn btn-primary" id="editButton">
+                            <i class="bi bi-pencil-fill"></i></a>
+                        <a th:href="@{/__${objName}__/findById/(id=${obj.id})}" class="btn btn-success" id="detailsButton">
+                            <i class="bi bi-journal-bookmark-fill"></i></a>
+                        <a th:href="@{/__${objName}__/delete/(id=${obj.id})}" class="btn btn-danger" id="deleteButton">
+                            <i class="bi bi-trash-fill"></i></a>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+    <!-- End Default Table -->
+
+</th:block>

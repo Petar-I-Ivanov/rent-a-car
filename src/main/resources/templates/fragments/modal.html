@@ -1,0 +1,55 @@
+<!-- in this document are static modal fragments (modal and deleteModal) -->
+
+<!-- modal @param objName is the name of the object -->
+<!-- used to pass it to 'form' fragment for dinamicly form creating -->
+
+<!-- both fragments are STATIC only form is dinamicly changed -->
+<!-- form actions and deleteModal href are set from */static/assets/js/{objName}.js file and */table.html actions -->
+
+<th:block th:fragment="modal (objName)">
+
+    <!-- ======= MODAL ======= -->
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel"></h5>
+                </div>
+
+                <div class="modal-body">
+                    <th:block th:replace="fragments/form.html :: form(objName = ${objName})"></th:block>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Modal -->
+
+</th:block>
+
+<th:block th:fragment="deleteModal">
+
+    <!-- ======= DELETE MODAL ======= -->
+
+    <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                </div>
+
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this record?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <a class="btn btn-primary" id="confirmDeleteButton" href="">Yes, I confirm</a>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="$('#deleteModal').modal('hide');">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Delete Modal -->
+
+</th:block>

@@ -14,13 +14,13 @@ import javax.validation.Payload;
 // TODO: Make it automatic annotation
 
 @Documented
-@Constraint(validatedBy = UniqueValidator.class)
+//@Constraint(validatedBy = UniqueValidator.class)
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Unique {
 	String message() default "There is another field record with this value.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-    List<Object> listToCheck() default null;
-    ConstraintTarget String default ConstraintTarget.PARAMETERS;
+//    List<Object> listToCheck() default null;
+//    String fieldName() default null;
 }

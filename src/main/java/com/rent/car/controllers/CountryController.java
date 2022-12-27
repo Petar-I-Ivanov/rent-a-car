@@ -28,7 +28,6 @@ public class CountryController {
 //	Autowire the service into the controller
 	@Autowired private CountryService countryService;
 	
-//	TODO: find better way to validate if id is changed	
 	private Country lastGivenCountry;
 	
 	@GetMapping("/countries")
@@ -46,11 +45,11 @@ public class CountryController {
 		}
 		
 		if (bindingResult.hasErrors()) {
+			model = setModel(model);
 			return "/globals/country";
 		}
 		
 		countryService.save(country);
-		model = setModel(model);
 		
 		return "redirect:/countries";
 	}
@@ -64,13 +63,14 @@ public class CountryController {
 	}
 	
 	@RequestMapping(value="/countries/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(@Valid Country country, BindingResult bindingResult) {
+	public String update(@Valid Country country, BindingResult bindingResult, Model model) {
 		
 		if (lastGivenCountry.getId() != country.getId()) {
 			bindingResult.addError(new FieldError("country", "Id", "Don't change id's value."));
 		}
 		
 		if (bindingResult.hasErrors()) {
+			model = setModel(model);
 			return "/globals/country";
 		}
 		

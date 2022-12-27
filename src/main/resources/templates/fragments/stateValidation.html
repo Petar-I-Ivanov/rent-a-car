@@ -14,16 +14,25 @@
             return this.optional(element) || /^[0-9]{4}$/i.test(value);
         }, 'Field should be 4 digits.');
 
-        jQuery.validator.addMethod('continentEnums', function (value, element) {
-            return this.optional(element) || [[${ continents }]].includes(value)
-        }, 'Field should be continent.');
+        jQuery.validator.addMethod('country', function (value, element) {
+
+            var list = [[${ countries }]];
+
+            for (var i = 0; i < list.length; i++) {
+                if (list[i]['id'] == value) {
+                    return true;
+                }
+            }
+
+            return false;
+        }, 'Field should be country.');
 
         // there might be error in this function
         // before dropping the database id=2 (list[1]) returned id only
         // using params like exept list
         jQuery.validator.addMethod('unique', function (value, element, params) {
             
-            var list = [[${countries}]];
+            var list = [[${states}]];
             var field = element['name'];
             
             for (var i = 0; i < list.length; i++) {
@@ -41,26 +50,20 @@
         // setting rules from the validator added methods by its name and params if have
         $('#form').validate({
             rules: {
-                description: { required: true, lengthRange: [4, 60], pascalCaseWithSpace: true },
-                capital: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+                countryId: { required: true, country: true },
+                capital: { required: true, pascalCaseWithSpace: true, lengthRange: [4, 105] },
+                name: { required: true, pascalCaseWithSpace: true, lengthRange: [4, 105] },
                 code: { required: true, fourDigitsOnly: true },
-                continent: { required: true, continentEnums: true },
-                nationality: { required: true, lengthRange: [4, 60], pascalCaseWithSpace: true }
+                details: {lengthRange: [4, 255]}
             }
         });
 
         $('#addButton').on('click', function() {
-            setEmptyUnique(['description', 'capital', 'code', 'nationality']);
+            setEmptyUnique(['name', 'code']);
         });
 
         $('table #editButton, table #detailsButton').on('click', function() {
-            setUniqueWithExeptions(['description', 'capital', 'code', 'nationality']);
+            setUniqueWithExeptions(['name', 'code']);
         });
-    });
-</script>
-
-<script th:if="${#fields.hasErrors('country.*')}">
-    $('document').ready(function () {
-        $('#addButton').click();
     });
 </script>

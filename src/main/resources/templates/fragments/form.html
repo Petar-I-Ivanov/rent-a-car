@@ -1,0 +1,53 @@
+<!-- in this document are form fragment and its fields (ddl, text, email, etc...) -->
+
+<!-- form @objName is the name of the object -->
+<!-- used to check of which type it is and set its type fields (manually) -->
+
+<!-- below are helping fragments that build the fields based on type (text, email), name, needed field (ddl or normal), and object properties (enums don't have, country.description, state.name, ...) -->
+
+<th:block th:fragment="form (objName)">
+
+    <form id="form" th:object="${__${objName}__}">
+
+        <div th:replace="this :: field(id, text)"></div>
+
+        <th:block th:if="${#strings.equals(objName, 'country')}">
+            <th:block th:insert="this :: field (fieldName = 'description', fieldType = 'text')"></th:block>
+            <th:block th:insert="this :: field (fieldName = 'capital', fieldType = 'text')"></th:block>
+            <th:block th:insert="this :: field (fieldName = 'nationality', fieldType = 'text')"></th:block>
+            <th:block th:insert="this :: field (fieldName = 'code', fieldType = 'text')"></th:block>
+            <th:block th:insert="this :: ddlEnumField (fieldName = 'continent', objects = ${continents})"></th:block>
+        </th:block>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="submitButton"></button>
+            <button type="button" class="btn btn-secondary" id="cancelButton">Cancel</button>
+        </div>
+
+    </form>
+
+</th:block>
+
+<div class="form-group" th:fragment="field (fieldName, fieldType)">
+
+    <label class="col-form-label" th:for="${fieldName}" th:text="${fieldName} + ':'">field:</label>
+    <input class="form-control" th:type="${fieldType}" th:id="${fieldName}" th:name="${fieldName}">
+
+    <p class="validation-message" th:if="${#fields.hasErrors('__${fieldName}__')}" th:errors="*{__${fieldName}__}"
+        th:text="${fieldName} + ' error'">error</p>
+
+</div>
+
+<div class="form-group" th:fragment="ddlEnumField (fieldName, objects)">
+
+    <label class="col-form-label" th:for="${fieldName}" th:text="${fieldName} + ':'">field:</label>
+
+    <select class="form-control" th:id="${fieldName}" th:name="${fieldName}">
+        <option value="0">-SELECT-</option>
+        <option th:each="obj : ${objects}" th:value="${obj}" th:text="${obj}">
+        </option>
+    </select>
+
+    <p class="validation-message" th:if="${#fields.hasErrors('__${fieldName}__')}" th:errors="*{__${fieldName}__}"
+        th:text="${fieldName} + ' error'">error</p>
+</div>

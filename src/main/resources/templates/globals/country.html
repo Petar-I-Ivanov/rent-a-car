@@ -9,13 +9,13 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/fragments/css.html}">
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
 </head>
 
 <body>
 
-  <div th:replace="@{/fragments/header.html}"></div>
-  <div th:replace="@{/fragments/sidebar.html}"></div>
+  <th:block th:replace="fragments/general.html :: header"></th:block>
+  <th:block th:replace="fragments/general.html :: sidebar"></th:block>
 
   <main id="main" class="main">
 
@@ -30,85 +30,22 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New Country</button>
-
-    <!-- Default Table -->
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Description</th>
-          <th scope="col">Capital</th>
-          <th scope="col">Code</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="country:${countries}">
-          <td th:text="${country.id}"></td>
-          <td th:text="${country.description}"></td>
-          <td th:text="${country.capital}"></td>
-          <td th:text="${country.code}"></td>
-          <td>
-            <div class="btn-group">
-              <a th:href="@{/countries/findById/(id=${country.id})}" class="btn btn-primary" id="editButton">
-                <i class="bi bi-pencil-fill"></i></a>
-              <a th:href="@{/countries/findById/(id=${country.id})}" class="btn btn-success" id="detailsButton">
-                <i class="bi bi-journal-bookmark-fill"></i></a>
-              <a th:href="@{/countries/delete/(id=${country.id})}" class="btn btn-danger" id="deleteButton">
-                <i class="bi bi-trash-fill"></i></a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- End Default Table -->
+    <th:block
+      th:replace="fragments/table.html :: table(objects = ${countries}, objName = 'countries', fieldNames = ${ { 'id', 'description', 'capital', 'code'} })">
+    </th:block>
 
   </main><!-- End #main -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel"></h5>
-        </div>
-        <div class="modal-body">
-          <form id="form" th:object="${country}">
+  <th:block th:replace="fragments/modal.html :: modal (objName='country')"></th:block>
+  <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='id', fieldNamePC='Id', fieldType='text')"></div>
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='description', fieldNamePC='Description', fieldType='text')"></div>
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='capital', fieldNamePC='Capital', fieldType='text')"></div>
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='code', fieldNamePC='Code', fieldType='text')"></div>
-            <div th:replace="fragments/formFields.html :: ddlField(fieldNameCC='continent', fieldNamePC='Continent', objects=${continents})"></div>
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='nationality', fieldNamePC='Nationality', fieldType='text')"></div>
+  <th:block th:replace="fragments/general.html :: footer"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" id="submitButton"></button>
-              <button type="button" class="btn btn-secondary" id="cancelButton">Cancel</button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-    </div>
-  </div><!-- End Modal -->
-
-  <div th:replace="@{/fragments/delete-modal.html}"></div>
-  <div th:replace="@{/fragments/footer.html}"></div>
-
-  <script th:replace="@{/fragments/javascript.html}"></script>
-  
   <script th:src="@{/assets/js/country.js}"></script>
   <script th:src="@{/assets/js/common/validation.js}"></script>
+  
   <div th:replace="@{/fragments/countryValidation.html}"></div>
-
-  <script th:if="${#fields.hasErrors('${country.*}')}">
-    $('document').ready(function() {
-      $('#addButton').click();
-    });
-  </script>
 
 </body>
 

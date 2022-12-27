@@ -1,11 +1,7 @@
 package com.rent.car.custom.validator;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 public class UniqueValidator<T> {
 
@@ -23,9 +19,7 @@ public class UniqueValidator<T> {
 				}
 			}
 			
-		} catch (NoSuchMethodException | SecurityException |
-				IllegalAccessException | IllegalArgumentException |
-				InvocationTargetException e) {
+		} catch (Exception e) {
 			return false;
 		}
 		

@@ -44,6 +44,4 @@ function setUniqueWithExeptions(fieldNames) {
             $('#form #' + fieldNames[i]).rules('add', {unique : [$('#form #' + fieldNames[i]).val()] });
         }
     }, 500);
-
-    console.log('Set');
 }
