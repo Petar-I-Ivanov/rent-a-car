@@ -56,9 +56,10 @@ public class State {
 	@ManyToOne
 	
 //	connecting country with the countryId
-	@NotNull(message = "Field cannot be null.")
 	@JoinColumn(name="countryId", insertable=false, nullable=false, updatable=false)
 	private Country country;
+	
+	@NotNull(message = "Field cannot be null.")
 	private int countryId;
 	
 	private String details;

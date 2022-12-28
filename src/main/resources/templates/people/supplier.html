@@ -9,13 +9,13 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/fragments/css.html}">
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
 </head>
 
 <body>
 
-  <div th:replace="@{/fragments/header.html}"></div>
-  <div th:replace="@{/fragments/sidebar.html}"></div>
+  <th:block th:replace="fragments/general.html :: header"></th:block>
+  <th:block th:replace="fragments/general.html :: sidebar"></th:block>
 
   <main id="main" class="main">
 
@@ -29,39 +29,10 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New Supplier</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Name</th>
-          <th scope="col">City</th>
-          <th scope="col">Address</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="supplier:${suppliers}">
-          <td th:text="${supplier.id}"></td>
-          <td th:text="${supplier.name}"></td>
-          <td th:text="${supplier.city}"></td>
-          <td th:text="${supplier.address}"></td>
-          <td>
-            <div class="btn-group">
-              <a th:href="@{/suppliers/findById/(id=${supplier.id})}" class="btn btn-primary" id="editButton"><i
-                  class="bi bi-pencil-fill"></i></a>
-              <a th:href="@{/suppliers/findById/(id=${supplier.id})}" class="btn btn-success" id="detailsButton"><i
-                  class="bi bi-journal-bookmark-fill"></i></a>
-              <a th:href="@{/suppliers/delete/(id=${supplier.id})}" class="btn btn-danger" id="deleteButton"><i
-                  class="bi bi-trash-fill"></i></a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    
+    <th:block
+      th:replace="fragments/table.html :: table(objects = ${suppliers}, objName = 'suppliers', fieldNames = ${ { 'id', 'name', 'city', 'address'} })">
+    </th:block>
 
   </main><!-- End #main -->
 
@@ -149,11 +120,12 @@
   </div>
   <!-- End Modal -->
   
-  <div th:replace="@{/fragments/delete-modal.html}"></div>
-  <div th:replace="@{/fragments/footer.html}"></div>
+  <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
-  <script th:replace="@{/fragments/javascript.html}"></script>
-  <script th:src="@{/assets/js/supplier.js}"></script>
+  <th:block th:replace="fragments/general.html :: footer"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
+
+  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Supplier', entityNamePlural='suppliers')"></th:block>
 
 </body>
 

@@ -9,13 +9,13 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/fragments/css.html}">
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
 </head>
 
 <body>
 
-  <div th:replace="@{/fragments/header.html}"></div>
-  <div th:replace="@{/fragments/sidebar.html}"></div>
+  <th:block th:replace="fragments/general.html :: header"></th:block>
+  <th:block th:replace="fragments/general.html :: sidebar"></th:block>
 
   <main id="main" class="main">
 
@@ -30,109 +30,19 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New Location</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">City</th>
-          <th scope="col">Address</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="location:${locations}">
-          <td th:text="${location.id}"></td>
-          <td th:text="${location.city}"></td>
-          <td th:text="${location.address}"></td>
-          <td>
-            <div class="btn-group">
-              <a th:href="@{/locations/findById/(id=${location.id})}" class="btn btn-primary" id="editButton"><i
-                  class="bi bi-pencil-fill"></i></a>
-              <a th:href="@{/locations/findById/(id=${location.id})}" class="btn btn-success" id="detailsButton"><i
-                  class="bi bi-journal-bookmark-fill"></i></a>
-              <a th:href="@{/locations/delete/(id=${location.id})}" class="btn btn-danger" id="deleteButton"><i
-                  class="bi bi-trash-fill"></i></a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <th:block
+      th:replace="fragments/table.html :: table(objects = ${locations}, objName = 'locations', fieldNames = ${ { 'id', 'description', 'city', 'address'} })">
+    </th:block>
 
   </main><!-- End #main -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel"></h5>
-        </div>
-        <div class="modal-body">
-          <form id="form">
+ <th:block th:replace="fragments/modal.html :: modal (objName='location')"></th:block>
+  <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
-            <div class="form-group">
-              <label for="id" class="col-form-label">Id:</label>
-              <input type="text" class="form-control" id="id" name="id">
-            </div>
+  <th:block th:replace="fragments/general.html :: footer"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
-            <div class="form-group">
-              <label for="countryId" class="col-form-label">Country:</label>
-              <select class="form-control" id="countryId" name="countryId">
-                <option value="0">-SELECT-</option>
-                <option th:each="country:${countries}" th:value="${country.id}" th:text="${country.description}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="stateId" class="col-form-label">State:</label>
-              <select class="form-control" id="stateId" name="stateId">
-                <option value="0">-SELECT-</option>
-                <option th:each="state:${states}" th:value="${state.id}" th:text="${state.name}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="description" class="col-form-label">Description:</label>
-              <input type="text" class="form-control" id="description" name="description">
-            </div>
-
-            <div class="form-group">
-              <label for="details" class="col-form-label">Details:</label>
-              <input type="text" class="form-control" id="details" name="details">
-            </div>
-
-            <div class="form-group">
-              <label for="city" class="col-form-label">City:</label>
-              <input type="text" class="form-control" id="city" name="city">
-            </div>
-
-            <div class="form-group">
-              <label for="address" class="col-form-label">Address:</label>
-              <input type="text" class="form-control" id="address" name="address">
-            </div>
-
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" id="submitButton"></button>
-              <button type="button" class="btn btn-secondary"
-                onclick="$('#modal').modal('hide');">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Modal -->
-
-  <div th:replace="@{/fragments/delete-modal.html}"></div>
-  <div th:replace="@{/fragments/footer.html}"></div>
-
-  <script th:replace="@{/fragments/javascript.html}"></script>
-  <script th:src="@{/assets/js/location.js}"></script>
+  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Location', entityNamePlural='locations')"></th:block>
 
 </body>
 

@@ -67,3 +67,9 @@
         });
     });
 </script>
+
+<script th:if="${#fields.hasErrors('${state.*}')}">
+    $('document').ready(function() {
+      $('#addButton').click();
+    });
+  </script>

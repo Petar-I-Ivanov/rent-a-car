@@ -42,10 +42,8 @@
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
-  <script th:src="@{/assets/js/country.js}"></script>
-  <script th:src="@{/assets/js/common/validation.js}"></script>
-  
-  <div th:replace="@{/fragments/countryValidation.html}"></div>
+  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Country', entityNamePlural='countries')"></th:block>
+  <th:block th:replace="fragments/inlineJS/validation/countryValidation.html"></th:block>
 
 </body>
 

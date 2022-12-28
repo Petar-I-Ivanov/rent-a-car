@@ -9,7 +9,7 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/fragments/css.html}">
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
 </head>
 
 <body>
@@ -112,7 +112,7 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
-  <script th:replace="@{/fragments/javascript.html}"></script>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
 </body>
 

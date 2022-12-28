@@ -9,13 +9,13 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/fragments/css.html}"></link>
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
 </head>
 
 <body>
 
-  <div th:replace="@{/fragments/header.html}"></div>
-  <div th:replace="@{/fragments/sidebar.html}"></div>
+  <th:block th:replace="fragments/general.html :: header"></th:block>
+  <th:block th:replace="fragments/general.html :: sidebar"></th:block>
 
   <main id="main" class="main">
 
@@ -29,95 +29,24 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New State</button>
-
-    <!-- Default Table -->
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Name</th>
-          <th scope="col">Code</th>
-          <th scope="col">Capital</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="state:${states}">
-          <td th:text="${state.id}"></td>
-          <td th:text="${state.name}"></td>
-          <td th:text="${state.code}"></td>
-          <td th:text="${state.capital}"></td>
-          <td>
-            <div class="btn-group">
-              <a th:href="@{/states/findById/(id=${state.id})}" class="btn btn-primary" id="editButton"><i
-                  class="bi bi-pencil-fill"></i></a>
-              <a th:href="@{/states/findById/(id=${state.id})}" class="btn btn-success" id="detailsButton"><i
-                  class="bi bi-journal-bookmark-fill"></i></a>
-              <a th:href="@{/states/delete/(id=${state.id})}" class="btn btn-danger" id="deleteButton"><i
-                  class="bi bi-trash-fill"></i></a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    
+    <th:block
+      th:replace="fragments/table.html :: table(objects = ${states}, objName = 'states', fieldNames = ${ { 'id', 'name', 'code', 'capital'} })">
+    </th:block>
 
   </main><!-- End #main -->
+  
+  <th:block th:replace="fragments/modal.html :: modal (objName='state')"></th:block>
+  <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
-  <!-- Modal -->
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel"></h5>
-        </div>
-        <div class="modal-body">
-          <form id="form" th:object="${state}">
+  <th:block th:replace="fragments/general.html :: footer"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='id', fieldNamePC='Id', fieldType='text')"></div>
+  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='State', entityNamePlural='states')"></th:block>
 
-            <div class="form-group">
-              <label for="countryId" class="col-form-label">Country:</label>
-              <select class="form-control" id="countryId" name="countryId">
-                <option value="0">-SELECT-</option>
-                <option th:each="country:${countries}" th:value="${country.id}" th:text="${country.description}">
-                </option>
-              </select>
-            </div>
+  <th:block th:replace="@{/fragments/inlineJS/validation/stateValidation.html}"></th:block>
 
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='capital', fieldNamePC='Capital', fieldType='text')"></div>
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='code', fieldNamePC='Code', fieldType='text')"></div>
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='name', fieldNamePC='Name', fieldType='text')"></div>
-            <div th:replace="fragments/formFields.html :: field(fieldNameCC='details', fieldNamePC='Details', fieldType='text')"></div>
 
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" id="submitButton"></button>
-              <button type="button" class="btn btn-secondary" id="cancelButton">Cancel</button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Modal -->
-
-  <div th:replace="@{/fragments/delete-modal.html}"></div>
-  <div th:replace="@{/fragments/footer.html}"></div>
-
-  <script th:replace="@{/fragments/javascript.html}"></script>
-  <script th:src="@{/assets/js/state.js}"></script>
-
-  <script th:src="@{/assets/js/common/validation.js}"></script>
-  <div th:replace="@{/fragments/stateValidation.html}"></div>
-
-  <script th:if="${#fields.hasErrors('${state.*}')}">
-    $('document').ready(function() {
-      $('#addButton').click();
-    });
-  </script>
 </body>
 
 </html>

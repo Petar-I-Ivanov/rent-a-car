@@ -9,13 +9,13 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/fragments/css.html}">
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
 </head>
 
 <body>
 
-  <div th:replace="@{/fragments/header.html}"></div>
-  <div th:replace="@{/fragments/sidebar.html}"></div>
+  <th:block th:replace="fragments/general.html :: header"></th:block>
+  <th:block th:replace="fragments/general.html :: sidebar"></th:block>
 
   <main id="main" class="main">
 
@@ -133,11 +133,12 @@
   </div>
   <!-- End Modal -->
   
-  <div th:replace="@{/fragments/delete-modal.html}"></div>
-  <div th:replace="@{/fragments/footer.html}"></div>
+  <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
-  <script th:replace="@{/fragments/javascript.html}"></script>
-  <script th:src="@{/assets/js/vehicleMaintenance.js}"></script>
+  <th:block th:replace="fragments/general.html :: footer"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
+
+  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Vehicle Maintenance', entityNamePlural='vehicleMaintenances')"></th:block>
 
 </body>
 

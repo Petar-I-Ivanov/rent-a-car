@@ -27,7 +27,7 @@ public class LocationController {
 	@Autowired private CountryService countryService;
 
 	@GetMapping("/locations")
-	public String getLocations(Model model) {
+	public String getLocations(Location location, Model model) {
 		
 		List<Location> locationList = locationService.getLocations();
 		model.addAttribute("locations", locationList);

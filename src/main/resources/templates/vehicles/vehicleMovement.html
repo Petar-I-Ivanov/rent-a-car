@@ -9,13 +9,13 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <link th:replace="@{/fragments/css.html}">
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
 </head>
 
 <body>
 
-  <div th:replace="@{/fragments/header.html}"></div>
-  <div th:replace="@{/fragments/sidebar.html}"></div>
+  <th:block th:replace="fragments/general.html :: header"></th:block>
+  <th:block th:replace="fragments/general.html :: sidebar"></th:block>
 
   <main id="main" class="main">
 
@@ -29,43 +29,10 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New Vehicle Movement</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Vehicle</th>
-          <th scope="col">From Location</th>
-          <th scope="col">From Date</th>
-          <th scope="col">To Location</th>
-          <th scope="col">To Date</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="vehicleMovement:${vehicleMovements}">
-          <td th:text="${vehicleMovement.id}"></td>
-          <td th:text="${vehicleMovement.vehicle.name}"></td>
-          <td th:text="${vehicleMovement.fromLocation.description}"></td>
-          <td th:text="${vehicleMovement.fromDate}"></td>
-          <td th:text="${vehicleMovement.toLocation.description}"></td>
-          <td th:text="${vehicleMovement.toDate}"></td>
-          <td>
-            <div class="btn-group">
-              <a th:href="@{/vehicleMovements/findById/(id=${vehicleMovement.id})}" class="btn btn-primary"
-                id="editButton"><i class="bi bi-pencil-fill"></i></a>
-              <a th:href="@{/vehicleMovements/findById/(id=${vehicleMovement.id})}" class="btn btn-success"
-                id="detailsButton"><i class="bi bi-journal-bookmark-fill"></i></a>
-              <a th:href="@{/vehicleMovements/delete/(id=${vehicleMovement.id})}" class="btn btn-danger"
-                id="deleteButton"><i class="bi bi-trash-fill"></i></a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    
+    <th:block
+      th:replace="fragments/table.html :: table(objects = ${vehicleMovements}, objName = 'vehicleMovements', fieldNames = ${ { 'id', 'vehicle.name', 'fromLocation.description', 'fromDate', 'toLocation.description', 'toDate'} })">
+    </th:block>
 
   </main><!-- End #main -->
 
@@ -138,11 +105,12 @@
   </div>
   <!-- End Modal -->
 
-  <div th:replace="@{/fragments/delete-modal.html}"></div>
-  <div th:replace="@{/fragments/footer.html}"></div>
+  <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
-  <script th:replace="@{/fragments/javascript.html}"></script>
-  <script th:src="@{/assets/js/vehicleMovement.js}"></script>
+  <th:block th:replace="fragments/general.html :: footer"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
+
+  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Vehicle Movement', entityNamePlural='vehicleMovements')"></th:block>
 
 </body>
 
