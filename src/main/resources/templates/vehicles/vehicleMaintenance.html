@@ -10,9 +10,16 @@
   <meta content="" name="keywords">
 
   <th:block th:replace="fragments/general.html :: cssImport"></th:block>
+
+  <script th:inline="javascript">
+    var _objectName = 'Vehicle Maintenance';
+    var objectsName = 'vehicleMaintenances';
+
+    var objects = [[${ vehicleMaintenances }]];
+  </script>
 </head>
 
-<body>
+<body th:with="_objectName='Vehicle Maintenance', objectName='vehicleMaintenance', objectsName='vehicleMaintenances'">
 
   <th:block th:replace="fragments/general.html :: header"></th:block>
   <th:block th:replace="fragments/general.html :: sidebar"></th:block>
@@ -29,116 +36,21 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New Vehicle Maintenance</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Vehicle</th>
-          <th scope="col">Period</th>
-          <th scope="col">Price</th>
-          <th scope="col">Supplier</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="vehicleMaintenance:${vehicleMaintenances}">
-          <td th:text="${vehicleMaintenance.id}"></td>
-          <td th:text="${vehicleMaintenance.vehicle.name}"></td>
-          <td th:text="${vehicleMaintenance.startDate.toString().substring(0, 10)} + ' / ' + ${vehicleMaintenance.endDate.toString().substring(0, 10)}">
-          </td>
-          <td th:text="${vehicleMaintenance.price}"></td>
-          <td th:text="${vehicleMaintenance.supplier.name}"></td>
-          <td>
-            <div class="btn-group">
-              <a th:href="@{/vehicleMaintenances/findById/(id=${vehicleMaintenance.id})}" class="btn btn-primary"
-                id="editButton"><i class="bi bi-pencil-fill"></i></a>
-              <a th:href="@{/vehicleMaintenances/findById/(id=${vehicleMaintenance.id})}" class="btn btn-success"
-                id="detailsButton"><i class="bi bi-journal-bookmark-fill"></i></a>
-              <a th:href="@{/vehicleMaintenances/delete/(id=${vehicleMaintenance.id})}" class="btn btn-danger"
-                id="deleteButton"><i class="bi bi-trash-fill"></i></a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    
+    <th:block th:replace="fragments/table.html :: table(
+        	properties = ${ {'id', 'vehicle.name', 'startDate.toString().substring(0, 10)', 'endDate.toString().substring(0, 10)', 'price', 'supplier.name'} },
+        	labels = ${ {'Id', 'Vehicle', 'Start Date', 'End Date', 'Price', 'Supplier' } })">
+    </th:block>
 
   </main><!-- End #main -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel"></h5>
-        </div>
-        <div class="modal-body">
-          <form id="form">
-
-            <div class="form-group">
-              <label for="id" class="col-form-label">Id:</label>
-              <input type="text" class="form-control" id="id" name="id">
-            </div>
-
-            <div class="form-group">
-              <label for="vehicleId" class="col-form-label">Vehicle:</label>
-              <select class="form-control" id="vehicleId" name="vehicleId">
-                <option>-SELECT-</option>
-                <option th:each="vehicle:${vehicles}" th:value="${vehicle.id}" th:text="${vehicle.name}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="startDate" class="col-form-label">Start Date:</label>
-              <input type="date" class="form-control" id="startDate" name="startDate">
-            </div>
-
-            <div class="form-group">
-              <label for="endDate" class="col-form-label">End Date:</label>
-              <input type="date" class="form-control" id="endDate" name="endDate">
-            </div>
-
-            <div class="form-group">
-              <label for="price" class="col-form-label">Price:</label>
-              <input type="text" class="form-control" id="price" name="price">
-            </div>
-
-            <div class="form-group">
-              <label for="supplierId" class="col-form-label">State:</label>
-              <select class="form-control" id="supplierId" name="supplierId">
-                <option value="0">-SELECT-</option>
-                <option th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="remarks" class="col-form-label">Remarks:</label>
-              <input type="text" class="form-control" id="remarks" name="remarks">
-            </div>
-
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" id="submitButton"></button>
-              <button type="button" class="btn btn-secondary" onclick="$('#modal').modal('hide');">Cancel</button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Modal -->
-  
+  <th:block th:replace="fragments/modal.html :: modal"></th:block>
   <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
-
-  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Vehicle Maintenance', entityNamePlural='vehicleMaintenances')"></th:block>
+  
+  <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
 </body>
 

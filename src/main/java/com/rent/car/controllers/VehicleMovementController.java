@@ -27,7 +27,7 @@ public class VehicleMovementController {
 	@Autowired private LocationService locationService;
 
 	@GetMapping("/vehicleMovements")
-	public String getVehicleMovements(Model model) {
+	public String getVehicleMovements(VehicleMovement vehicleMovement, Model model) {
 		
 		List<VehicleMovement> vehicleMovementList = vehicleMovementService.getVehicleMovements();
 		model.addAttribute("vehicleMovements", vehicleMovementList);

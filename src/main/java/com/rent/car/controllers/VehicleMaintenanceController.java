@@ -27,7 +27,7 @@ public class VehicleMaintenanceController {
 	@Autowired private SupplierService supplierService;
 
 	@GetMapping("/vehicleMaintenances")
-	public String getVehicleMaintenances(Model model) {
+	public String getVehicleMaintenances(VehicleMaintenance vehicleMaintenance, Model model) {
 		
 		List<VehicleMaintenance> vehicleMaintenanceList = vehicleMaintenanceService.getVehicleMaintenances();
 		model.addAttribute("vehicleMaintenances", vehicleMaintenanceList);

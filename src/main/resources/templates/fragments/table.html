@@ -1,18 +1,17 @@
-<!-- in this fragment is visualized the table with the needed properties and object -->
+<!-- template for dynamically creating table (based on object and properties), used in the model's views -->
 
-<!-- @param objects is the list of object records to visualize -->
-<!-- used to loop through records -->
+<!-- @param properties is array of all the properties to be shown entity's values -->
+<!-- used to loop trough when calling object.property (value) -->
 
-<!-- @param objName is the name of objects entity (the name of the table/class) -->
-<!-- used to form action href links -->
+<!-- @param lables is array of property labels to be shown as table headers -->
+<!-- used to loop through and create table headers -->
 
-<!-- @param fieldNames is array of all the property names that should be shown in the table -->
-<!-- used to loop trough when creating the Table Headers and when calling object.property (value) -->
+<!-- @param objectsName is declared with 'th:with' in <body> in each model's page -->
 
 <!-- __${?}__ (preprocessor) is used when sintactically first is called one method and then another -->
 <!-- like: #{one__${two}__} or @{one__${two}__} and so... In this case method 'two' is called first and than 'one' -->
 
-<th:block th:fragment="table (objects, objName, fieldNames)">
+<th:block th:fragment="table (properties, labels)" th:with="objects = ${__${objectsName}__}">
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" id="addButton">New Record</button>
@@ -23,23 +22,23 @@
         <thead>
 
             <tr>
-                <th scope="col" th:each="field : ${fieldNames}" th:text="${field}"></th>
-                <th scope="col">actions</th>
+                <th scope="col" th:each="label : ${labels}" th:text="${label}"></th>
+                <th scope="col">Actions</th>
             </tr>
 
         </thead>
 
         <tbody>
 
-            <tr th:each="obj : ${objects}">
-                <td th:each="field : ${fieldNames}" th:text="${obj.__${field}__}"></td>
+            <tr th:each="object : ${objects}">
+                <td th:each="property : ${properties}" th:text="${object.__${property}__}"></td>
                 <td>
                     <div class="btn-group">
-                        <a th:href="@{/__${objName}__/findById/(id=${obj.id})}" class="btn btn-primary" id="editButton">
+                        <a th:href="@{/__${objectsName}__/findById/(id=${object.id})}" class="btn btn-primary" id="editButton">
                             <i class="bi bi-pencil-fill"></i></a>
-                        <a th:href="@{/__${objName}__/findById/(id=${obj.id})}" class="btn btn-success" id="detailsButton">
+                        <a th:href="@{/__${objectsName}__/findById/(id=${object.id})}" class="btn btn-success" id="detailsButton">
                             <i class="bi bi-journal-bookmark-fill"></i></a>
-                        <a th:href="@{/__${objName}__/delete/(id=${obj.id})}" class="btn btn-danger" id="deleteButton">
+                        <a th:href="@{/__${objectsName}__/delete/(id=${object.id})}" class="btn btn-danger" id="deleteButton">
                             <i class="bi bi-trash-fill"></i></a>
                     </div>
                 </td>
@@ -47,7 +46,6 @@
 
         </tbody>
 
-    </table>
-    <!-- End Default Table -->
+    </table><!-- End Default Table -->
 
 </th:block>

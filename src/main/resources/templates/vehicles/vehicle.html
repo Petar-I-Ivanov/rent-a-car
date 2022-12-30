@@ -10,9 +10,17 @@
   <meta content="" name="keywords">
 
   <th:block th:replace="fragments/general.html :: cssImport"></th:block>
+
+  <script th:inline="javascript">
+    var _objectName = 'Vehicle';
+    var objectsName = 'vehicles';
+
+    var objects = [[${ vehicles }]];
+  </script>
+
 </head>
 
-<body>
+<body th:with="_objectName='Vehicle', objectName='vehicle', objectsName='vehicles'">
 
   <th:block th:replace="fragments/general.html :: header"></th:block>
   <th:block th:replace="fragments/general.html :: sidebar"></th:block>
@@ -30,182 +38,20 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New Vehicle</button>
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Vehicle Type</th>
-          <th scope="col">Vehicle Make</th>
-          <th scope="col">Vehicle Status</th>
-          <th scope="col">Vehicle Model</th>
-          <th scope="col">Employee in Charge</th>
-          <th scope="col">Location</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="vehicle:${vehicles}">
-          <td th:text="${vehicle.id}"></td>
-          <td th:text="${vehicle.vehicleType.description}"></td>
-          <td th:text="${vehicle.vehicleMake.description}"></td>
-          <td th:text="${vehicle.vehicleStatus.description}"></td>
-          <td th:text="${vehicle.vehicleModel.description}"></td>
-          <td th:text="${vehicle.inCharge.username}"></td>
-          <td th:text="${vehicle.currentLocation.description}"></td>
-          <td>
-            <div class="btn-group">
-              <a th:href="@{/vehicles/findById/(id=${vehicle.id})}" class="btn btn-primary" id="editButton"><i
-                  class="bi bi-pencil-fill"></i></a>
-              <a th:href="@{/vehicles/findById/(id=${vehicle.id})}" class="btn btn-success"
-                id="detailsButton"><i class="bi bi-journal-bookmark-fill"></i></a>
-              <a th:href="@{/vehicles/delete/(id=${vehicle.id})}" class="btn btn-danger" id="deleteButton"><i
-                  class="bi bi-trash-fill"></i></a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <th:block th:replace="fragments/table.html :: table(
+      properties = ${ {'id', 'vehicleType.description', 'vehicleMake.description', 'vehicleStatus.description', 'vehicleModel.description', 'inCharge.username', 'currentLocation.description'} },
+      labels = ${ {'Id', 'Vehicle Type', 'Vehicle Make', 'Vehicle Status', 'Vehicle Model', 'Employee in Charge', 'Location' } })">
+    </th:block>
 
   </main><!-- End #main -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel"></h5>
-        </div>
-        <div class="modal-body">
-          <form id="form">
-
-            <div class="form-group">
-              <label for="id" class="col-form-label">Id:</label>
-              <input type="text" class="form-control" id="id" name="id">
-            </div>
-
-            <div class="form-group">
-              <label for="name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="name" name="name">
-            </div>
-
-            <div class="form-group">
-              <label for="vehicleTypeId" class="col-form-label">Vehicle Type:</label>
-              <select class="form-control" id="vehicleTypeId" name="vehicleTypeId">
-                <option value="0">-SELECT-</option>
-                <option th:each="vehicleType:${vehicleTypes}" th:value="${vehicleType.id}"
-                  th:text="${vehicleType.description}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="vehicleNumber" class="col-form-label">Vehicle Number:</label>
-              <input type="text" class="form-control" id="vehicleNumber" name="vehicleNumber">
-            </div>
-
-            <div class="form-group">
-              <label for="registrationDate" class="col-form-label">Registration Date:</label>
-              <input type="date" class="form-control" id="registrationDate" name="registrationDate">
-            </div>
-
-            <div class="form-group">
-              <label for="acquisitionDate" class="col-form-label">Acquisition Date:</label>
-              <input type="date" class="form-control" id="acquisitionDate" name="acquisitionDate">
-            </div>
-
-            <div class="form-group">
-              <label for="description" class="col-form-label">Description:</label>
-              <input type="text" class="form-control" id="description" name="description">
-            </div>
-
-            <div class="form-group">
-              <label for="vehicleMakeId" class="col-form-label">Vehicle Make:</label>
-              <select class="form-control" id="vehicleMakeId" name="vehicleMakeId">
-                <option value="0">-SELECT-</option>
-                <option th:each="vehicleMake:${vehicleMakes}" th:value="${vehicleMake.id}"
-                  th:text="${vehicleMake.description}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="power" class="col-form-label">Power:</label>
-              <input type="text" class="form-control" id="power" name="power">
-            </div>
-
-            <div class="form-group">
-              <label for="fuelCapacity" class="col-form-label">Fuel Capacity:</label>
-              <input type="text" class="form-control" id="fuelCapacity" name="fuelCapacity">
-            </div>
-
-            <div class="form-group">
-              <label for="vehicleStatusId" class="col-form-label">Vehicle Status:</label>
-              <select class="form-control" id="vehicleStatusId" name="vehicleStatusId">
-                <option value="0">-SELECT-</option>
-                <option th:each="vehicleStatus:${vehicleStatuses}" th:value="${vehicleStatus.id}"
-                  th:text="${vehicleStatus.description}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="netWeight" class="col-form-label">Net Weight:</label>
-              <input type="text" class="form-control" id="netWeight" name="netWeight">
-            </div>
-
-            <div class="form-group">
-              <label for="vehicleModelId" class="col-form-label">Vehicle Model:</label>
-              <select class="form-control" id="vehicleModelId" name="vehicleModelId">
-                <option value="0">-SELECT-</option>
-                <option th:each="vehicleModel:${vehicleModels}" th:value="${vehicleModel.id}"
-                  th:text="${vehicleModel.description}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="employeeId" class="col-form-label">Employee in Charge:</label>
-              <select class="form-control" id="employeeId" name="employeeId">
-                <option value="0">-SELECT-</option>
-                <option th:each="employee:${employees}" th:value="${employee.id}" th:text="${employee.username}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="locationId" class="col-form-label">Location:</label>
-              <select class="form-control" id="locationId" name="locationId">
-                <option value="0">-SELECT-</option>
-                <option th:each="location:${locations}" th:value="${location.id}" th:text="${location.description}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="remarks" class="col-form-label">Remarks:</label>
-              <input type="text" class="form-control" id="remarks" name="remarks">
-            </div>
-
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" id="submitButton"></button>
-              <button type="button" class="btn btn-secondary" onclick="$('#modal').modal('hide');">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Modal -->
-
+  <th:block th:replace="fragments/modal.html :: modal"></th:block>
   <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
-
-  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Vehicle', entityNamePlural='vehicles')"></th:block>
+  
+  <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
 </body>
 

@@ -30,7 +30,7 @@ public class VehicleHireController {
 	@Autowired private LocationService locationService;
 
 	@GetMapping("/vehicleHires")
-	public String getVehicleHires(Model model) {
+	public String getVehicleHires(VehicleHire vehicleHire, Model model) {
 		
 		List<VehicleHire> vehicleHireList = vehicleHireService.getVehicleHires();
 		model.addAttribute("vehicleHires", vehicleHireList);

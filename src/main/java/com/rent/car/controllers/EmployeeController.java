@@ -33,7 +33,7 @@ public class EmployeeController {
 	@Autowired private CountryService countryService;
 
 	@GetMapping("/employees")
-	public String getEmployees(Model model) {
+	public String getEmployees(Employee employee, Model model) {
 		
 		List<Employee> employeeList = employeeService.getEmployees();
 		model.addAttribute("employees", employeeList);

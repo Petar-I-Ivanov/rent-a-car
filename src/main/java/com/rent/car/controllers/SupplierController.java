@@ -27,7 +27,7 @@ public class SupplierController {
 	@Autowired private CountryService countryService;
 
 	@GetMapping("/suppliers")
-	public String getSuppliers(Model model) {
+	public String getSuppliers(Supplier supplier, Model model) {
 		
 		List<Supplier> supplierList = supplierService.getSuppliers();
 		model.addAttribute("suppliers", supplierList);

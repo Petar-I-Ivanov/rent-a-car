@@ -27,7 +27,7 @@ public class InvoiceController {
 	@Autowired private ClientService clientService;
 
 	@GetMapping("/invoices")
-	public String getInvoices(Model model) {
+	public String getInvoices(Invoice invoice, Model model) {
 		
 		List<Invoice> invoiceList = invoiceService.getInvoices();
 		model.addAttribute("invoices", invoiceList);

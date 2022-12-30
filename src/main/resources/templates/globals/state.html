@@ -10,9 +10,16 @@
   <meta content="" name="keywords">
 
   <th:block th:replace="fragments/general.html :: cssImport"></th:block>
+
+  <script th:inline="javascript">
+    var _objectName = 'State';
+    var objectsName = 'states';
+
+    var objects = [[${ states }]];
+  </script>
 </head>
 
-<body>
+<body th:with="_objectName='State', objectName='state', objectsName='states'">
 
   <th:block th:replace="fragments/general.html :: header"></th:block>
   <th:block th:replace="fragments/general.html :: sidebar"></th:block>
@@ -30,22 +37,36 @@
       </nav>
     </div><!-- End Page Title -->
     
-    <th:block
-      th:replace="fragments/table.html :: table(objects = ${states}, objName = 'states', fieldNames = ${ { 'id', 'name', 'code', 'capital'} })">
+    <th:block th:replace="fragments/table.html :: table(
+        properties = ${ { 'id', 'name', 'capital', 'code'} },
+        labels = ${ {'Id', 'Name', 'Capital', 'Code' } })">
     </th:block>
 
   </main><!-- End #main -->
   
-  <th:block th:replace="fragments/modal.html :: modal (objName='state')"></th:block>
+  <th:block th:replace="fragments/modal.html :: modal"></th:block>
   <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
-  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='State', entityNamePlural='states')"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
-  <th:block th:replace="@{/fragments/inlineJS/validation/stateValidation.html}"></th:block>
+  <script th:inline="javascript">
 
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+      $('#form').validate({
+        rules: {
+          name: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+          capital: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+          code: { required: true, fourDigitsOnly: true },
+          countryId: { required: true, partOf: [[${ countries }]] }
+        }
+      });
+    });
+
+  </script>
 
 </body>
 

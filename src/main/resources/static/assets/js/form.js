@@ -54,9 +54,13 @@ $('document').ready(function () {
 
     $('table #deleteButton').on('click', function(event) {
 
+//      prevent from opening the link following to the JSON
 		event.preventDefault();
+
+//      saves prevented link in this variable
 		var href = $(this).attr("href");
 
+//      sets confirmation delete button in delete modal to the saved link
 		$('#confirmDeleteButton').attr('href', href);
 		$('#deleteModal').modal('show');
 	});
@@ -64,11 +68,6 @@ $('document').ready(function () {
     $('#cancelButton').on('click', function() {
         $('#modal').modal('hide');
 	});
-
-//  clear validation on Edit or Details Click
-    $('#editButton, #detailsButton').on('click', function() {
-        $('#form').clearValidation();
-    });
 });
 
 function resetModal() {

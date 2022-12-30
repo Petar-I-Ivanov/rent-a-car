@@ -10,9 +10,16 @@
   <meta content="" name="keywords">
 
   <th:block th:replace="fragments/general.html :: cssImport"></th:block>
+
+  <script th:inline="javascript">
+    var _objectName = 'Location';
+    var objectsName = 'locations';
+
+    var objects = [[${ locations }]];
+  </script>
 </head>
 
-<body>
+<body th:with="_objectName='Location', objectName='location', objectsName='locations'">
 
   <th:block th:replace="fragments/general.html :: header"></th:block>
   <th:block th:replace="fragments/general.html :: sidebar"></th:block>
@@ -31,18 +38,20 @@
     </div><!-- End Page Title -->
 
     <th:block
-      th:replace="fragments/table.html :: table(objects = ${locations}, objName = 'locations', fieldNames = ${ { 'id', 'description', 'city', 'address'} })">
+      th:replace="fragments/table.html :: table(
+        properties = ${ {'id', 'description', 'city', 'address'} },
+        labels = ${ {'Id', 'Description', 'City', 'Address'} })">
     </th:block>
 
   </main><!-- End #main -->
 
- <th:block th:replace="fragments/modal.html :: modal (objName='location')"></th:block>
+ <th:block th:replace="fragments/modal.html :: modal"></th:block>
   <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
-  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Location', entityNamePlural='locations')"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
 </body>
 

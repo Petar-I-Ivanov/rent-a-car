@@ -10,9 +10,16 @@
   <meta content="" name="keywords">
 
   <th:block th:replace="fragments/general.html :: cssImport"></th:block>
+
+  <script th:inline="javascript">
+    var _objectName = 'Country';
+    var objectsName = 'countries';
+
+    var objects = [[${ countries }]];
+  </script>
 </head>
 
-<body>
+<body th:with="_objectName='Country', objectName='country', objectsName='countries'">
 
   <th:block th:replace="fragments/general.html :: header"></th:block>
   <th:block th:replace="fragments/general.html :: sidebar"></th:block>
@@ -30,20 +37,37 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <th:block
-      th:replace="fragments/table.html :: table(objects = ${countries}, objName = 'countries', fieldNames = ${ { 'id', 'description', 'capital', 'code'} })">
+    <th:block th:replace="fragments/table.html :: table(
+        	properties = ${ {'id', 'description', 'capital', 'code'} },
+        	labels = ${ {'Id', 'Description', 'Capital', 'Code' } })">
     </th:block>
 
   </main><!-- End #main -->
 
-  <th:block th:replace="fragments/modal.html :: modal (objName='country')"></th:block>
+  <th:block th:replace="fragments/modal.html :: modal"></th:block>
   <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
+  
+  <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
-  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Country', entityNamePlural='countries')"></th:block>
-  <th:block th:replace="fragments/inlineJS/validation/countryValidation.html"></th:block>
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+      $('#form').validate({
+        rules: {
+          description: { required: true, lengthRange: [4, 60], pascalCaseWithSpace: true },
+          capital: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+          code: { required: true, fourDigitsOnly: true },
+          continent: { required: true, partOf: [[${ continents }]] },
+          nationality: { required: true, lengthRange: [4, 60], pascalCaseWithSpace: true }
+        }
+      });
+    });
+
+  </script>
 
 </body>
 

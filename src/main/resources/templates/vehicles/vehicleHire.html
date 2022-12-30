@@ -10,9 +10,16 @@
   <meta content="" name="keywords">
 
   <th:block th:replace="fragments/general.html :: cssImport"></th:block>
+
+  <script th:inline="javascript">
+    var _objectName = 'Vehicle Hire';
+    var objectsName = 'vehicleHires';
+
+    var objects = [[${ vehicleHires }]];
+  </script>
 </head>
 
-<body>
+<body th:with="_objectName='Vehicle Hire', objectName='vehicleHire', objectsName='vehicleHires'">
 
   <th:block th:replace="fragments/general.html :: header"></th:block>
   <th:block th:replace="fragments/general.html :: sidebar"></th:block>
@@ -30,101 +37,20 @@
       </nav>
     </div><!-- End Page Title -->
     
-    <th:block
-      th:replace="fragments/table.html :: table(objects = ${vehicleHires}, objName = 'vehicleHires', fieldNames = ${ { 'id', 'vehicle.name', 'client.name', 'location.description'} })">
+    <th:block th:replace="fragments/table.html :: table(
+        	properties = ${ {'id', 'vehicle.name', 'client.name', 'location.description'} },
+        	labels = ${ {'Id', 'Vehicle', 'Client', 'Location' } })">
     </th:block>
 
   </main><!-- End #main -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel"></h5>
-        </div>
-        <div class="modal-body">
-          <form id="form">
-
-            <div class="form-group">
-              <label for="id" class="col-form-label">Id:</label>
-              <input type="text" class="form-control" id="id" name="id">
-            </div>
-
-            <div class="form-group">
-              <label for="vehicleId" class="col-form-label">Vehicle:</label>
-              <select class="form-control" id="vehicleId" name="vehicleId">
-                <option value="0">-SELECT-</option>
-                <option th:each="vehicle:${vehicles}" th:value="${vehicle.id}" th:text="${vehicle.name}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="dateOut" class="col-form-label">Date Out:</label>
-              <input type="date" class="form-control" id="dateOut" name="dateOut">
-            </div>
-
-            <div class="form-group">
-              <label for="timeOut" class="col-form-label">Time Out:</label>
-              <input type="text" class="form-control" id="timeOut" name="timeOut">
-            </div>
-
-            <div class="form-group">
-              <label for="dateIn" class="col-form-label">Date In:</label>
-              <input type="date" class="form-control" id="dateIn" name="dateIn">
-            </div>
-
-            <div class="form-group">
-              <label for="timeIn" class="col-form-label">Time In:</label>
-              <input type="text" class="form-control" id="timeIn" name="timeIn">
-            </div>
-
-            <div class="form-group">
-              <label for="clientId" class="col-form-label">Client:</label>
-              <select class="form-control" id="clientId" name="clientId">
-                <option value="0">-SELECT-</option>
-                <option th:each="client:${clients}" th:value="${client.id}" th:text="${client.name}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="locationId" class="col-form-label">Location:</label>
-              <select class="form-control" id="locationId" name="locationId">
-                <option value="0">-SELECT-</option>
-                <option th:each="location:${locations}" th:value="${location.id}" th:text="${location.description}">
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="price" class="col-form-label">Price:</label>
-              <input type="text" class="form-control" id="price" name="price">
-            </div>
-
-            <div class="form-group">
-              <label for="remarks" class="col-form-label">Remarks:</label>
-              <input type="text" class="form-control" id="remarks" name="remarks">
-            </div>
-
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" id="submitButton"></button>
-              <button type="button" class="btn btn-secondary" onclick="$('#modal').modal('hide');">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Modal -->
-
+  <th:block th:replace="fragments/modal.html :: modal"></th:block>
   <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
-
-  <th:block th:replace="fragments/inlineJS/modalSet.html :: modalSet(entityName='Vehicle Hire', entityNamePlural='vehicleHires')"></th:block>
+  
+  <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
 </body>
 

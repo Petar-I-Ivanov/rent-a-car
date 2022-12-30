@@ -21,7 +21,7 @@ public class JobTitleController {
 	@Autowired private JobTitleService jobTitleService;
 
 	@GetMapping("/jobTitles")
-	public String getJobTitles(Model model) {
+	public String getJobTitles(JobTitle jobTitle, Model model) {
 		
 		List<JobTitle> jobTitleList = jobTitleService.getJobTitles();
 		model.addAttribute("jobTitles", jobTitleList);

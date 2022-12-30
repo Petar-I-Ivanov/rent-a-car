@@ -21,7 +21,7 @@ public class InvoiceStatusController {
 	@Autowired private InvoiceStatusService invoiceStatusService;
 
 	@GetMapping("/invoiceStatuses")
-	public String getInvoiceStatuses(Model model) {
+	public String getInvoiceStatuses(InvoiceStatus invoiceStatus, Model model) {
 		
 		List<InvoiceStatus> invoiceStatusList = invoiceStatusService.getInvoiceStatuses();
 		model.addAttribute("invoiceStatuses", invoiceStatusList);

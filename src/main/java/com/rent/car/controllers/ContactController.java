@@ -22,7 +22,7 @@ public class ContactController {
 	private ContactService contactService;
 
 	@GetMapping("/contacts")
-	public String getCountries(Model model) {
+	public String getCountries(Contact contact, Model model) {
 		
 		List<Contact> contactList = contactService.getContacts();
 		model.addAttribute("contacts", contactList);

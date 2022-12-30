@@ -1,42 +1,163 @@
-<!-- in this document are form fragment and its fields (ddl, text, email, etc...) -->
+<!-- here are form template and its fields (ddl, text, email, etc...) -->
 
-<!-- form @objName is the name of the object -->
-<!-- used to check of which type it is and set its type fields -->
+<!-- @param objectName is declared with 'th:with' in <body> in each model's page -->
+<!-- used to check of which type it is and set its fields -->
 
-<!-- below are helping fragments that build the fields based on type (text, email), name, needed field (ddl or normal), and object properties (enums don't have, country.description, state.name, ...) -->
+<th:block th:fragment="form">
 
-<th:block th:fragment="form (objName)">
+    <form id="form" th:object="${__${objectName}__}">
 
-    <form id="form" th:object="${__${objName}__}">
+        <div th:replace="this :: field('id', 'Id', 'text')"></div>
 
-        <div th:replace="this :: field(id, text)"></div>
+        <th:block th:if="${objectName} eq ''">
 
-        <th:block th:switch="${objName}">
+        </th:block>
+
+        <th:block th:switch="${objectName}">
 
             <th:block th:case="'country'">
-                <th:block th:insert="this :: field (fieldName = 'description', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'capital', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'nationality', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'code', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: ddlEnumField (fieldName = 'continent', objects = ${continents})"></th:block>
+                <th:block th:insert="this :: field ('description', 'Description', 'text')"></th:block>
+                <th:block th:insert="this :: field ('capital', 'Capital', 'text')"></th:block>
+                <th:block th:insert="this :: field ('nationality', 'Nationallty', 'text')"></th:block>
+                <th:block th:insert="this :: field ('code', 'Code', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('continent', 'Continent', ${continents}, ${null})"></th:block>
             </th:block>
 
             <th:block th:case="'state'">
-                <th:block th:insert="this :: field (fieldName = 'name', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'capital', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'code', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'details', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: ddlFieldDescription (fieldName = 'countryId', objects = ${countries})"></th:block>
+                <th:block th:insert="this :: field ('name', 'Name', 'text')"></th:block>
+                <th:block th:insert="this :: field ('capital', 'Capital', 'text')"></th:block>
+                <th:block th:insert="this :: field ('code', 'Code', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('countryId', 'Country', ${countries}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('details', 'Details', 'text')"></th:block>
             </th:block>
             
             <th:block th:case="'location'">
-                <th:block th:insert="this :: field (fieldName = 'description', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'city', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'address', fieldType = 'text')"></th:block>
-                <th:block th:insert="this :: ddlFieldDescription (fieldName = 'countryId', objects = ${countries})"></th:block>
-                <th:block th:insert="this :: ddlFieldName (fieldName = 'stateId', objects = ${states})"></th:block>
-                <th:block th:insert="this :: field (fieldName = 'details', fieldType = 'text')"></th:block>
+                <th:block th:insert="this :: field ('description', 'Description', 'text')"></th:block>
+                <th:block th:insert="this :: field ('city', 'City', 'text')"></th:block>
+                <th:block th:insert="this :: field ('address', 'Address', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('countryId', 'Country', ${countries}, 'description')"></th:block>
+                <th:block th:insert="this :: ddlField ('stateId', 'State', ${states}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('details', 'Details', 'text')"></th:block>
+            </th:block>
 
+            <th:block th:case="'invoice'">
+                <th:block th:insert="this :: field ('invoiceDate', 'Invoice Date', 'date')"></th:block>
+                <th:block th:insert="this :: ddlField ('invoiceStatusId', 'Invoice Status', ${invoiceStatuses}, 'description')"></th:block>
+                <th:block th:insert="this :: ddlField ('clientId', 'Client', ${clients}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('remarks', 'Remarks', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="'client'">
+                <th:block th:insert="this :: field ('name', 'Name', 'text')"></th:block>
+                <th:block th:insert="this :: field ('address', 'Address', 'text')"></th:block>
+                <th:block th:insert="this :: field ('city', 'City', 'text')"></th:block>
+                <th:block th:insert="this :: field ('phone', 'Phone', 'tel')"></th:block>
+                <th:block th:insert="this :: field ('mobile', 'Mobile', 'tel')"></th:block>
+                <th:block th:insert="this :: field ('website', 'Website', 'url')"></th:block>
+                <th:block th:insert="this :: field ('email', 'Email', 'email')"></th:block>
+                <th:block th:insert="this :: ddlField ('countryId', 'Country', ${countries}, 'description')"></th:block>
+                <th:block th:insert="this :: ddlField ('stateId', 'State', ${states}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('details', 'Details', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="'contact'">
+                <th:block th:insert="this :: field ('firstName', 'First Name', 'text')"></th:block>
+                <th:block th:insert="this :: field ('lastName', 'Last Name', 'text')"></th:block>
+                <th:block th:insert="this :: field ('phone', 'Phone', 'tel')"></th:block>
+                <th:block th:insert="this :: field ('mobile', 'Mobile', 'tel')"></th:block>
+                <th:block th:insert="this :: field ('email', 'Email', 'email')"></th:block>
+                <th:block th:insert="this :: field ('remarks', 'Remarks', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="'supplier'">
+                <th:block th:insert="this :: field ('name', 'Name', 'text')"></th:block>
+                <th:block th:insert="this :: field ('address', 'Address', 'text')"></th:block>
+                <th:block th:insert="this :: field ('city', 'City', 'text')"></th:block>
+                <th:block th:insert="this :: field ('phone', 'Phone', 'tel')"></th:block>
+                <th:block th:insert="this :: field ('mobile', 'Mobile', 'tel')"></th:block>
+                <th:block th:insert="this :: field ('website', 'Website', 'url')"></th:block>
+                <th:block th:insert="this :: field ('email', 'Email', 'email')"></th:block>
+                <th:block th:insert="this :: ddlField ('countryId', 'Country', ${countries}, 'description')"></th:block>
+                <th:block th:insert="this :: ddlField ('stateId', 'State', ${states}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('details', 'Details', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="'employee'">
+                <th:block th:insert="this :: ddlField ('title', 'Title', ${ {'Mr.', 'Ms.'} } , ${null})"></th:block>
+                <th:block th:insert="this :: field ('initials', 'Initials', 'text')"></th:block>
+                <th:block th:insert="this :: field ('firstName', 'First Name', 'text')"></th:block>
+                <th:block th:insert="this :: field ('lastName', 'Last Name', 'text')"></th:block>
+                <th:block th:insert="this :: field ('otherName', 'Other Name', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('gender', 'Gender', ${ {'Male', 'Female'} }, ${null})"></th:block>
+                <th:block th:insert="this :: field ('address', 'Address', 'text')"></th:block>
+                <th:block th:insert="this :: field ('dateOfBirth', 'Date Of Birth', 'date')"></th:block>
+                <th:block th:insert="this :: field ('hireDate', 'Hire Date', 'date')"></th:block>
+                <th:block th:insert="this :: ddlField ('countryId', 'Country', ${countries}, 'description')"></th:block>
+                <th:block th:insert="this :: ddlField ('stateId', 'State', ${states}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('city', 'City', 'text')"></th:block>
+                <th:block th:insert="this :: field ('phone', 'Phone', 'tel')"></th:block>
+                <th:block th:insert="this :: field ('mobile', 'Mobile', 'tel')"></th:block>
+                <th:block th:insert="this :: ddlField ('maritalStatus', 'Marital Status', ${ {'Married', 'Single'} }, ${null})"></th:block>
+                <th:block th:insert="this :: field ('email', 'Email', 'email')"></th:block>
+                <th:block th:insert="this :: ddlField ('jobTitleId', 'Job Title', ${jobTitles}, 'description')"></th:block>
+                <th:block th:insert="this :: ddlField ('employeeTypeId', 'Employee Type', ${employeeTypes}, 'description')"></th:block>
+            </th:block>
+
+            <th:block th:case="'vehicle'">
+                <th:block th:insert="this :: field ('name', 'Name', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('vehicleTypeId', 'Vehicle Type', ${vehicleTypes}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('vehicleNumber', 'Vehicle Number', 'text')"></th:block>
+                <th:block th:insert="this :: field ('registrationDate', 'Registration Date', 'date')"></th:block>
+                <th:block th:insert="this :: field ('acquisitionDate', 'Acquisition Date', 'date')"></th:block>
+                <th:block th:insert="this :: field ('description', 'Description', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('vehicleMakeId', 'Vehicle Make', ${vehicleMakes}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('power', 'Power', 'text')"></th:block>
+                <th:block th:insert="this :: field ('fuelCapacity', 'Fuel Capacity', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('vehicleStatusId', 'Vehicle Status', ${vehicleStatuses}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('netWeight', 'Net Weight', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('vehicleModelId', 'Vehicle Model', ${vehicleModels}, 'description')"></th:block>
+                <th:block th:insert="this :: ddlField ('employeeId', 'Employee in charge', ${employees}, 'username')"></th:block>
+                <th:block th:insert="this :: ddlField ('locationId', 'Location', ${locations}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('remarks', 'Remarks', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="'vehicleHire'">
+                <th:block th:insert="this :: ddlField ('vehicleId', 'Vehicle', ${vehicles}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('dateOut', 'Date Out', 'date')"></th:block>
+                <th:block th:insert="this :: field ('timeOut', 'Time Out', 'text')"></th:block>
+                <th:block th:insert="this :: field ('dateIn', 'Date In', 'date')"></th:block>
+                <th:block th:insert="this :: field ('timeIn', 'Time In', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('clientId', 'Client', ${clients}, 'name')"></th:block>
+                <th:block th:insert="this :: ddlField ('locationId', 'Location', ${locations}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('price', 'Price', 'text')"></th:block>
+                <th:block th:insert="this :: field ('remarks', 'Remarks', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="'vehicleMaintenance'">
+                <th:block th:insert="this :: ddlField ('vehicleId', 'Vehicle', ${vehicles}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('startDate', 'Start Date', 'date')"></th:block>
+                <th:block th:insert="this :: field ('endDate', 'End Date', 'date')"></th:block>
+                <th:block th:insert="this :: field ('price', 'Price', 'text')"></th:block>
+                <th:block th:insert="this :: ddlField ('supplierId', 'Supplier', ${suppliers}, 'name')"></th:block>
+                <th:block th:insert="this :: field ('remarks', 'Remarks', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="'vehicleMovement'">
+                <th:block th:insert="this :: ddlField ('vehicleId', 'Vehicle', ${vehicles}, 'name')"></th:block>
+                <th:block th:insert="this :: ddlField ('fromLocationId', 'From Location', ${locations}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('fromDate', 'From Date', 'date')"></th:block>
+                <th:block th:insert="this :: ddlField ('toLocationId', 'To Location', ${locations}, 'description')"></th:block>
+                <th:block th:insert="this :: field ('toDate', 'To Date', 'date')"></th:block>
+                <th:block th:insert="this :: field ('remarks', 'Remarks', 'text')"></th:block>
+            </th:block>
+
+            <th:block th:case="*">
+                <th:block th:insert="this :: field ('description', 'Description', 'text')"></th:block>
+                <th:block th:insert="this :: field ('details', 'Details', 'text')"></th:block>
+                <th:block th:insert="this :: disabledField ('createdBy', 'Created By', 'text')"></th:block>
+                <th:block th:insert="this :: disabledField ('createdDate', 'Created Date', 'date')"></th:block>
+                <th:block th:insert="this :: disabledField ('lastModifiedBy', 'Last Modified By', 'text')"></th:block>
+                <th:block th:insert="this :: disabledField ('lastModifiedDate', 'Last Modified Date', 'date')"></th:block>
             </th:block>
 
         </th:block>
@@ -50,54 +171,60 @@
 
 </th:block>
 
-<div class="form-group" th:fragment="field (fieldName, fieldType)">
+<!-- fields used in form for entity's property -->
 
-    <label class="col-form-label" th:for="${fieldName}" th:text="${fieldName} + ':'">field:</label>
-    <input class="form-control" th:type="${fieldType}" th:id="${fieldName}" th:name="${fieldName}">
+<!-- @param property is the actual name of the property declared when creating model's class -->
+<!-- used to name 'id', 'name' attributes, set check for that property and it's error value -->
 
-    <p class="validation-message" th:if="${#fields.hasErrors('__${fieldName}__')}" th:errors="*{__${fieldName}__}"
-        th:text="${fieldName} + ' error'">error</p>
+<!-- @param label is the name of the property to be shown to the user -->
+<!-- used for label's and error's text -->
+
+<!-- @param type is the type of the needed input (text, email, tel, ...) -->
+
+<div class="form-group" th:fragment="field (property, label, type)">
+
+    <label class="col-form-label" th:for="${property}" th:text="${label} + ':'"></label>
+    <input class="form-control" th:type="${type}" th:id="${property}" th:name="${property}">
+
+    <p class="validation-message" th:if="${#fields.hasErrors('__${property}__')}" th:errors="*{__${property}__}"
+        th:text="${label} + ' error'"></p>
 
 </div>
 
-<div class="form-group" th:fragment="ddlFieldDescription (fieldName, objects)">
+<div class="form-group" th:fragment="disabledField (property, label, type)">
 
-    <label class="col-form-label" th:for="${fieldName}" th:text="${fieldName} + ':'">field:</label>
+    <label class="col-form-label" th:for="${property}" th:text="${label} + ':'"></label>
+    <input class="form-control" th:type="${type}" th:id="${property}" th:name="${property}" disabled>
 
-    <select class="form-control" th:id="${fieldName}" th:name="${fieldName}">
-        <option value="0">-SELECT-</option>
-        <option th:each="obj : ${objects}" th:value="${obj.id}" th:text="${obj.description}">
-        </option>
-    </select>
+    <p class="validation-message" th:if="${#fields.hasErrors('__${property}__')}" th:errors="*{__${property}__}"
+        th:text="${label} + ' error'"></p>
 
-    <p class="validation-message" th:if="${#fields.hasErrors('__${fieldName}__')}" th:errors="*{__${fieldName}__}"
-        th:text="${fieldName} + ' error'">error</p>
 </div>
 
-<div class="form-group" th:fragment="ddlFieldName (fieldName, objects)">
+<!-- @param property and label are the same as 'field' fragment -->
 
-    <label class="col-form-label" th:for="${fieldName}" th:text="${fieldName} + ':'">field:</label>
+<!-- @param objects is the list of the objects that are going to be picked from the ddl -->
+<!-- used to loop through and set <option> for each -->
 
-    <select class="form-control" th:id="${fieldName}" th:name="${fieldName}">
+<!-- @param propertyToShow is the actual name of the propery of the object that is going to be shown as text -->
+<!-- used to call the object's property as ${obj.__${propertyToShow}__} => translates to => ${obj.id} (it's 'id' for example) -->
+
+<!-- at each iteration is check if @param propertyToShow is NotNull
+    if so value = obj.id ('id' here is constant property) and text = obj.propertyToShow
+    else the objects must be without properties => array ['value', 'value'] using each as value and text -->
+
+<div class="form-group" th:fragment="ddlField (property, label, objects, propertyToShow)">
+
+    <label class="col-form-label" th:for="${property}" th:text="${label} + ':'"></label>
+
+    <select class="form-control" th:id="${property}" th:name="${property}">
         <option value="0">-SELECT-</option>
-        <option th:each="obj : ${objects}" th:value="${obj.id}" th:text="${obj.name}">
+        <option th:each="object : ${objects}"
+                th:value="${propertyToShow} ? ${object.id} : ${object}"
+                th:text="${propertyToShow} ? ${object.__${propertyToShow}__} : ${object}">
         </option>
     </select>
 
-    <p class="validation-message" th:if="${#fields.hasErrors('__${fieldName}__')}" th:errors="*{__${fieldName}__}"
-        th:text="${fieldName} + ' error'">error</p>
-</div>
-
-<div class="form-group" th:fragment="ddlEnumField (fieldName, objects)">
-
-    <label class="col-form-label" th:for="${fieldName}" th:text="${fieldName} + ':'">field:</label>
-
-    <select class="form-control" th:id="${fieldName}" th:name="${fieldName}">
-        <option value="0">-SELECT-</option>
-        <option th:each="obj : ${objects}" th:value="${obj}" th:text="${obj}">
-        </option>
-    </select>
-
-    <p class="validation-message" th:if="${#fields.hasErrors('__${fieldName}__')}" th:errors="*{__${fieldName}__}"
-        th:text="${fieldName} + ' error'">error</p>
+    <p class="validation-message" th:if="${#fields.hasErrors('__${property}__')}" th:errors="*{__${property}__}"
+        th:text="${label} + ' error'">error</p>
 </div>

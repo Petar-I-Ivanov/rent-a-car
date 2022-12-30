@@ -21,7 +21,7 @@ public class VehicleTypeController {
 	@Autowired private VehicleTypeService vehicleTypeService;
 
 	@GetMapping("/vehicleTypes")
-	public String getVehicleTypes(Model model) {
+	public String getVehicleTypes(VehicleType vehicleType, Model model) {
 		
 		List<VehicleType> vehicleTypeList = vehicleTypeService.getVehicleTypes();
 		model.addAttribute("vehicleTypes", vehicleTypeList);

@@ -21,7 +21,7 @@ public class EmployeeTypeController {
 	@Autowired private EmployeeTypeService employeeTypeService;
 
 	@GetMapping("/employeeTypes")
-	public String getEmployeeTypes(Model model) {
+	public String getEmployeeTypes(EmployeeType employeeType, Model model) {
 		
 		List<EmployeeType> employeeTypeList = employeeTypeService.getEmployeeTypes();
 		model.addAttribute("employeeTypes", employeeTypeList);

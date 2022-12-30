@@ -27,7 +27,7 @@ public class ClientController {
 	@Autowired private CountryService countryService;
 
 	@GetMapping("/clients")
-	public String getClients(Model model) {
+	public String getClients(Client client, Model model) {
 		
 		List<Client> clientList = clientService.getClients();
 		model.addAttribute("clients", clientList);

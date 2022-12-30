@@ -6,7 +6,7 @@
 <!-- both fragments are STATIC only form is dinamicly changed -->
 <!-- form actions and deleteModal href are set from */static/assets/js/{objName}.js file and */table.html actions -->
 
-<th:block th:fragment="modal (objName)">
+<th:block th:fragment="modal">
 
     <!-- ======= MODAL ======= -->
 
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <th:block th:replace="fragments/form.html :: form(objName = ${objName})"></th:block>
+                    <th:block th:replace="fragments/form.html :: form"></th:block>
                 </div>
             </div>
         </div>
