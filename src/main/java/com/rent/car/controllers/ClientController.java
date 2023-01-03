@@ -1,20 +1,20 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rent.car.models.Country;
 import com.rent.car.models.Client;
-import com.rent.car.models.State;
 import com.rent.car.services.CountryService;
 import com.rent.car.services.ClientService;
 import com.rent.car.services.StateService;
@@ -29,20 +29,18 @@ public class ClientController {
 	@GetMapping("/clients")
 	public String getClients(Client client, Model model) {
 		
-		List<Client> clientList = clientService.getClients();
-		model.addAttribute("clients", clientList);
-		
-		List<State> stateList = stateService.getStates();
-		model.addAttribute("states", stateList);
-		
-		List<Country> countryList = countryService.getCountries();
-		model.addAttribute("countries", countryList);
-		
+		model = setModel(model);
 		return "/people/client";
 	}
 	
 	@PostMapping("/clients/addNew")
-	public String addNew(Client client) {
+	public String addNew(@Valid Client client, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model = setModel(model);
+			return "/people/client";
+		}
+		
 		clientService.save(client);
 		return "redirect:/clients";
 	}
@@ -54,7 +52,13 @@ public class ClientController {
 	}
 	
 	@RequestMapping(value="/clients/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(Client client) {
+	public String update(@Valid Client client, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model = setModel(model);
+			return "/people/client";
+		}
+		
 		clientService.save(client);
 		return "redirect:/clients";
 	}
@@ -63,5 +67,14 @@ public class ClientController {
 	public String delete(int id) {
 		clientService.delete(id);
 		return "redirect:/clients";
+	}
+	
+	private Model setModel(Model model) {
+		
+		model.addAttribute("clients", clientService.getClients());
+		model.addAttribute("states", stateService.getStates());
+		model.addAttribute("countries", countryService.getCountries());
+		
+		return model;
 	}
 }

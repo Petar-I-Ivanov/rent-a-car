@@ -16,6 +16,7 @@
     var objectsName = 'employees';
 
     var objects = [[${ employees }]];
+    var states = [[${ states }]];
   </script>
 </head>
 
@@ -103,8 +104,37 @@
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
-  
+
   <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
+
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+
+      $('#form').validate({
+        rules: {
+          title: { partOf: ['Mr.', 'Ms.'] },
+          initials: { upperCase: true },
+          firstName: { required: true, pascalCaseWithSpace: true },
+          lastName: { required: true, pascalCaseWithSpace: true },
+          otherName: { pascalCaseWithSpace: true },
+          gender: { partOf: ['Male', 'Female'] },
+          countryId: { partOf: [[${ countries }]] },
+          stateId: { partOf: [[${ states }]], stateInCountry: countryId },
+          city: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+          phone: { phoneNumber: true },
+          mobile: { required: true, phoneNumber: true },
+          maritalStatus: { partOf: ['Married', 'Single'] },
+          jobTitleId: { partOf: [[${jobTitles}]] },
+          employeeTypeId: { partOf: [[${employeeTypes}]] }
+        }
+      });
+
+      setUnique(['phone', 'mobile']);
+    });
+
+  </script>
 
 </body>
 

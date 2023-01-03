@@ -56,6 +56,7 @@
 
     // setting rules from the validator added methods by its name and params
     $('document').ready(function () {
+      
       $('#form').validate({
         rules: {
           description: { required: true, lengthRange: [4, 60], pascalCaseWithSpace: true },
@@ -65,6 +66,8 @@
           nationality: { required: true, lengthRange: [4, 60], pascalCaseWithSpace: true }
         }
       });
+
+      setUnique(['description', 'capital', 'code', 'nationality']);
     });
 
   </script>

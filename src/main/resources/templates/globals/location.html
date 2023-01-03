@@ -16,6 +16,7 @@
     var objectsName = 'locations';
 
     var objects = [[${ locations }]];
+    var states = [[${ states }]];
   </script>
 </head>
 
@@ -37,21 +38,40 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <th:block
-      th:replace="fragments/table.html :: table(
+    <th:block th:replace="fragments/table.html :: table(
         properties = ${ {'id', 'description', 'city', 'address'} },
         labels = ${ {'Id', 'Description', 'City', 'Address'} })">
     </th:block>
 
   </main><!-- End #main -->
 
- <th:block th:replace="fragments/modal.html :: modal"></th:block>
+  <th:block th:replace="fragments/modal.html :: modal"></th:block>
   <th:block th:replace="fragments/modal.html :: deleteModal"></th:block>
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
 
   <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
+
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+
+      $('#form').validate({
+        rules: {
+          description: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+          city: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+          address: { required: true, lengthRange: [4, 50] },
+          countryId: { partOf: [[${ countries }]] },
+          stateId: { partOf: [[${ states }]], stateInCountry: countryId }
+        }
+      });
+
+      setUnique(['description', 'address']);
+    });
+
+  </script>
 
 </body>
 

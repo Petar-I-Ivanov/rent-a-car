@@ -3,6 +3,7 @@ package com.rent.car.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,6 +35,9 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@NotBlank(message = "Field cannot be blank.")
+	@Size(min = 4, max = 105, message = "Field length should be between 4 and 105.")
+	@Column(nullable = false, unique = true, length = 105)
 	private String name;
 	
 	@ManyToOne
@@ -38,6 +45,9 @@ public class Vehicle {
 	private VehicleType vehicleType;
 	private int vehicleTypeId;	
 	
+	@Size(max = 10, message = "Field length should be max 10 characters.")
+	@Pattern(regexp = "^$|(^[A-Z0-9]+$)", message = "Field contains only upper case and digits.")
+	@Column(unique = true, length = 10)
 	private String vehicleNumber;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -53,13 +63,18 @@ public class Vehicle {
 	private VehicleMake vehicleMake;
 	private int vehicleMakeId;
 	
+	@Pattern(regexp = "^$|(^[0-9]+\\.[0-9]{2}$)", message = "Field contains only float digit.")
 	private String power;
+	
+	@Pattern(regexp = "^$|(^[0-9]+\\.[0-9]{2}$)", message = "Field contains only float digit.")
 	private String fuelCapacity;
+	
 	@ManyToOne
 	@JoinColumn(name="vehicleStatusId", insertable=false, updatable=false)
 	private VehicleStatus vehicleStatus;
 	private int vehicleStatusId;	
 	
+	@Pattern(regexp = "^$|(^[0-9]+\\.[0-9]{2}$)", message = "Field contains only float digit.")
 	private String netWeight;
 
 	@ManyToOne

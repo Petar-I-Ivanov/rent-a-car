@@ -12,13 +12,11 @@
     2. Roles Verification (so far only SuperAdmin can manage roles)
     3. Password encoding
   - Header based on User (username, photo link)
+  - Data Validation
 
 # TODO:
   - Data Validation
-	  1. Validate with annotations in the models
-	  2. Validate at the Views
-	  3. Validate at the Controller
-	  4. If Country is selected (at ddl), the state have to be from that country
+	  -Validate @MappedSuperClass so childs get validated too
   - Verification
 	  1. Users only can read ?
 	  2. Clients can only Hire Vehicles, Invoice and above ^

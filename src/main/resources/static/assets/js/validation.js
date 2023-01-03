@@ -2,6 +2,9 @@ $('document').ready(function () {
 
     // setting new methods for the validator
 
+    // NOTE: methods where're used [[${objects}]] some of the 'object' are returning ID only
+    // all of the times 'United States' is the root Country
+
     // checks if field value's length is between 2 numbers (using between parameter as borders where [0] is lower and [1] is upper borders)
     jQuery.validator.addMethod('lengthRange', function (value, element, between) {
         return this.optional(element) || (value.length >= between[0] && value.length <= between[1]);
@@ -12,6 +15,16 @@ $('document').ready(function () {
         return this.optional(element) || /^[A-Z][a-z]+(?: [A-Z][a-z]+)*$/gm.test(value);
     }, 'Field should contains only letters with capitalized first and after space.');
 
+    // checks if field's value is only digits with 10-20 length
+    jQuery.validator.addMethod('phoneNumber', function (value, element) {
+        return this.optional(element) || /^[0-9]{10,20}$/gm.test(value);
+    }, 'Field should contains only digits (10 to 20 length).');
+
+    // checks if field's value is upper case
+    jQuery.validator.addMethod('upperCase', function (value, element) {
+        return this.optional(element) || /^[A-Z]+$/gm.test(value);
+    }, 'Field should contains only upper case letters.');
+
     // checks if field's value is 4 digits
     jQuery.validator.addMethod('fourDigitsOnly', function (value, element) {
         return this.optional(element) || /^[0-9]{4}$/i.test(value);
@@ -20,26 +33,30 @@ $('document').ready(function () {
     // checks if field's value is inside given array (given in 'list' parameter)
     jQuery.validator.addMethod('partOf', function (value, element, list) {
 
-        // if first list index doesn't have 'id' property neither the rest have so list must be with enum values ['Like', 'That']
-        // else the list is from objects with 'id' property and compare it by 'id' property and value
-        if (list[0]['id'] == undefined) {
-            return this.optional(element) || list.includes(value);
-        }
-
-        else {
-
-            for (var i = 0; i < list.length; i++) {
-                if (list[i]['id'] == value) {
-                    return true;
-                }
+        //  check it with both ways because sometimes 'United States' country is shown with id only
+        //  also for when there's array with values ['Like', 'That']
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] == value || list[i]['id'] == value) {
+                return true;
             }
-
-            return false;
         }
+
+        return false;
     }, 'Pick from the shown options.');
 
-    // there might be error in this function
-    // before dropping the database id=2 (list[1]) returned id only
+    // checks if the selected State's country is the selected Country
+    // @param states are declared in the <head> of the model's pages where it is used
+    jQuery.validator.addMethod('stateInCountry', function (value, element, pickedCountry) {
+
+        for (var i = 0; i < states.length; i++) {
+
+            if (states[i]['id'] == value) {
+
+                return states[i]['countryId'] == $(pickedCountry).find(':selected').val();
+            }
+        }
+
+    }, 'State and country doesn\'t match.');
 
     //  checks if field's value is unique based on
     //  'objects' (declared in the <head> in each model's page, represends actual list of that model)
@@ -61,36 +78,31 @@ $('document').ready(function () {
     }, 'Field must be unique.');
 
     $('#addButton, table #editButton, table #detailsButton').on('click', function () {
-
         clearValidation();
-
-//      sets timeout so the form can be filled with values of that object
-//      it's done in form.js file
-        setTimeout(function () {
-            setUnique(['description', 'capital', 'code', 'nationality']);
-        }, 250);
     });
 
 });
 
 function setUnique(fieldNames) {
 
-//  removes the old unique rule with the old @param except value 
-    $('#form input, #form select').each(function () {
-        $(this).rules('remove', 'unique');
-    });
+    $('#addButton, table #editButton, table #detailsButton').on('click', function () {
 
-//  sets new unique rule with new @param except value
-    for (var i = 0; i < fieldNames.length; i++) {
-        $('#form #' + fieldNames[i]).rules('add', {unique : $('#form #' + fieldNames[i]).val() });
-    }
+        //      sets timeout so the form can be filled with values of that object
+        //      it's done in form.js file
+        setTimeout(function () {
+            //  sets new unique rule with new @param except value
+            for (var i = 0; i < fieldNames.length; i++) {
+                $('#form #' + fieldNames[i]).rules('add', { unique: $('#form #' + fieldNames[i]).val() });
+            }
+        }, 250);
+    });
 }
 
 function clearValidation() {
 
     var v = $('#form').validate();
-    
-    $('[name]', '#form').each( function() {
+
+    $('[name]', '#form').each(function () {
         v.successList.push(this);
         v.showErrors();
     });

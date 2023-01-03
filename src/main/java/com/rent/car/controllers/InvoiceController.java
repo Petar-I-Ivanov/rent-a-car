@@ -1,11 +1,13 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rent.car.models.Invoice;
-import com.rent.car.models.InvoiceStatus;
-import com.rent.car.models.Client;
 import com.rent.car.services.InvoiceService;
 import com.rent.car.services.InvoiceStatusService;
 import com.rent.car.services.ClientService;
@@ -28,21 +28,18 @@ public class InvoiceController {
 
 	@GetMapping("/invoices")
 	public String getInvoices(Invoice invoice, Model model) {
-		
-		List<Invoice> invoiceList = invoiceService.getInvoices();
-		model.addAttribute("invoices", invoiceList);
-		
-		List<InvoiceStatus> invoiceStatusList = invoiceStatusService.getInvoiceStatuses();
-		model.addAttribute("invoiceStatuses", invoiceStatusList);
-		
-		List<Client> clientList = clientService.getClients();
-		model.addAttribute("clients", clientList);
-		
+		model = setModel(model);
 		return "/types/invoice";
 	}
 	
 	@PostMapping("/invoices/addNew")
-	public String addNew(Invoice invoice) {
+	public String addNew(@Valid Invoice invoice, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model = setModel(model);
+			return "/type/invoice";
+		}
+		
 		invoiceService.save(invoice);
 		return "redirect:/invoices";
 	}
@@ -63,5 +60,14 @@ public class InvoiceController {
 	public String delete(int id) {
 		invoiceService.delete(id);
 		return "redirect:/invoices";
+	}
+	
+	private Model setModel(Model model) {
+		
+		model.addAttribute("invoices", invoiceService.getInvoices());
+		model.addAttribute("invoiceStatuses", invoiceStatusService.getInvoiceStatuses());
+		model.addAttribute("clients", clientService.getClients());
+		
+		return model;
 	}
 }

@@ -1,11 +1,13 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +25,18 @@ public class ContactController {
 
 	@GetMapping("/contacts")
 	public String getCountries(Contact contact, Model model) {
-		
-		List<Contact> contactList = contactService.getContacts();
-		model.addAttribute("contacts", contactList);
+		model.addAttribute("contacts", contactService.getContacts());
 		return "/people/contact";
 	}
 	
 	@PostMapping("/contacts/addNew")
-	public String addNew(Contact contact) {
+	public String addNew(@Valid Contact contact, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("contacts", contactService.getContacts());
+			return "/people/contact";
+		}
+		
 		contactService.save(contact);
 		return "redirect:/contacts";
 	}

@@ -41,7 +41,7 @@ public class CountryController {
 	public String addNew(@Valid Country country, BindingResult bindingResult, Model model) {
 		
 		if (country.getId() != 0) {
-			bindingResult.addError(new FieldError("country", "Id", "Don't change id's value."));
+			bindingResult.addError(new FieldError("country", "id", "Don't change id's value."));
 		}
 		
 		if (bindingResult.hasErrors()) {
@@ -66,7 +66,7 @@ public class CountryController {
 	public String update(@Valid Country country, BindingResult bindingResult, Model model) {
 		
 		if (lastGivenCountry.getId() != country.getId()) {
-			bindingResult.addError(new FieldError("country", "Id", "Don't change id's value."));
+			bindingResult.addError(new FieldError("country", "id", "Don't change id's value."));
 		}
 		
 		if (bindingResult.hasErrors()) {
