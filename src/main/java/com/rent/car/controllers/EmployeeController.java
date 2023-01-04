@@ -1,22 +1,20 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rent.car.models.Country;
 import com.rent.car.models.Employee;
-import com.rent.car.models.EmployeeType;
-import com.rent.car.models.JobTitle;
-import com.rent.car.models.State;
 import com.rent.car.services.CountryService;
 import com.rent.car.services.EmployeeService;
 import com.rent.car.services.EmployeeTypeService;
@@ -34,27 +32,18 @@ public class EmployeeController {
 
 	@GetMapping("/employees")
 	public String getEmployees(Employee employee, Model model) {
-		
-		List<Employee> employeeList = employeeService.getEmployees();
-		model.addAttribute("employees", employeeList);
-		
-		List<EmployeeType> employeeTypeList = employeeTypeService.getEmployeeTypes();
-		model.addAttribute("employeeTypes", employeeTypeList);
-		
-		List<JobTitle> jobTitleList = jobTitleService.getJobTitles();
-		model.addAttribute("jobTitles", jobTitleList);
-		
-		List<State> stateList = stateService.getStates();
-		model.addAttribute("states", stateList);
-		
-		List<Country> countryList = countryService.getCountries();
-		model.addAttribute("countries", countryList);
-		
+		model = setModel(model);
 		return "/people/employee";
 	}
 	
 	@PostMapping("/employees/addNew")
-	public String addNew(Employee employee) {
+	public String addNew(@Valid Employee employee, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model = setModel(model);
+			return "/people/employee";
+		}
+		
 		employeeService.save(employee);
 		return "redirect:/employees";
 	}
@@ -66,7 +55,13 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping(value="/employees/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(Employee employee) {
+	public String update(@Valid Employee employee, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model = setModel(model);
+			return "/people/employee";
+		}
+		
 		employeeService.save(employee);
 		return "redirect:/employees";
 	}
@@ -81,5 +76,16 @@ public class EmployeeController {
 	public String assignUsername(int id) {
 		employeeService.assignUsername(id);
 		return "redirect:/employees";
+	}
+	
+	private Model setModel(Model model) {
+		
+		model.addAttribute("employees", employeeService.getEmployees());
+		model.addAttribute("employeeTypes", employeeTypeService.getEmployeeTypes());
+		model.addAttribute("jobTitles", jobTitleService.getJobTitles());
+		model.addAttribute("states", stateService.getStates());
+		model.addAttribute("countries", countryService.getCountries());
+		
+		return model;
 	}
 }

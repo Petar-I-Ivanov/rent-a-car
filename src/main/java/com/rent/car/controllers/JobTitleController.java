@@ -1,11 +1,13 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +25,18 @@ public class JobTitleController {
 	@GetMapping("/jobTitles")
 	public String getJobTitles(JobTitle jobTitle, Model model) {
 		
-		List<JobTitle> jobTitleList = jobTitleService.getJobTitles();
-		model.addAttribute("jobTitles", jobTitleList);
-		
+		model.addAttribute("jobTitles", jobTitleService.getJobTitles());
 		return "/types/jobTitle";
 	}
 	
 	@PostMapping("/jobTitles/addNew")
-	public String addNew(JobTitle jobTitle) {
+	public String addNew(@Valid JobTitle jobTitle, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("jobTitles", jobTitleService.getJobTitles());
+			return "/types/jobTitle";
+		}
+		
 		jobTitleService.save(jobTitle);
 		return "redirect:/jobTitles";
 	}
@@ -42,7 +48,13 @@ public class JobTitleController {
 	}
 	
 	@RequestMapping(value="/jobTitles/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(JobTitle jobTitle) {
+	public String update(@Valid JobTitle jobTitle, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("jobTitles", jobTitleService.getJobTitles());
+			return "/types/jobTitle";
+		}
+		
 		jobTitleService.save(jobTitle);
 		return "redirect:/jobTitles";
 	}

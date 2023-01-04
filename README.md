@@ -16,7 +16,8 @@
 
 # TODO:
   - Data Validation
-	  -Validate @MappedSuperClass so childs get validated too
+      1. Fully compleate Client side validation
+      2. Custom @Password validation (server side)
   - Verification
 	  1. Users only can read ?
 	  2. Clients can only Hire Vehicles, Invoice and above ^

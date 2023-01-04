@@ -1,11 +1,13 @@
 package com.rent.car.security.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +29,18 @@ public class RoleController {
 	@GetMapping("/roles")
 	public String getRoles(Model model) {
 		
-		List<Role> roleList = roleService.getRoles();
-		model.addAttribute("roles", roleList);
-		
+		model.addAttribute("roles", roleService.getRoles());
 		return "role";
 	}
 	
 	@PostMapping("/roles/addNew")
-	public String addNew(Role role) {
+	public String addNew(@Valid Role role, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("roles", roleService.getRoles());
+			return "role";
+		}
+		
 		roleService.save(role);
 		return "redirect:/roles";
 	}
@@ -46,7 +52,13 @@ public class RoleController {
 	}
 	
 	@RequestMapping(value="/roles/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(Role role) {
+	public String update(@Valid Role role, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("roles", roleService.getRoles());
+			return "role";
+		}
+		
 		roleService.save(role);
 		return "redirect:/roles";
 	}
@@ -61,6 +73,7 @@ public class RoleController {
 	public String editUser(@PathVariable int id, Model model) {
 		
 		Actor actor = actorService.findById(id).orElse(null);
+		
 		model.addAttribute("actor", actor);
 		model.addAttribute("actorRoles", roleService.getActorRoles(actor));
 		model.addAttribute("actorNotRoles", roleService.getActorNotRoles(actor));

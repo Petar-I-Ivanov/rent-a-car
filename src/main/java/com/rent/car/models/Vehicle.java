@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -51,9 +52,11 @@ public class Vehicle {
 	private String vehicleNumber;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@PastOrPresent(message = "Date should NOT be in future.")
 	private Date registrationDate;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@PastOrPresent(message = "Date should NOT be in future.")
 	private Date acquisitionDate;
 	
 	private String description;

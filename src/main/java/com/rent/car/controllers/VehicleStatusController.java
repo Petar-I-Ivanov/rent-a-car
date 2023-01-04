@@ -1,11 +1,13 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +25,18 @@ public class VehicleStatusController {
 	@GetMapping("/vehicleStatuses")
 	public String getVehicleStatuses(VehicleStatus vehicleStatus, Model model) {
 		
-		List<VehicleStatus> vehicleStatusList = vehicleStatusService.getVehicleStatuses();
-		model.addAttribute("vehicleStatuses", vehicleStatusList);
-		
+		model.addAttribute("vehicleStatuses", vehicleStatusService.getVehicleStatuses());
 		return "/parameters/vehicleStatus";
 	}
 	
 	@PostMapping("/vehicleStatuses/addNew")
-	public String addNew(VehicleStatus vehicleStatus) {
+	public String addNew(@Valid VehicleStatus vehicleStatus, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("vehicleStatuses", vehicleStatusService.getVehicleStatuses());
+			return "/parameters/vehicleStatus";
+		}
+		
 		vehicleStatusService.save(vehicleStatus);
 		return "redirect:/vehicleStatuses";
 	}
@@ -42,7 +48,13 @@ public class VehicleStatusController {
 	}
 	
 	@RequestMapping(value="/vehicleStatuses/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(VehicleStatus vehicleStatus) {
+	public String update(@Valid VehicleStatus vehicleStatus, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("vehicleStatuses", vehicleStatusService.getVehicleStatuses());
+			return "/parameters/vehicleStatus";
+		}
+		
 		vehicleStatusService.save(vehicleStatus);
 		return "redirect:/vehicleStatuses";
 	}

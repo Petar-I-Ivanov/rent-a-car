@@ -1,11 +1,13 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +25,18 @@ public class InvoiceStatusController {
 	@GetMapping("/invoiceStatuses")
 	public String getInvoiceStatuses(InvoiceStatus invoiceStatus, Model model) {
 		
-		List<InvoiceStatus> invoiceStatusList = invoiceStatusService.getInvoiceStatuses();
-		model.addAttribute("invoiceStatuses", invoiceStatusList);
-		
+		model.addAttribute("invoiceStatuses", invoiceStatusService.getInvoiceStatuses());
 		return "/types/invoiceStatus";
 	}
 	
 	@PostMapping("/invoiceStatuses/addNew")
-	public String addNew(InvoiceStatus invoiceStatus) {
+	public String addNew(@Valid InvoiceStatus invoiceStatus, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("invoiceStatuses", invoiceStatusService.getInvoiceStatuses());
+			return "/types/invoiceStatus";
+		}
+		
 		invoiceStatusService.save(invoiceStatus);
 		return "redirect:/invoiceStatuses";
 	}
@@ -42,7 +48,13 @@ public class InvoiceStatusController {
 	}
 	
 	@RequestMapping(value="/invoiceStatuses/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(InvoiceStatus invoiceStatus) {
+	public String update(@Valid InvoiceStatus invoiceStatus, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("invoiceStatuses", invoiceStatusService.getInvoiceStatuses());
+			return "/types/invoiceStatus";
+		}
+		
 		invoiceStatusService.save(invoiceStatus);
 		return "redirect:/invoiceStatuses";
 	}

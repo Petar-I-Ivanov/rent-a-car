@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.FutureOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,6 +27,7 @@ public class Invoice {
 	private int id;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
+	@FutureOrPresent(message = "Date should NOT be in past.")
 	private Date invoiceDate;
 	
 	@ManyToOne

@@ -3,6 +3,8 @@ package com.rent.car.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.rent.car.models.Actor;
+
 @Controller
 public class ApplicationController {
 
@@ -22,7 +24,7 @@ public class ApplicationController {
 	}
 	
 	@GetMapping("/register")
-	public String getRegister() {
+	public String getRegister(Actor actor) {
 		return "register";
 	}
 	

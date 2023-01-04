@@ -1,6 +1,5 @@
 package com.rent.car.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -21,41 +20,47 @@ import com.rent.car.services.EmployeeTypeService;
 @Controller
 public class EmployeeTypeController {
 
-	@Autowired private EmployeeTypeService employeeTypeService;
+	@Autowired
+	private EmployeeTypeService employeeTypeService;
 
 	@GetMapping("/employeeTypes")
 	public String getEmployeeTypes(EmployeeType employeeType, Model model) {
-		
-		List<EmployeeType> employeeTypeList = employeeTypeService.getEmployeeTypes();
-		model.addAttribute("employeeTypes", employeeTypeList);
-		
+
+		model.addAttribute("employeeTypes", employeeTypeService.getEmployeeTypes());
 		return "/types/employeeType";
 	}
-	
+
 	@PostMapping("/employeeTypes/addNew")
 	public String addNew(@Valid EmployeeType employeeType, BindingResult bindingResult, Model model) {
-		
+
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("employeeTypes", employeeTypeService.getEmployeeTypes());
+			return "/types/employeeType";
 		}
-		
+
 		employeeTypeService.save(employeeType);
 		return "redirect:/employeeTypes";
 	}
-	
+
 	@RequestMapping("/employeeTypes/findById")
 	@ResponseBody
 	public Optional<EmployeeType> findById(int id) {
 		return employeeTypeService.findById(id);
 	}
-	
-	@RequestMapping(value="/employeeTypes/update", method= {RequestMethod.PUT, RequestMethod.GET})
+
+	@RequestMapping(value = "/employeeTypes/update", method = { RequestMethod.PUT, RequestMethod.GET })
 	public String update(@Valid EmployeeType employeeType, BindingResult bindingResult, Model model) {
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("employeeTypes", employeeTypeService.getEmployeeTypes());
+			return "/types/employeeType";
+		}
+
 		employeeTypeService.save(employeeType);
 		return "redirect:/employeeTypes";
 	}
-	
-	@RequestMapping(value="/employeeTypes/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
+
+	@RequestMapping(value = "/employeeTypes/delete", method = { RequestMethod.DELETE, RequestMethod.GET })
 	public String delete(int id) {
 		employeeTypeService.delete(id);
 		return "redirect:/employeeTypes";
