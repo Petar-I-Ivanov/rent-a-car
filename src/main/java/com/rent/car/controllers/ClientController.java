@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class ClientController {
 	@Autowired private StateService stateService;
 	@Autowired private CountryService countryService;
 
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/clients")
 	public String getClients(Client client, Model model) {
 		
@@ -33,6 +35,7 @@ public class ClientController {
 		return "/people/client";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/clients/addNew")
 	public String addNew(@Valid Client client, BindingResult bindingResult, Model model) {
 		
@@ -45,12 +48,14 @@ public class ClientController {
 		return "redirect:/clients";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/clients/findById")
 	@ResponseBody
 	public Optional<Client> findById(int id) {
 		return clientService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/clients/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Client client, BindingResult bindingResult, Model model) {
 		
@@ -63,6 +68,7 @@ public class ClientController {
 		return "redirect:/clients";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/clients/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		clientService.delete(id);

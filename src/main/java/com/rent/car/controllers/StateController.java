@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +29,7 @@ public class StateController {
 	
 	private State lastGivenState;
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/states")
 	public String getStates(State state, Model model) {
 		
@@ -35,6 +37,7 @@ public class StateController {
 		return "/globals/state";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/states/addNew")
 	public String addNew(@Valid State state, BindingResult bindingResult, Model model) {
 		
@@ -51,6 +54,7 @@ public class StateController {
 		return "redirect:/states";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/states/findById")
 	@ResponseBody
 	public Optional<State> findById(int id) {
@@ -59,6 +63,7 @@ public class StateController {
 		return stateService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/states/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid State state, BindingResult bindingResult, Model model) {
 		
@@ -75,6 +80,7 @@ public class StateController {
 		return "redirect:/states";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/states/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		

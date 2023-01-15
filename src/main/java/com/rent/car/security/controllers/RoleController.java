@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class RoleController {
 	@Autowired private RoleService roleService;
 	@Autowired private ActorService actorService;
 
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@GetMapping("/roles")
 	public String getRoles(Role role, Model model) {
 		
@@ -33,6 +35,7 @@ public class RoleController {
 		return "role";
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@PostMapping("/roles/addNew")
 	public String addNew(@Valid Role role, BindingResult bindingResult, Model model) {
 		
@@ -45,12 +48,14 @@ public class RoleController {
 		return "redirect:/roles";
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@RequestMapping("/roles/findById")
 	@ResponseBody
 	public Optional<Role> findById(int id) {
 		return roleService.findById(id);
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@RequestMapping(value="/roles/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Role role, BindingResult bindingResult, Model model) {
 		
@@ -63,12 +68,14 @@ public class RoleController {
 		return "redirect:/roles";
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@RequestMapping(value="/roles/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		roleService.delete(id);
 		return "redirect:/roles";
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@GetMapping("/security/actor/Edit/{id}")
 	public String editUser(@PathVariable int id, Model model) {
 		
@@ -81,6 +88,7 @@ public class RoleController {
 		return "/people/actorEdit";
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@RequestMapping("/security/role/assign/{actorId}/{roleId}")
 	public String assignUserRole(@PathVariable int actorId,
 							 @PathVariable int roleId) {
@@ -89,6 +97,7 @@ public class RoleController {
 		return "redirect:/security/actor/Edit/" + actorId;
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@RequestMapping("/security/role/unassign/{actorId}/{roleId}")
 	public String unassignRole(@PathVariable int actorId,
 							 @PathVariable int roleId) {

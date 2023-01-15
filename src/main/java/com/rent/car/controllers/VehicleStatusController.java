@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ public class VehicleStatusController {
 
 	@Autowired private VehicleStatusService vehicleStatusService;
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/vehicleStatuses")
 	public String getVehicleStatuses(VehicleStatus vehicleStatus, Model model) {
 		
@@ -29,6 +31,7 @@ public class VehicleStatusController {
 		return "/parameters/vehicleStatus";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/vehicleStatuses/addNew")
 	public String addNew(@Valid VehicleStatus vehicleStatus, BindingResult bindingResult, Model model) {
 		
@@ -41,12 +44,14 @@ public class VehicleStatusController {
 		return "redirect:/vehicleStatuses";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/vehicleStatuses/findById")
 	@ResponseBody
 	public Optional<VehicleStatus> findById(int id) {
 		return vehicleStatusService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/vehicleStatuses/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid VehicleStatus vehicleStatus, BindingResult bindingResult, Model model) {
 		
@@ -59,6 +64,7 @@ public class VehicleStatusController {
 		return "redirect:/vehicleStatuses";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/vehicleStatuses/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		vehicleStatusService.delete(id);

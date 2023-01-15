@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,15 +21,16 @@ import com.rent.car.services.ActorService;
 @Controller
 public class ActorController {
 
-	@Autowired
-	private ActorService actorService;
+	@Autowired private ActorService actorService;
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@GetMapping("/actors")
 	public String getActors(Actor actor, Model model) {
 		model.addAttribute("actors", actorService.getActors());
 		return "/people/actor";
 	}
 	
+	@PreAuthorize("hasAuthority('Super Admin')")
 	@RequestMapping("actors/findById")
 	@ResponseBody
 	public Optional<Actor> findById(int id) {

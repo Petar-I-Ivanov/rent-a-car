@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ public class EmployeeTypeController {
 	@Autowired
 	private EmployeeTypeService employeeTypeService;
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/employeeTypes")
 	public String getEmployeeTypes(EmployeeType employeeType, Model model) {
 
@@ -30,6 +32,7 @@ public class EmployeeTypeController {
 		return "/types/employeeType";
 	}
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/employeeTypes/addNew")
 	public String addNew(@Valid EmployeeType employeeType, BindingResult bindingResult, Model model) {
 
@@ -42,12 +45,14 @@ public class EmployeeTypeController {
 		return "redirect:/employeeTypes";
 	}
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/employeeTypes/findById")
 	@ResponseBody
 	public Optional<EmployeeType> findById(int id) {
 		return employeeTypeService.findById(id);
 	}
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value = "/employeeTypes/update", method = { RequestMethod.PUT, RequestMethod.GET })
 	public String update(@Valid EmployeeType employeeType, BindingResult bindingResult, Model model) {
 
@@ -60,6 +65,7 @@ public class EmployeeTypeController {
 		return "redirect:/employeeTypes";
 	}
 
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value = "/employeeTypes/delete", method = { RequestMethod.DELETE, RequestMethod.GET })
 	public String delete(int id) {
 		employeeTypeService.delete(id);

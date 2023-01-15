@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,8 @@ public class CountryController {
 	
 	private Country lastGivenCountry;
 	
+	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/countries")
 	public String getCountries(Country country, Model model) {
 		
@@ -37,6 +40,7 @@ public class CountryController {
 		return "/globals/country";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/countries/addNew")
 	public String addNew(@Valid Country country, BindingResult bindingResult, Model model) {
 		
@@ -55,6 +59,7 @@ public class CountryController {
 		return "redirect:/countries";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/countries/findById")
 	@ResponseBody
 	public Optional<Country> findById(int id) {
@@ -63,6 +68,7 @@ public class CountryController {
 		return countryService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/countries/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Country country, BindingResult bindingResult, Model model) {
 		
@@ -77,6 +83,7 @@ public class CountryController {
 		return "redirect:/countries";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/countries/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		

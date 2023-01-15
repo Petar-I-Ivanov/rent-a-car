@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,7 @@ public class InvoiceController {
 		return "/types/invoice";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/invoices/addNew")
 	public String addNew(@Valid Invoice invoice, BindingResult bindingResult, Model model) {
 		
@@ -44,18 +46,21 @@ public class InvoiceController {
 		return "redirect:/invoices";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/invoices/findById")
 	@ResponseBody
 	public Optional<Invoice> findById(int id) {
 		return invoiceService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/invoices/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(Invoice invoice) {
 		invoiceService.save(invoice);
 		return "redirect:/invoices";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/invoices/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		invoiceService.delete(id);

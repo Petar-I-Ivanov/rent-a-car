@@ -106,6 +106,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 	}
 	
 	private boolean areOnlyAllowedChars(String password) {
-		return password.matches("[a-zA-Z0-9\\_\\-\\%\\@\\$\\!]");
+		System.out.println();
+		return password.matches("^[a-zA-Z0-9_\\-%@$!]+$");
 	}
 }

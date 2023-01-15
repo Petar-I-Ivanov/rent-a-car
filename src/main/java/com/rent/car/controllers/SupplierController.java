@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class SupplierController {
 	@Autowired private StateService stateService;
 	@Autowired private CountryService countryService;
 
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/suppliers")
 	public String getSuppliers(Supplier supplier, Model model) {
 		
@@ -33,6 +35,7 @@ public class SupplierController {
 		return "/people/supplier";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/suppliers/addNew")
 	public String addNew(@Valid Supplier supplier, BindingResult bindingResult, Model model) {
 		
@@ -45,12 +48,14 @@ public class SupplierController {
 		return "redirect:/suppliers";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/suppliers/findById")
 	@ResponseBody
 	public Optional<Supplier> findById(int id) {
 		return supplierService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/suppliers/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Supplier supplier, BindingResult bindingResult, Model model) {
 		
@@ -63,6 +68,7 @@ public class SupplierController {
 		return "redirect:/suppliers";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/suppliers/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		supplierService.delete(id);

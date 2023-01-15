@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,7 @@ public class LocationController {
 	@Autowired private StateService stateService;
 	@Autowired private CountryService countryService;
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/locations")
 	public String getLocations(Location location, Model model) {
 		
@@ -37,6 +39,7 @@ public class LocationController {
 		return "/globals/location";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/locations/addNew")
 	public String addNew(@Valid Location location, BindingResult bindingResult, Model model) {
 		
@@ -57,6 +60,7 @@ public class LocationController {
 		return "redirect:/locations";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/locations/findById")
 	@ResponseBody
 	public Optional<Location> findById(int id) {
@@ -65,6 +69,7 @@ public class LocationController {
 		return locationService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/locations/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Location location, BindingResult bindingResult, Model model) {
 		
@@ -85,6 +90,7 @@ public class LocationController {
 		return "redirect:/locations";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/locations/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		locationService.delete(id);

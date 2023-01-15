@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,12 +32,14 @@ public class EmployeeController {
 	@Autowired private StateService stateService;
 	@Autowired private CountryService countryService;
 
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/employees")
 	public String getEmployees(Employee employee, Model model) {
 		model = setModel(model);
 		return "/people/employee";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/employees/addNew")
 	public String addNew(@Valid Employee employee, BindingResult bindingResult, Model model) {
 		
@@ -56,12 +59,14 @@ public class EmployeeController {
 		return "redirect:/employees";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/employees/findById")
 	@ResponseBody
 	public Optional<Employee> findById(int id) {
 		return employeeService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/employees/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Employee employee, BindingResult bindingResult, Model model) {
 		
@@ -74,12 +79,14 @@ public class EmployeeController {
 		return "redirect:/employees";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/employees/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		employeeService.delete(id);
 		return "redirect:/employees";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value = "/employees/assignUsername")
 	public String assignUsername(int id) {
 		employeeService.assignUsername(id);

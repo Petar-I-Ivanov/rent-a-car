@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,12 +24,14 @@ public class ContactController {
 	@Autowired
 	private ContactService contactService;
 
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/contacts")
 	public String getCountries(Contact contact, Model model) {
 		model.addAttribute("contacts", contactService.getContacts());
 		return "/people/contact";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/contacts/addNew")
 	public String addNew(@Valid Contact contact, BindingResult bindingResult, Model model) {
 		
@@ -41,18 +44,21 @@ public class ContactController {
 		return "redirect:/contacts";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("contacts/findById")
 	@ResponseBody
 	public Optional<Contact> findById(int id) {
 		return contactService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/contacts/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(Contact contact) {
 		contactService.save(contact);
 		return "redirect:/contacts";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/contacts/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		contactService.delete(id);

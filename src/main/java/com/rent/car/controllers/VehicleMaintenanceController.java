@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +27,14 @@ public class VehicleMaintenanceController {
 	@Autowired private VehicleService vehicleService;
 	@Autowired private SupplierService supplierService;
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/vehicleMaintenances")
 	public String getVehicleMaintenances(VehicleMaintenance vehicleMaintenance, Model model) {
 		model = setModel(model);
 		return "/vehicles/vehicleMaintenance";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/vehicleMaintenances/addNew")
 	public String addNew(@Valid VehicleMaintenance vehicleMaintenance, BindingResult bindingResult, Model model) {
 		
@@ -44,12 +47,14 @@ public class VehicleMaintenanceController {
 		return "redirect:/vehicleMaintenances";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/vehicleMaintenances/findById")
 	@ResponseBody
 	public Optional<VehicleMaintenance> findById(int id) {
 		return vehicleMaintenanceService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/vehicleMaintenances/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid VehicleMaintenance vehicleMaintenance, BindingResult bindingResult, Model model) {
 		
@@ -62,6 +67,7 @@ public class VehicleMaintenanceController {
 		return "redirect:/vehicleMaintenances";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/vehicleMaintenances/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		vehicleMaintenanceService.delete(id);

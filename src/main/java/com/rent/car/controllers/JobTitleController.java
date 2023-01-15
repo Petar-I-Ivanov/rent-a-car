@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ public class JobTitleController {
 
 	@Autowired private JobTitleService jobTitleService;
 
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/jobTitles")
 	public String getJobTitles(JobTitle jobTitle, Model model) {
 		
@@ -29,6 +31,7 @@ public class JobTitleController {
 		return "/types/jobTitle";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/jobTitles/addNew")
 	public String addNew(@Valid JobTitle jobTitle, BindingResult bindingResult, Model model) {
 		
@@ -41,12 +44,14 @@ public class JobTitleController {
 		return "redirect:/jobTitles";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/jobTitles/findById")
 	@ResponseBody
 	public Optional<JobTitle> findById(int id) {
 		return jobTitleService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/jobTitles/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid JobTitle jobTitle, BindingResult bindingResult, Model model) {
 		
@@ -59,6 +64,7 @@ public class JobTitleController {
 		return "redirect:/jobTitles";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/jobTitles/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		jobTitleService.delete(id);

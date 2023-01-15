@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +42,7 @@ public class VehicleController {
 		return "/vehicles/vehicle";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@PostMapping("/vehicles/addNew")
 	public String addNew(@Valid Vehicle vehicle, BindingResult bindingResult, Model model) {
 		
@@ -53,18 +55,21 @@ public class VehicleController {
 		return "redirect:/vehicles";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/vehicles/findById")
 	@ResponseBody
 	public Optional<Vehicle> findById(int id) {
 		return vehicleService.findById(id);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/vehicles/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(Vehicle vehicle) {
 		vehicleService.save(vehicle);
 		return "redirect:/vehicles";
 	}
 	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Super Admin')")
 	@RequestMapping(value="/vehicles/delete", method= {RequestMethod.DELETE, RequestMethod.GET})
 	public String delete(int id) {
 		vehicleService.delete(id);
