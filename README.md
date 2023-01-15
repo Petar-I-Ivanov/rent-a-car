@@ -1,7 +1,7 @@
 # Features included in the MVC project:
   - Bootstrap 'Nice Admin' template
   - Models with CRUD controlls
-  - JPA, Lombok
+  - JPA, Hibernate
   - H2 database connection
   - Thymeleaf
   - Auditable Aware
