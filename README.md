@@ -9,12 +9,11 @@
   - OneToMany and ManyToMany relationships ([click for diagram](https://github.com/Petar-I-Ivanov/rent-a-car/blob/main/diagrams/ERDiagram.jpg))
   - Security
     1. Login, Registration, Logout
-    2. Roles Verification (so far only SuperAdmin can manage roles)
+    2. Roles Authorization (backend only so far)
     3. Password encoding
   - Header based on User (username, photo link)
   - Data Validation
   - Buisness logic
-  - Authorization (backend only)
 
 # TODO:
   - Authorization
