@@ -14,11 +14,11 @@
   - Header based on User (username, photo link)
   - Data Validation
   - Buisness logic
+  - Authorization (backend only)
 
 # TODO:
   - Authorization
-  	  1. Front end visible for allowed pages and actions
-  	  2. Back end checks before calling the method
+  	  1. Frontend visible for allowed pages and actions
   - Chats / Notifications
   - Everyone can see and edit its own Profile
   - Replace thymeleaf front end with React
