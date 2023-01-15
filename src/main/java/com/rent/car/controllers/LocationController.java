@@ -104,7 +104,6 @@ public class LocationController {
 		
 		for (State s : stateService.getStates()) {
 			if (s.getId() == location.getStateId()) {
-				System.out.println(s.getCountryId() + " " + location.getCountryId());
 				return s.getCountryId() == location.getCountryId();
 			}
 		}

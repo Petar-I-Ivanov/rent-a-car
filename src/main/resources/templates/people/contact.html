@@ -53,6 +53,26 @@
   
   <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+      
+      $('#form').validate({
+        rules: {
+          firstName: { required: true, lengthRange: [4, 50], pascalCaseWithSpace: true },
+          lastName: { required: true, lengthRange: [4, 50], pascalCaseWithSpace: true },
+          phone: { phoneNumber: true },
+          mobile: { required: true, phoneNumber: true },
+          email: { required: true }
+        }
+      });
+
+      setUnique(['phone', 'mobile', 'email']);
+    });
+
+  </script>
+
 </body>
 
 </html>

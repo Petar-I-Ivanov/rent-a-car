@@ -52,6 +52,27 @@
   
   <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+      
+      $('#form').validate({
+        rules: {
+          vehicleId: { partOf: [[${vehicles}]] },
+          dateOut: { required: true, presentOrFuture: true },
+          timeOut: { required: true, time: true },
+          dateIn: { required: true, greaterDate: dateOut },
+          timeIn: { required: true, time: true },
+          clientId: { partOf: [[${clients}]] },
+          locationId: { partOf: [[${locations}]] },
+          price: {required: true, doubleNumber: true }
+        }
+      });
+    });
+
+  </script>
+
 </body>
 
 </html>

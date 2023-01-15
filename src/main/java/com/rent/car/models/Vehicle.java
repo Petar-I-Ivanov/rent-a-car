@@ -66,10 +66,10 @@ public class Vehicle {
 	private VehicleMake vehicleMake;
 	private int vehicleMakeId;
 	
-	@Pattern(regexp = "^$|(^[0-9]+\\.[0-9]{2}$)", message = "Field contains only float digit.")
+	@Pattern(regexp = "^$|(^[0-9]+.[0-9]{1,2}$)", message = "Field contains only float digit.")
 	private String power;
 	
-	@Pattern(regexp = "^$|(^[0-9]+\\.[0-9]{2}$)", message = "Field contains only float digit.")
+	@Pattern(regexp = "^$|(^[0-9]+.[0-9]{1,2}$)", message = "Field contains only float digit.")
 	private String fuelCapacity;
 	
 	@ManyToOne
@@ -77,7 +77,7 @@ public class Vehicle {
 	private VehicleStatus vehicleStatus;
 	private int vehicleStatusId;	
 	
-	@Pattern(regexp = "^$|(^[0-9]+\\.[0-9]{2}$)", message = "Field contains only float digit.")
+	@Pattern(regexp = "^$|(^[0-9]+.[0-9]{1,2}$)", message = "Field contains only float digit.")
 	private String netWeight;
 
 	@ManyToOne

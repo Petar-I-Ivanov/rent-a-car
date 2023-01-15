@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,12 +32,18 @@ public class VehicleHire {
 	private Vehicle vehicle;
 	private int vehicleId;
 	
+	@FutureOrPresent(message = "Field should be in present or future.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date dateOut;
+	
+	@Pattern(regexp = "^[0-9]{2}:[0-9]{2}$", message = "Field should be time (like 08:59).")
 	private String timeOut;
 	
+	@Future(message = "Field should be in future.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date dateIn;
+	
+	@Pattern(regexp = "^[0-9]{2}:[0-9]{2}$", message = "Field should be time (like 08:59).")
 	private String timeIn;
 	
 	@ManyToOne
@@ -47,6 +56,8 @@ public class VehicleHire {
 	private Location location;
 	private int locationId;
 	
+	@Pattern(regexp = "^[0-9]+.[0-9]{1,2}$", message = "Field must be double number.")
 	private String price;
+	
 	private String remarks;
 }

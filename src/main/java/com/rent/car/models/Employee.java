@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -38,9 +36,7 @@ public class Employee extends Person {
 	
 	private String photo;
 	
-	@NotBlank(message = "Field cannot be blank.")
-	@Size(min = 4, max = 105, message = "Field length should be between 4 and 105.")
-	@Column(unique = true, nullable = false, length = 105)
+	@Column(length = 105)
 	private String username;
 	
 	@ManyToOne

@@ -58,8 +58,8 @@ public class Person {
 	@Column(nullable = false, length = 5)
 	private String initials;
 	
-	@Pattern(regexp = "^[0-9]{3}-[0-9]{2}-[0-9]{4}$", message = "Should look like 123-45-6789")
-	@Column(nullable = false, length = 11)
+	@Pattern(regexp = "^$|(^[0-9]{3}-[0-9]{2}-[0-9]{4}$)", message = "Should look like 123-45-6789")
+	@Column(length = 11)
 	private String socialSecurityNumber;
 	
 	@Pattern(regexp = "^Male$|^Female$", message = "Pick 'Male' or 'Female'.")

@@ -1,5 +1,6 @@
 package com.rent.car.models;
 
+import com.rent.car.custom.validator.ValidPassword;
 import com.rent.car.security.models.Role;
 
 import java.util.HashSet;
@@ -50,6 +51,7 @@ public class Actor {
 	@Column(nullable = false, unique = true, length = 105)
 	private String username;
     
+    @ValidPassword
 	private String password;
 	
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)

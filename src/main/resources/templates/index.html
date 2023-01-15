@@ -36,42 +36,6 @@
         <div class="col-lg-8">
           <div class="row">
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span
-                        class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Sales Card -->
-
             <!-- Revenue Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
@@ -83,30 +47,62 @@
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><a class="dropdown-item" href="#" id="salesToday">Today</a></li>
+                    <li><a class="dropdown-item" href="#" id="salesLastMonth">Last Month</a></li>
+                    <li><a class="dropdown-item" href="#" id="salesLastYear">Last Year</a></li>
+                    <li><a class="dropdown-item" href="#" id="salesOverall">Overall</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title">Sales <span id="salesToShow"></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span
-                        class="text-muted small pt-2 ps-1">increase</span>
-
+                      <h6 id="salesMoneyToShow"></h6>
                     </div>
                   </div>
                 </div>
 
               </div>
             </div><!-- End Revenue Card -->
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#" id="profitToday">Today</a></li>
+                    <li><a class="dropdown-item" href="#" id="profitLastMonth">Last Month</a></li>
+                    <li><a class="dropdown-item" href="#" id="profitLastYear">Last Year</a></li>
+                    <li><a class="dropdown-item" href="#" id="profitOverall">Overall</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Profit <span id="profitToShow"></span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 id="profitMoneyToShow"></h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
 
             <!-- Customers Card -->
             <div class="col-xxl-4 col-xl-12">
@@ -120,24 +116,22 @@
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><a class="dropdown-item" href="#" id="expensesToday">Today</a></li>
+                    <li><a class="dropdown-item" href="#" id="expensesLastMonth">Last Month</a></li>
+                    <li><a class="dropdown-item" href="#" id="expensesLastYear">Last Year</a></li>
+                    <li><a class="dropdown-item" href="#" id="expensesOverall">Overall</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Expenses <span id="expensesToShow"></span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                        class="text-muted small pt-2 ps-1">decrease</span>
-
+                      <h6 id="expensesMoneyToShow"></h6>
                     </div>
                   </div>
 
@@ -521,6 +515,121 @@
 
   <th:block th:replace="fragments/general.html :: footer"></th:block>
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
+  
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+  <script th:inline="javascript">
+
+    $('document').ready(function () {
+
+      let sales = Number( ([[${@budgetService.getLastPeriod(true, "day")}]]).toFixed(2));
+      $('#salesMoneyToShow').text('$' + sales);
+      $('#salesToShow').text('| Today');
+
+      $('#salesToday').on('click', function() {
+        sales = Number( ([[${@budgetService.getLastPeriod(true, "day")}]]).toFixed(2));
+        $('#salesMoneyToShow').text('$' + sales);
+        $('#salesToShow').text('| Today');
+      });
+
+      $('#salesLastMonth').on('click', function() {
+        sales = Number( ([[${@budgetService.getLastPeriod(true, "month")}]]).toFixed(2));
+        $('#salesMoneyToShow').text('$' + sales);
+        $('#salesToShow').text('| Last Month');
+      });
+
+      $('#salesLastYear').on('click', function() {
+        sales = Number( ([[${@budgetService.getLastPeriod(true, "year")}]]).toFixed(2));
+        $('#salesMoneyToShow').text('$' + sales);
+        $('#salesToShow').text('| Last Year');
+      });
+
+      $('#salesOverall').on('click', function() {
+        sales = Number( ([[${@budgetService.getOverall(true)}]]).toFixed(2));
+        $('#salesMoneyToShow').text('$' + sales);
+        $('#salesToShow').text('| Overall');
+      });
+
+      let expenses = Number( ([[${@budgetService.getLastPeriod(false, "day")}]]).toFixed(2));
+      $('#expensesMoneyToShow').text('$' + expenses);
+      $('#expensesToShow').text('| Today');
+
+      $('#expensesToday').on('click', function() {
+        expenses = Number( ([[${@budgetService.getLastPeriod(false, "day")}]]).toFixed(2));
+        $('#expensesMoneyToShow').text('$' + expenses);
+        $('#expensesToShow').text('| Today');
+      });
+
+      $('#expensesLastMonth').on('click', function() {
+        expenses = Number( ([[${@budgetService.getLastPeriod(false, "month")}]]).toFixed(2));
+        $('#expensesMoneyToShow').text('$' + expenses);
+        $('#expensesToShow').text('| Last Month');
+      });
+
+      $('#expensesLastYear').on('click', function() {
+        expenses = Number( ([[${@budgetService.getLastPeriod(false, "year")}]]).toFixed(2));
+        $('#expensesMoneyToShow').text('$' + expenses);
+        $('#expensesToShow').text('| Last Year');
+      });
+
+      $('#expensesOverall').on('click', function() {
+        expenses = Number( ([[${@budgetService.getOverall(false)}]]).toFixed(2));
+        $('#expensesMoneyToShow').text('$' + expenses);
+        $('#expensesToShow').text('| Overall');
+      });
+
+      let profit = Number( (
+                    [[${@budgetService.getLastPeriod(true, "day")}]] -
+                    [[${@budgetService.getLastPeriod(false, "day")}]]
+        ).toFixed(2));
+        
+      $('#profitMoneyToShow').text('$' + profit);
+      $('#profitToShow').text('| Today');
+
+      $('#expensesToday').on('click', function() {
+        profit = Number( (
+                    [[${@budgetService.getLastPeriod(true, "day")}]] -
+                    [[${@budgetService.getLastPeriod(false, "day")}]]
+        ).toFixed(2));
+        $('#profitMoneyToShow').text('$' + profit);
+        $('#profitToShow').text('| Today');
+      });
+
+      $('#profitLastMonth').on('click', function() {
+        profit = Number( (
+                    [[${@budgetService.getLastPeriod(true, "month")}]] -
+                    [[${@budgetService.getLastPeriod(false, "month")}]]
+        ).toFixed(2));
+        $('#profitMoneyToShow').text('$' + profit);
+        $('#profitToShow').text('| Last Month');
+      });
+
+      $('#profitLastYear').on('click', function() {
+        profit = Number( (
+                    [[${@budgetService.getLastPeriod(true, "year")}]] -
+                    [[${@budgetService.getLastPeriod(false, "year")}]]
+        ).toFixed(2));
+        $('#profitMoneyToShow').text('$' + profit);
+        $('#profitToShow').text('| Last Year');
+      });
+
+      $('#profitOverall').on('click', function() {
+        profit = Number( (
+                    [[${@budgetService.getOverall(true)}]] -
+                    [[${@budgetService.getOverall(false)}]]
+        ).toFixed(2));
+        $('#profitMoneyToShow').text('$' + profit);
+        $('#profitToShow').text('| Overall');
+      });
+
+    });
+  </script>
 
 </body>
 

@@ -27,7 +27,7 @@ public class RoleController {
 	@Autowired private ActorService actorService;
 
 	@GetMapping("/roles")
-	public String getRoles(Model model) {
+	public String getRoles(Role role, Model model) {
 		
 		model.addAttribute("roles", roleService.getRoles());
 		return "role";

@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rent.car.custom.IdChangeCheck;
 import com.rent.car.models.ContinentEnum;
 import com.rent.car.models.Country;
 import com.rent.car.services.CountryService;
@@ -40,9 +40,11 @@ public class CountryController {
 	@PostMapping("/countries/addNew")
 	public String addNew(@Valid Country country, BindingResult bindingResult, Model model) {
 		
-		if (country.getId() != 0) {
-			bindingResult.addError(new FieldError("country", "id", "Don't change id's value."));
-		}
+		bindingResult = IdChangeCheck.isChanged(country.getId(), 0, bindingResult);
+		
+//		if (country.getId() != 0) {
+//			bindingResult.addError(new FieldError("country", "id", "Don't change id's value."));
+//		}
 		
 		if (bindingResult.hasErrors()) {
 			model = setModel(model);
@@ -50,7 +52,6 @@ public class CountryController {
 		}
 		
 		countryService.save(country);
-		
 		return "redirect:/countries";
 	}
 	
@@ -65,9 +66,7 @@ public class CountryController {
 	@RequestMapping(value="/countries/update", method= {RequestMethod.PUT, RequestMethod.GET})
 	public String update(@Valid Country country, BindingResult bindingResult, Model model) {
 		
-		if (lastGivenCountry.getId() != country.getId()) {
-			bindingResult.addError(new FieldError("country", "id", "Don't change id's value."));
-		}
+		bindingResult = IdChangeCheck.isChanged(country.getId(), lastGivenCountry.getId(), bindingResult);
 		
 		if (bindingResult.hasErrors()) {
 			model = setModel(model);

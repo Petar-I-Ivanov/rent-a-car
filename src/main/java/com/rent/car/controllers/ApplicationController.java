@@ -7,7 +7,7 @@ import com.rent.car.models.Actor;
 
 @Controller
 public class ApplicationController {
-
+	
 	@GetMapping("/index")
 	public String getHome() {
 		return "index";

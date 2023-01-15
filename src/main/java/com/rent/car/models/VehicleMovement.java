@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,6 +37,7 @@ public class VehicleMovement {
 	private Location fromLocation;
 	private int fromLocationId;
 	
+	@FutureOrPresent(message = "Field should be in present or future.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date fromDate;
 	
@@ -43,7 +46,8 @@ public class VehicleMovement {
 	private Location toLocation;
 	private int toLocationId;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")		
+	@Future(message = "Field should be in future.")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date toDate;
 
 	private String remarks;

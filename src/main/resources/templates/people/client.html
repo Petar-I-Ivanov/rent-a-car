@@ -16,6 +16,7 @@
     var objectsName = 'clients';
 
     var objects = [[${ clients }]];
+    var states = [[${ states }]];
   </script>
 
 </head>
@@ -52,6 +53,29 @@
   <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
   
   <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
+
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+      
+      $('#form').validate({
+        rules: {
+          name: { required: true, lengthRange: [4, 105] },
+          address: { required: true, lengthRange: [4, 50] },
+          city: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+          phone: { phoneNumber: true  },
+          mobile: { required: true, phoneNumber: true },
+          email: { required: true },
+          countryId: { partOf: [[${countries}]] },
+          stateId: { partOf: [[${states}]], stateInCountry: countryId }
+        }
+      });
+
+      setUnique(['name', 'address', 'mobile', 'email']);
+    });
+
+  </script>
 
 </body>
 

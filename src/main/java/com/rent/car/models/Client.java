@@ -41,7 +41,7 @@ public class Client {
 	
 	@NotBlank(message = "Field cannot be blank.")
 	@Size(min = 4, max = 50, message = "Field length should be between 4 and 50.")
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, unique = true, length = 50)
 	private String address;
 	
 	@NotBlank(message = "Field cannot be blank.")

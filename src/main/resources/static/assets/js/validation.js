@@ -15,20 +15,59 @@ $('document').ready(function () {
         return this.optional(element) || /^[A-Z][a-z]+(?: [A-Z][a-z]+)*$/gm.test(value);
     }, 'Field should contains only letters with capitalized first and after space.');
 
-    // checks if field's value is only digits with 10-20 length
+    // checks if field's value is phone number
     jQuery.validator.addMethod('phoneNumber', function (value, element) {
         return this.optional(element) || /^[0-9]{10,20}$/gm.test(value);
-    }, 'Field should contains only digits (10 to 20 length).');
+    }, 'Field should be phone number.');
 
     // checks if field's value is upper case
     jQuery.validator.addMethod('upperCase', function (value, element) {
         return this.optional(element) || /^[A-Z]+$/gm.test(value);
     }, 'Field should contains only upper case letters.');
 
+    // checks if field's value is upper case and digits
+    jQuery.validator.addMethod('upperCaseAndDigits', function (value, element) {
+        return this.optional(element) || /^[A-Z0-9]+$/gm.test(value);
+    }, 'Field should contains only upper case letters and digits.');
+    
     // checks if field's value is 4 digits
     jQuery.validator.addMethod('fourDigitsOnly', function (value, element) {
         return this.optional(element) || /^[0-9]{4}$/i.test(value);
     }, 'Field should be 4 digits.');
+
+    // checks if field's value is double number
+    jQuery.validator.addMethod('doubleNumber', function (value, element) {
+        return this.optional(element) || /^[0-9]+.[0-9]{1,2}$/i.test(value);
+    }, 'Field should be double number.');
+
+    // checks if field's value is time
+    jQuery.validator.addMethod('time', function (value, element) {
+        return this.optional(element) || /^[0-9]{2}:[0-9]{2}$/i.test(value);
+    }, 'Field should be time (like 08:59).');
+
+    //checks if field's date value is greater than params
+    jQuery.validator.addMethod("greaterDate", function(value, element, params) {
+            return new Date(value) > new Date($(params).val());
+    }, 'Date must be greater.');
+
+    //checks if different locations are picked
+    jQuery.validator.addMethod("differentLocations", function(value, element, fromLocation) {
+            return value != $(fromLocation).val();
+    }, 'Locations must be different.');
+
+    //checks if the picked date is today or in the future
+    jQuery.validator.addMethod("presentOrFuture", function (value, element) {
+        var now = new Date();
+        var myDate = new Date(value);
+        return this.optional(element) || myDate >= now;
+    }, 'Date should be today or future.');
+
+    //checks if the picked date is today or in the past
+    jQuery.validator.addMethod("presentOrPast", function (value, element) {
+        var now = new Date();
+        var myDate = new Date(value);
+        return this.optional(element) || myDate <= now;
+    }, 'Date should be today or past.');
 
     // checks if field's value is inside given array (given in 'list' parameter)
     jQuery.validator.addMethod('partOf', function (value, element, list) {

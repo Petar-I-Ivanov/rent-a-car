@@ -13,24 +13,15 @@
     3. Password encoding
   - Header based on User (username, photo link)
   - Data Validation
+  - Buisness logic
 
 # TODO:
-  - Data Validation
-      1. Fully compleate Client side validation
-      2. Custom @Password validation (server side)
-  - Verification
-	  1. Users only can read ?
-	  2. Clients can only Hire Vehicles, Invoice and above ^
-	  3. Employees can Maintance, Movement Vehicles and above ^
-	  4. Managers can manage Types, Statuses, Locations, Suppliers, Employees and above ^
-	  5. Admin can do everything exept Security
-	  6. SuperAdmin can do everything
-  - Buisness logic
-	  1. Count profit from Hire
-	  2. Count loss from Maintenance (Movement ?)
-	  3. Make statistics
+  - Authorization
+  	  1. Front end visible for allowed pages and actions
+  	  2. Back end checks before calling the method
   - Chats / Notifications
   - Everyone can see and edit its own Profile
+  - Replace thymeleaf front end with React
   - JUnit, Selenium, REST Assured tests
   - UseCase, Class, Sequence, Activity, State-Chart and so on.. diagrams
   - Documentation

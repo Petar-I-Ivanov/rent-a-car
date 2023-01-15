@@ -53,6 +53,34 @@
   
   <th:block th:replace="fragments/general.html :: javascriptImportForModels"></th:block>
 
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+      
+      $('#form').validate({
+        rules: {
+          name: { required: true, lengthRange: [4, 105] },
+          vehicleTypeId: { partOf: [[${vehicleTypes}]] },
+          vehicleNumber: { lengthRange: [0, 10], upperCaseAndDigits: true},
+          registrationDate: { presentOrPast: true },
+          acquisitionDate: { presentOrPast: true },
+          vehicleMakeId: { partOf: [[${vehicleMakes}]] },
+          power: { doubleNumber: true },
+          fuelCapacity: { doubleNumber: true },
+          vehicleStatusId: { partOf: [[${vehicleStatuses}]] },
+          netWeight: { doubleNumber: true },
+          employeeId: { partOf: [[${employees}]] },
+          vehicleModelId: { partOf: [[${vehicleModels}]] },
+          locationId: { partOf: [[${locations}]] },
+        }
+      });
+
+      setUnique(['name', 'vehicleNumber']);
+    });
+
+  </script>
+
 </body>
 
 </html>

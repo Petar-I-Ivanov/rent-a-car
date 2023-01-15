@@ -6,21 +6,25 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rent.car.business.logic.BudgetAction;
 import com.rent.car.models.VehicleHire;
 import com.rent.car.repositories.VehicleHireRepository;
 
 @Service
 public class VehicleHireService {
-
-	@Autowired
-	private VehicleHireRepository vehicleHireRepository;
+	
+	@Autowired private VehicleHireRepository vehicleHireRepository;
+	@Autowired private BudgetAction budgetAction;
 	
 	public List<VehicleHire> getVehicleHires() {
 		return vehicleHireRepository.findAll();
 	}
 	
+	// 	first saves vehicleHire
+	//	after that it is used as parameter of makeHireAction
+	//	(because if its new record the id is 0 and after it is saved it can get the right ID for FK)
 	public void save(VehicleHire vehicleHire) {
-		vehicleHireRepository.save(vehicleHire);
+		budgetAction.makeHireAction(vehicleHireRepository.save(vehicleHire));
 	}
 	
 	public Optional<VehicleHire> findById(int id) {
