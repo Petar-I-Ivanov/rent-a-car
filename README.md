@@ -9,17 +9,16 @@
   - OneToMany and ManyToMany relationships ([click for diagram](https://github.com/Petar-I-Ivanov/rent-a-car/blob/main/diagrams/ERDiagram.jpg))
   - Security
     1. Login, Registration, Logout
-    2. Roles Authorization (backend only so far)
+    2. Roles Authorization (only available are shown in frontend and backend checks)
     3. Password encoding
   - Header based on User (username, photo link)
   - Data Validation
   - Buisness logic
 
 # TODO:
-  - Authorization
-  	  1. Frontend visible for allowed pages and actions
-  - Chats / Notifications
+  - Create connections Actor_Client and Actor_Employee to open profile based on that connection / role
   - Everyone can see and edit its own Profile
+  - Chats / Notifications / Search bar
   - Replace thymeleaf front end with React
   - JUnit, Selenium, REST Assured tests
   - UseCase, Class, Sequence, Activity, State-Chart and so on.. diagrams

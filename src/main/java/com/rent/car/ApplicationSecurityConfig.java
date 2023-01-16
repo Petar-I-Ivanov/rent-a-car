@@ -42,7 +42,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
 		.authorizeRequests()
 		.antMatchers("/login", "/register", "/assets/**", "/actors/addNew").permitAll()
-		.antMatchers("/security/actor/Edit/**").hasAuthority("Super Admin")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin()

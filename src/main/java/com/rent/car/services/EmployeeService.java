@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.rent.car.models.Employee;
 import com.rent.car.models.Actor;
 import com.rent.car.repositories.EmployeeRepository;
+import com.rent.car.security.services.RoleService;
 import com.rent.car.repositories.ActorRepository;
 
 @Service
@@ -16,6 +17,7 @@ public class EmployeeService {
 
 	@Autowired private EmployeeRepository employeeRepository;
 	@Autowired private ActorRepository actorRepository;
+	@Autowired private RoleService roleService;
 	
 	public List<Employee> getEmployees() {
 		return employeeRepository.findAll();
@@ -49,5 +51,8 @@ public class EmployeeService {
 		
 		employee.setUsername(actor.getUsername());
 		employeeRepository.save(employee);
+		
+		roleService.unassigActorRole(actor.getId(), 1);
+		roleService.assignActorRole(actor.getId(), 2);
 	}
 }
