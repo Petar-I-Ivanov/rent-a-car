@@ -13,8 +13,18 @@
 
 <th:block th:fragment="table (properties, labels)" th:with="objects = ${__${objectsName}__}">
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" id="addButton">New Record</button>
+    <!-- Add Button trigger modal -->
+    <th:block th:if="${objectName} == 'vehicleHire'">
+        <button type="button" class="btn btn-primary" id="addButton">New Record</button>
+    </th:block>
+
+    <th:block th:if="${objectName} == 'employee' or ${objectName} == 'client' or ${objectName} == 'supplier' or ${objectName} == 'contact' or ${objectName} == 'invoice'">
+        <button sec:authorize="hasAuthority('Human Resource')" type="button" class="btn btn-primary" id="addButton">New Record</button>
+    </th:block>
+
+    <th:block th:unless="${objectName} == 'vehicleHire'">
+        <button sec:authorize="hasAnyAuthority('Manager', 'Admin', 'Super Admin')" type="button" class="btn btn-primary" id="addButton">New Record</button>
+    </th:block> <!-- End Add Button trigger modal -->
 
     <!-- Default Table -->
     <table class="table">
@@ -34,12 +44,25 @@
                 <td th:each="property : ${properties}" th:text="${object.__${property}__}"></td>
                 <td>
                     <div class="btn-group">
-                        <a th:href="@{/__${objectsName}__/findById/(id=${object.id})}" class="btn btn-primary" id="editButton">
-                            <i class="bi bi-pencil-fill"></i></a>
-                        <a th:href="@{/__${objectsName}__/findById/(id=${object.id})}" class="btn btn-success" id="detailsButton">
-                            <i class="bi bi-journal-bookmark-fill"></i></a>
-                        <a th:href="@{/__${objectsName}__/delete/(id=${object.id})}" class="btn btn-danger" id="deleteButton">
-                            <i class="bi bi-trash-fill"></i></a>
+
+                        <!-- Edit Button trigger modal -->
+                        <th:block th:if="${objectName} == 'employee' or ${objectName} == 'client' or ${objectName} == 'supplier' or ${objectName} == 'contact' or ${objectName} == 'invoice' or ${objectName} == 'vehicleHire'">
+                            <a sec:authorize="hasAnyAuthority('Human Resource')" th:href="@{/__${objectsName}__/findById/(id=${object.id})}" class="btn btn-primary" id="editButton"><i class="bi bi-pencil-fill"></i></a>
+                        </th:block>
+                        
+                        <a sec:authorize="hasAnyAuthority('Manager', 'Admin', 'Super Admin')" th:href="@{/__${objectsName}__/findById/(id=${object.id})}" class="btn btn-primary" id="editButton"><i class="bi bi-pencil-fill"></i></a>
+                        <!-- End Edit Button trigger modal -->
+
+                        <!-- Details Button trigger modal -->
+                        <a th:href="@{/__${objectsName}__/findById/(id=${object.id})}" class="btn btn-success" id="detailsButton"><i class="bi bi-journal-bookmark-fill"></i></a>
+
+                        <!-- Delete Button trigger modal -->
+                        <th:block th:if="${objectName} == 'vehicleHire'">
+                            <a sec:authorize="hasAnyAuthority('Human Resource', 'Manager')" th:href="@{/__${objectsName}__/delete/(id=${object.id})}" class="btn btn-danger" id="deleteButton"><i class="bi bi-trash-fill"></i></a>
+                        </th:block>
+                        
+                        <a sec:authorize="hasAnyAuthority('Admin', 'Super Admin')" th:href="@{/__${objectsName}__/delete/(id=${object.id})}" class="btn btn-danger" id="deleteButton"><i class="bi bi-trash-fill"></i></a>
+                        <!-- End Delete Button trigger modal -->
                     </div>
                 </td>
             </tr>
