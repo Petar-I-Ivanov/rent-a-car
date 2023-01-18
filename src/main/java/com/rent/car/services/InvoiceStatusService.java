@@ -19,6 +19,13 @@ public class InvoiceStatusService {
 		return invoiceStatusRepository.findAll();
 	}
 	
+	public List<InvoiceStatus> getInvoiceStatuses(String keyword) {
+		
+		return (keyword == null)
+				? invoiceStatusRepository.findAll()
+				: invoiceStatusRepository.search(keyword);
+	}
+	
 	public void save(InvoiceStatus invoiceStatus) {
 		invoiceStatusRepository.save(invoiceStatus);
 	}

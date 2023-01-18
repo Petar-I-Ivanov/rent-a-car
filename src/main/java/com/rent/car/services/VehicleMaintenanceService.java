@@ -20,6 +20,13 @@ public class VehicleMaintenanceService {
 		return vehicleMaintenanceRepository.findAll();
 	}
 	
+	public List<VehicleMaintenance> getVehicleMaintenances(String keyword) {
+		
+		return (keyword == null)
+				? vehicleMaintenanceRepository.findAll()
+				: vehicleMaintenanceRepository.search(keyword);
+	}
+	
 	public void save(VehicleMaintenance vehicleMaintenance) {
 		budgetAction.makeMaintenanceAction(vehicleMaintenanceRepository.save(vehicleMaintenance));
 	}

@@ -20,6 +20,13 @@ public class StateService {
 		return stateRepository.findAll();
 	}
 	
+	public List<State> getStates(String keyword) {
+		
+		return (keyword == null)
+				? stateRepository.findAll()
+				: stateRepository.search(keyword);
+	}
+	
 	public void save(State state) {
 		stateRepository.save(state);
 	}

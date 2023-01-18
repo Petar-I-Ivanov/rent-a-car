@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +26,9 @@ public class VehicleStatusController {
 
 	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/vehicleStatuses")
-	public String getVehicleStatuses(VehicleStatus vehicleStatus, Model model) {
+	public String getVehicleStatuses(@Param("keyword") String keyword, VehicleStatus vehicleStatus, Model model) {
 		
-		model.addAttribute("vehicleStatuses", vehicleStatusService.getVehicleStatuses());
+		model.addAttribute("vehicleStatuses", vehicleStatusService.getVehicleStatuses(keyword));
 		return "/parameters/vehicleStatus";
 	}
 	

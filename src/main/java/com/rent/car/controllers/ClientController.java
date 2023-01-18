@@ -1,10 +1,12 @@
 package com.rent.car.controllers;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rent.car.models.Actor;
 import com.rent.car.models.Client;
 import com.rent.car.services.CountryService;
+import com.rent.car.services.ActorService;
 import com.rent.car.services.ClientService;
 import com.rent.car.services.StateService;
 
@@ -26,12 +30,14 @@ public class ClientController {
 	@Autowired private ClientService clientService;
 	@Autowired private StateService stateService;
 	@Autowired private CountryService countryService;
+	@Autowired private ActorService actorService;
 
 	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/clients")
-	public String getClients(Client client, Model model) {
+	public String getClients(@Param("keyword") String keyword, Client client, Model model) {
 		
 		model = setModel(model);
+		model.addAttribute("clients", clientService.getClients(keyword));
 		return "/people/client";
 	}
 	
@@ -57,12 +63,15 @@ public class ClientController {
 	
 	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping(value="/clients/update", method= {RequestMethod.PUT, RequestMethod.GET})
-	public String update(@Valid Client client, BindingResult bindingResult, Model model) {
+	public String update(@Valid Client client, BindingResult bindingResult, Model model, Principal pricipal) {
 		
 		if (bindingResult.hasErrors()) {
 			model = setModel(model);
 			return "/people/client";
 		}
+		
+		Actor actor = actorService.findByUsername(pricipal.getName());
+		client.setActorId(actor.getId());
 		
 		clientService.save(client);
 		return "redirect:/clients";

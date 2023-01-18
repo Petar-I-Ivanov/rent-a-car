@@ -19,6 +19,12 @@ public class InvoiceService {
 		return invoiceRepository.findAll();
 	}
 	
+	public List<Invoice> getInvoices(String keyword) {
+		return (keyword == null)
+			? invoiceRepository.findAll()
+			: invoiceRepository.search(keyword);
+	}
+	
 	public void save(Invoice invoice) {
 		invoiceRepository.save(invoice);
 	}

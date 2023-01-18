@@ -9,6 +9,5 @@ import com.rent.car.models.Actor;
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
 	Actor findByUsername(String username);
-	
 	Actor findByFirstNameAndLastName(String firstName, String lastName);
 }

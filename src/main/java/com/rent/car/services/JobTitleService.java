@@ -19,6 +19,13 @@ public class JobTitleService {
 		return jobTitleRepository.findAll();
 	}
 	
+	public List<JobTitle> getJobTitles(String keyword) {
+		
+		return (keyword == null)
+				? jobTitleRepository.findAll()
+				: jobTitleRepository.search(keyword);
+	}
+	
 	public void save(JobTitle jobTitle) {
 		jobTitleRepository.save(jobTitle);
 	}

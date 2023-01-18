@@ -9,9 +9,7 @@
 
         <div th:replace="this :: field('id', 'Id', 'text')"></div>
 
-        <th:block th:if="${objectName} eq ''">
-
-        </th:block>
+        <th:block th:if="${objectName} eq ''"></th:block>
 
         <th:block th:switch="${objectName}">
 
@@ -85,6 +83,7 @@
             <th:block th:case="'employee'">
                 <th:block th:insert="this :: ddlField ('title', 'Title', ${ {'Mr.', 'Ms.'} } , ${null})"></th:block>
                 <th:block th:insert="this :: field ('initials', 'Initials', 'text')"></th:block>
+                <th:block th:insert="this :: field ('username', 'Username', 'text')"></th:block>
                 <th:block th:insert="this :: field ('firstName', 'First Name', 'text')"></th:block>
                 <th:block th:insert="this :: field ('lastName', 'Last Name', 'text')"></th:block>
                 <th:block th:insert="this :: field ('otherName', 'Other Name', 'text')"></th:block>

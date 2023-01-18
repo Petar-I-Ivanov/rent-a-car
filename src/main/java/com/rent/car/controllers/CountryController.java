@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,9 +35,10 @@ public class CountryController {
 	
 	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/countries")
-	public String getCountries(Country country, Model model) {
+	public String getCountries(@Param("keyword") String keyword, Country country, Model model) {
 		
 		model = setModel(model);
+		model.addAttribute("countries", countryService.getCountries(keyword));
 		return "/globals/country";
 	}
 	

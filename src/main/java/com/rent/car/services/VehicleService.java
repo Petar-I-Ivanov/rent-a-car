@@ -19,6 +19,13 @@ public class VehicleService {
 		return vehicleRepository.findAll();
 	}
 	
+	public List<Vehicle> getVehicles(String keyword) {
+		
+		return (keyword == null)
+			? vehicleRepository.findAll()
+			: vehicleRepository.search(keyword);
+	}
+	
 	public void save(Vehicle vehicle) {
 		vehicleRepository.save(vehicle);
 	}

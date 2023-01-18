@@ -20,6 +20,11 @@ $('document').ready(function () {
         return this.optional(element) || /^[0-9]{10,20}$/gm.test(value);
     }, 'Field should be phone number.');
 
+    // checks if field's value is phone number
+    jQuery.validator.addMethod('samePassword', function (value, element, newPassword) {
+        return value == $(newPassword).val();
+    }, 'Confirm password doesn\'t match with new password.');
+
     // checks if field's value is upper case
     jQuery.validator.addMethod('upperCase', function (value, element) {
         return this.optional(element) || /^[A-Z]+$/gm.test(value);

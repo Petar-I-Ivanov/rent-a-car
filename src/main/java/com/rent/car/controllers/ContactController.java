@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +27,8 @@ public class ContactController {
 
 	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/contacts")
-	public String getCountries(Contact contact, Model model) {
-		model.addAttribute("contacts", contactService.getContacts());
+	public String getCountries(@Param("keyword") String keyword, Contact contact, Model model) {
+		model.addAttribute("contacts", contactService.getContacts(keyword));
 		return "/people/contact";
 	}
 	

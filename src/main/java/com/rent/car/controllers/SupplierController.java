@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +30,10 @@ public class SupplierController {
 
 	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/suppliers")
-	public String getSuppliers(Supplier supplier, Model model) {
+	public String getSuppliers(@Param("keyword") String keyword, Supplier supplier, Model model) {
 		
 		model = setModel(model);
+		model.addAttribute("suppliers", supplierService.getSuppliers(keyword));
 		return "/people/supplier";
 	}
 	

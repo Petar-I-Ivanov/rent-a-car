@@ -19,6 +19,13 @@ public class EmployeeTypeService {
 		return employeeTypeRepository.findAll();
 	}
 	
+	public List<EmployeeType> getEmployeeTypes(String keyword) {
+		
+		return (keyword == null)
+				? employeeTypeRepository.findAll()
+				: employeeTypeRepository.search(keyword);
+	}
+	
 	public void save(EmployeeType employeeType) {
 		employeeTypeRepository.save(employeeType);
 	}

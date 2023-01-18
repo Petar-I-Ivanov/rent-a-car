@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,19 +37,19 @@ public class Client {
 	
 	@NotBlank(message = "Field cannot be blank.")
 	@Size(min = 4, max = 105, message = "Field length should be between 4 and 105.")
-	@Column(nullable = false, unique = true, length = 105)
+	@Column(length = 105)
 	private String name;
 	
 	@NotBlank(message = "Field cannot be blank.")
 	@Size(min = 4, max = 50, message = "Field length should be between 4 and 50.")
-	@Column(nullable = false, unique = true, length = 50)
+	@Column(length = 50)
 	private String address;
 	
 	@NotBlank(message = "Field cannot be blank.")
 	@Size(min = 4, max = 105, message = "Field length should be between 4 and 105.")
 	@Pattern(regexp = "^[A-Z][a-z]+(?: [A-Z][a-z]+)*$",
 	message = "Field should contains only letters with capitalized first and after space.")
-	@Column(nullable = false, length = 105)
+	@Column(length = 105)
 	private String city;
 	
 	@Pattern(regexp = "^$|(^[0-9]{10,20}$)", message = "Field should be phone number.")
@@ -57,7 +58,7 @@ public class Client {
 	
 	@NotNull(message = "This field is required.")
 	@Pattern(regexp = "^[0-9]{10,20}$", message = "Field should be phone number.")
-	@Column(nullable = false, length = 20)
+	@Column(length = 20)
 	private String mobile;
 	
 	@Size(max = 60, message = "Field length should be max 60.")
@@ -67,7 +68,6 @@ public class Client {
 	
 	@NotNull(message = "This field is required.")
 	@Email(message = "This field should be email.")
-	@Column(unique = true, nullable = false)
 	private String email;
 	
 	@ManyToOne
@@ -81,6 +81,11 @@ public class Client {
 	private int stateId;
 	
 	private String details;
+	
+	@OneToOne
+    @JoinColumn(name = "actorId", insertable=false, updatable=false)
+    private Actor actor;
+	private int actorId;
 	
 	@OneToMany(mappedBy = "client")
 	private List<Invoice> invoices;

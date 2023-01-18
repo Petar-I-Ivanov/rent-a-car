@@ -19,6 +19,13 @@ public class VehicleTypeService {
 		return vehicleTypeRepository.findAll();
 	}
 	
+	public List<VehicleType> getVehicleTypes(String keyword) {
+		
+		return (keyword == null)
+				? vehicleTypeRepository.findAll()
+				: vehicleTypeRepository.search(keyword);
+	}
+	
 	public void save(VehicleType vehicleType) {
 		vehicleTypeRepository.save(vehicleType);
 	}

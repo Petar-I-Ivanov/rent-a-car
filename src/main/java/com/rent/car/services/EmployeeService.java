@@ -23,6 +23,13 @@ public class EmployeeService {
 		return employeeRepository.findAll();
 	}
 	
+	public List<Employee> getEmployees(String keyword) {
+		
+		return (keyword == null)
+				? employeeRepository.findAll()
+				: employeeRepository.search(keyword);
+	}
+	
 	public void save(Employee employee) {
 		employeeRepository.save(employee);
 	}
@@ -35,24 +42,27 @@ public class EmployeeService {
 		return employeeRepository.findByUsername(username);
 	}
 	
+	public Optional<Employee> findByActorId(int actorId) {
+		return employeeRepository.findByActorId(actorId);
+	}
+	
 	public void delete(int id) {
 		employeeRepository.deleteById(id);
 	}
 	
-//	Set the Username of the employee where firstName and lastName match with RegisteredActor
-	public void assignUsername(int id) {
+	public void assignUsername(String username) {
 		
-		Employee employee = employeeRepository.findById(id).orElse(null);
+		Employee employee = employeeRepository.findByUsername(username);
 		
-		Actor actor = actorRepository.findByFirstNameAndLastName(
-				employee.getFirstName(),
-				employee.getLastName()
-				);
-		
-		employee.setUsername(actor.getUsername());
-		employeeRepository.save(employee);
-		
-		roleService.unassigActorRole(actor.getId(), 1);
-		roleService.assignActorRole(actor.getId(), 2);
+		for (Actor actor : actorRepository.findAll()) {
+			if (actor.getUsername().equals(username)) {
+				
+				roleService.unassigActorRole(actor.getId(), 1);
+				roleService.assignActorRole(actor.getId(), 2);
+				
+				employee.setActorId(actor.getId());
+				employeeRepository.save(employee);
+			}
+		}
 	}
 }

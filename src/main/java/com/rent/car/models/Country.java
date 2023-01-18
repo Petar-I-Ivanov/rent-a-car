@@ -74,7 +74,6 @@ public class Country {
 	
 	@NotNull(message = "Field cannot be null.")
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
 	private ContinentEnum continent;
 	
 //	one country have many states

@@ -20,6 +20,13 @@ public class VehicleHireService {
 		return vehicleHireRepository.findAll();
 	}
 	
+	public List<VehicleHire> getVehicleHires(String keyword) {
+		
+		return (keyword == null)
+				? vehicleHireRepository.findAll()
+				: vehicleHireRepository.search(keyword);
+	}
+	
 	// 	first saves vehicleHire
 	//	after that it is used as parameter of makeHireAction
 	//	(because if its new record the id is 0 and after it is saved it can get the right ID for FK)

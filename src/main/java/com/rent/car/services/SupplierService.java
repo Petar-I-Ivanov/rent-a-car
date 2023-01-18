@@ -19,6 +19,13 @@ public class SupplierService {
 		return supplierRepository.findAll();
 	}
 	
+	public List<Supplier> getSuppliers(String keyword) {
+		
+		return (keyword == null)
+				? supplierRepository.findAll()
+				: supplierRepository.search(keyword);
+	}
+	
 	public void save(Supplier supplier) {
 		supplierRepository.save(supplier);
 	}

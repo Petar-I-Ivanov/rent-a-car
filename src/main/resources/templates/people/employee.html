@@ -61,8 +61,8 @@
           </td>
           <td th:text="${employee.id}"></td>
           <td th:text="${employee.firstName} + ' ' + ${employee.lastName}"></td>
-          <td><a th:text="${employee.username} ?: 'Check'"
-              th:href="@{/employees/assignUsername/(id=${employee.id})}"></a></td>
+          <th:block th:if="${employee.actorId == 4}"><td><a th:href="@{/employees/assignEmployee/(username=${employee.username})}">Check</a></td></th:block>
+          <th:block th:unless="${employee.actorId == 4}"><td th:text="${employee.actor.username}"></td></th:block>
           <td th:text="${employee.jobTitle.description}"></td>
           <td>
             <div class="btn-group">
@@ -131,7 +131,7 @@
         }
       });
 
-      setUnique(['phone', 'mobile']);
+      setUnique(['phone', 'mobile', 'email', 'username']);
     });
 
   </script>

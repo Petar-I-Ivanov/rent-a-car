@@ -19,6 +19,13 @@ public class LocationService {
 		return locationRepository.findAll();
 	}
 	
+	public List<Location> getLocations(String keyword) {
+		
+		return (keyword == null)
+				? locationRepository.findAll()
+				: locationRepository.search(keyword);
+	}
+	
 	public void save(Location location) {
 		locationRepository.save(location);
 	}
