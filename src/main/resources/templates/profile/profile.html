@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Profile</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <th:block th:replace="fragments/general.html :: cssImport"></th:block>
+
+  <script th:inline="javascript">
+    var client = [[${ client }]];
+    var employee = [[${ employee }]];
+    var states = [[${ states }]];
+  </script>
+
+</head>
+
+<body>
+
+  <th:block th:replace="fragments/general.html :: header"></th:block>
+  <th:block th:replace="fragments/general.html :: sidebar"></th:block>
+
+  <main id="main" class="main">
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              <img th:src="@{'/assets/img/userPhotos/' + ${#authentication.getPrincipal().getUsername()} + '.jpg'}"
+                alt="Profile" class="rounded-circle">
+              <h2 th:text="${#authentication.getPrincipal().getUsername()}"></h2>
+              <span th:text="${employee?.jobTitle?.description}"></span>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <th:block th:if="${client != null}">
+                  <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab"
+                    data-bs-target="#profile-overview">Overview</button>
+                  </li>
+
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#client-profile-edit">Edit Client
+                      Profile</button>
+                  </li>
+                </th:block>
+
+                <th:block th:if="${employee != null}">
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#employee-profile-edit">Edit Employee
+                      Profile</button>
+                  </li>
+                </th:block>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change
+                    Password</button>
+                </li>
+
+              </ul>
+
+              <div class="tab-content pt-2">
+                
+                <th:block th:replace="profile/profileFragments.html :: overview"></th:block>
+
+                <th:block th:if="${client != null}">
+                  <th:block th:replace="profile/profileFragments.html :: clientProfileEdit"></th:block>
+                </th:block>
+
+                <th:block th:if="${employee != null}">
+                  <th:block th:replace="profile/profileFragments.html :: employeeProfileEdit"></th:block>
+                </th:block>
+
+                <th:block th:replace="profile/profileFragments.html :: changePassword"></th:block>
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <th:block th:replace="fragments/general.html :: footer"></th:block>
+  <th:block th:replace="fragments/general.html :: javascriptImport"></th:block>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script th:src="@{/assets/js/validation.js}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
+
+  <script th:inline="javascript">
+
+    // setting rules from the validator added methods by its name and params
+    $('document').ready(function () {
+
+      if (client) {
+
+        $('#clientForm').validate({
+          rules: {
+            name: { required: true, lengthRange: [4, 105] },
+            address: { required: true, lengthRange: [4, 50] },
+            city: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+            phone: { phoneNumber: true },
+            mobile: { required: true, phoneNumber: true },
+            email: { required: true },
+            countryId: { partOf: [[${ countries }]] },
+            stateId: { partOf: [[${ states }]], stateInCountry: countryId }
+          }
+        });
+
+        $('#clientForm input, #clientForm select').each(function () {
+
+          var input = $(this);
+          var id = input.attr('id');
+
+          if (input.is("select")) {
+            input.val(client[id]).change();
+          }
+          else {
+            if (id.includes('Date') || id.includes('date')) {
+              input.val(client[id].substr(0, 10));
+            }
+            else {
+              input.val(client[id]);
+            }
+          }
+        });
+      }
+
+      if (employee) {
+
+        $('#employeeForm').validate({
+          rules: {
+            title: { partOf: ['Mr.', 'Ms.'] },
+            initials: { upperCase: true },
+            firstName: { required: true, pascalCaseWithSpace: true },
+            lastName: { required: true, pascalCaseWithSpace: true },
+            otherName: { pascalCaseWithSpace: true },
+            gender: { partOf: ['Male', 'Female'] },
+            countryId: { partOf: [[${ countries }]] },
+            stateId: { partOf: [[${ states }]], stateInCountry: countryId },
+            city: { required: true, lengthRange: [4, 105], pascalCaseWithSpace: true },
+            phone: { phoneNumber: true },
+            mobile: { required: true, phoneNumber: true },
+            maritalStatus: { partOf: ['Married', 'Single'] },
+            jobTitleId: { partOf: [[${ jobTitles }]] },
+            employeeTypeId: { partOf: [[${ employeeTypes }]] }
+          }
+        });
+
+        $('#employeeForm input, #employeeForm select').each(function () {
+
+          var input = $(this);
+          var id = input.attr('id');
+
+          if (input.is("select")) {
+            input.val(employee[id]).change();
+          }
+          else {
+            if (id.includes('Date') || id.includes('date')) {
+              input.val(employee[id].substr(0, 10));
+            }
+            else {
+              input.val(employee[id]);
+            }
+          }
+        });
+      }
+
+      $('#changePasswordForm').validate({
+          rules: {
+            oldPassword: { required: true },
+            newPassword: { required: true },
+            confirmNewPassword: { required: true, samePassword: newPassword }
+          }
+        });
+    });
+  </script>
+  
+</body>
+  
+</html>

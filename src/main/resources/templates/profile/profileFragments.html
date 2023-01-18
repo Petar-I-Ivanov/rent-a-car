@@ -1,0 +1,143 @@
+<!--========== PROFILE OVERVIEW ==========-->
+<th:block th:fragment="overview">
+
+    <div class="tab-pane fade active show profile-overview" id="profile-overview">
+        <div class="row">
+            <span><i class="bi bi-clock-fill"></i>
+                <span th:text="${#dates.format(#dates.createNow(), 'HH:mm a')}"></span>
+            </span>
+
+            <span><i class="bi bi-calendar-date-fill"></i>
+                <span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy')}"></span>
+            </span>
+        </div>
+
+        <div th:if="${client != null}" style="float: left; width: 45%;">
+            <h5 class="card-title">Client Profile Details</h5>
+
+            <th:block th:insert="this :: clientRow ('name', 'Name')"></th:block>
+            <th:block th:insert="this :: clientRow ('email', 'Email')"></th:block>
+            <th:block th:insert="this :: clientRow ('phone', 'Phone')"></th:block>
+            <th:block th:insert="this :: clientRow ('mobile', 'Mobile')"></th:block>
+            <th:block th:insert="this :: clientRow ('website', 'Website')"></th:block>
+            <th:block th:insert="this :: clientRow ('address', 'Address')"></th:block>
+            <th:block th:insert="this :: clientRow ('city', 'City')"></th:block>
+            <th:block th:insert="this :: clientRow ('state.name', 'State')"></th:block>
+            <th:block th:insert="this :: clientRow ('country.description', 'Country')"></th:block>
+            <th:block th:insert="this :: clientRow ('details', 'Details')"></th:block>
+        </div>
+
+        <div th:if="${employee != null}" style="float: left; width: 45%;">
+            <h5 class="card-title">Employee Profile Details</h5>
+
+            <th:block th:insert="this :: employeeRow ('title', 'Title')"></th:block>
+            <th:block th:insert="this :: employeeRow ('initials', 'Initials')"></th:block>
+            <th:block th:insert="this :: employeeRow ('firstName', 'First Name')"></th:block>
+            <th:block th:insert="this :: employeeRow ('lastName', 'Last Name')"></th:block>
+            <th:block th:insert="this :: employeeRow ('otherName', 'Other Name')"></th:block>
+            <th:block th:insert="this :: employeeRow ('gender', 'Gender')"></th:block>
+            <th:block th:insert="this :: employeeRow ('address', 'Address')"></th:block>
+            <th:block th:insert="this :: employeeRow ('dateOfBirth.toString().substring(0, 10)', 'Date of Birth')"></th:block>
+            <th:block th:insert="this :: employeeRow ('hireDate.toString().substring(0, 10)', 'Hire Date')"></th:block>
+            <th:block th:insert="this :: employeeRow ('country.description', 'Country')"></th:block>
+            <th:block th:insert="this :: employeeRow ('state.name', 'State')"></th:block>
+            <th:block th:insert="this :: employeeRow ('city', 'City')"></th:block>
+            <th:block th:insert="this :: employeeRow ('phone', 'Phone')"></th:block>
+            <th:block th:insert="this :: employeeRow ('mobile', 'Mobile')"></th:block>
+            <th:block th:insert="this :: employeeRow ('maritalStatus', 'Marital Status')"></th:block>
+            <th:block th:insert="this :: employeeRow ('email', 'Email')"></th:block>
+            <th:block th:insert="this :: employeeRow ('jobTitle.description', 'Job Title')"></th:block>
+            <th:block th:insert="this :: employeeRow ('employeeType.description', 'Employee Type')"></th:block>
+        </div>
+
+    </div>
+
+</th:block>
+
+<!--========== CLIENT OVERVIEW ROW ==========-->
+<div class="row" th:fragment="clientRow (property, label)">
+    <div class="col-lg-3 col-md-4 label " th:text="${label}"></div>
+    <div class="col-lg-9 col-md-8" th:text="${client.__${property}__}"></div>
+</div>
+
+<!--========== EMPLOYEE OVERVIEW ROW ==========-->
+<div class="row" th:fragment="employeeRow (property, label)">
+    <div class="col-lg-3 col-md-4 label " th:text="${label}"></div>
+    <div class="col-lg-9 col-md-8" th:text="${employee.__${property}__}"></div>
+</div>
+
+<!--========== PROFILE EDIT ==========-->
+<th:block th:fragment="clientProfileEdit">
+
+    <div class="tab-pane fade profile-edit pt-2" id="client-profile-edit">
+
+        <form id="clientForm" th:action="@{/clientProfileUpdate}" method='put' th:object="${client}">
+
+            <th:block th:insert="fragments/form.html :: field ('name', 'Name', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('address', 'Address', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('city', 'City', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('phone', 'Phone', 'tel')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('mobile', 'Mobile', 'tel')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('website', 'Website', 'url')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('email', 'Email', 'email')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('countryId', 'Country', ${countries}, 'description')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('stateId', 'State', ${states}, 'name')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('details', 'Details', 'text')"></th:block>
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+
+        </form>
+    </div>
+
+</th:block>
+
+<th:block th:fragment="employeeProfileEdit">
+
+    <div class="tab-pane fade profile-edit pt-3" id="employee-profile-edit">
+
+        <form id="employeeForm" th:action="@{/employeeProfileUpdate}" method="put" th:object="${employee}">
+
+            <th:block th:insert="fragments/form.html :: ddlField ('title', 'Title', ${ {'Mr.', 'Ms.'} } , ${null})"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('initials', 'Initials', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('firstName', 'First Name', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('lastName', 'Last Name', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('otherName', 'Other Name', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('gender', 'Gender', ${ {'Male', 'Female'} }, ${null})"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('address', 'Address', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('dateOfBirth', 'Date Of Birth', 'date')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('hireDate', 'Hire Date', 'date')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('countryId', 'Country', ${countries}, 'description')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('stateId', 'State', ${states}, 'name')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('city', 'City', 'text')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('phone', 'Phone', 'tel')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('mobile', 'Mobile', 'tel')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('maritalStatus', 'Marital Status', ${ {'Married', 'Single'} }, ${null})"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('email', 'Email', 'email')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('jobTitleId', 'Job Title', ${jobTitles}, 'description')"></th:block>
+            <th:block th:insert="fragments/form.html :: ddlField ('employeeTypeId', 'Employee Type', ${employeeTypes}, 'description')"></th:block>
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+
+        </form>
+
+    </div>
+
+</th:block>
+
+<th:block th:fragment="changePassword">
+
+    <div class="tab-pane fade pt-3" id="profile-change-password">
+
+        <form id="changePasswordForm" th:action="@{/changePassword}" method="put" th:object="${changePassword}">
+
+            <th:block th:insert="fragments/form.html :: field ('oldPassword', 'Old Password', 'password')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('newPassword', 'New Password', 'password')"></th:block>
+            <th:block th:insert="fragments/form.html :: field ('confirmNewPassword', 'Confirm New Password', 'password')"></th:block>
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+
+        </form>
+
+    </div>
+
+</th:block>

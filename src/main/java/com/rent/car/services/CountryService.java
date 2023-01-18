@@ -20,6 +20,13 @@ public class CountryService {
 		return countryRepository.findAll();
 	}
 	
+	public List<Country> getCountries(String keyword) {
+		
+		return (keyword == null)
+				? countryRepository.findAll()
+				: countryRepository.search(keyword);
+	}
+	
 	public void save(Country country) {
 		countryRepository.save(country);
 	}

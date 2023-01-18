@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,9 +37,10 @@ public class VehicleController {
 	@Autowired private LocationService locationService;
 
 	@GetMapping("/vehicles")
-	public String getVehicle(Vehicle vehicle, Model model) {
+	public String getVehicle(@Param("keyword") String keyword, Vehicle vehicle, Model model) {
 		
 		model = setModel(model);
+		model.addAttribute("vehicles", vehicleService.getVehicles(keyword));
 		return "/vehicles/vehicle";
 	}
 	
@@ -55,7 +57,6 @@ public class VehicleController {
 		return "redirect:/vehicles";
 	}
 	
-	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/vehicles/findById")
 	@ResponseBody
 	public Optional<Vehicle> findById(int id) {

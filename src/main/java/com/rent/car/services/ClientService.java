@@ -19,12 +19,23 @@ public class ClientService {
 		return clientRepository.findAll();
 	}
 	
+	public List<Client> getClients(String keyword) {
+		
+		return (keyword == null)
+				? clientRepository.findAll()
+				: clientRepository.search(keyword);
+	}
+	
 	public void save(Client client) {
 		clientRepository.save(client);
 	}
 	
 	public Optional<Client> findById(int id) {
 		return clientRepository.findById(id);
+	}
+	
+	public Optional<Client> findByActorId(int actorId) {
+		return clientRepository.findByActorId(actorId);
 	}
 	
 	public void delete(int id) {

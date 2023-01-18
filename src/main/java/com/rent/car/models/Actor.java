@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -53,6 +54,12 @@ public class Actor {
     
     @ValidPassword
 	private String password;
+    
+    @OneToOne(mappedBy = "actor")
+    private Employee employee;
+
+    @OneToOne(mappedBy = "actor")
+    private Client client;
 	
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 		@JoinTable(

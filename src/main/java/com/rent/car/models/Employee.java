@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -46,6 +47,11 @@ public class Employee extends Person {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date hireDate;
+	
+	@OneToOne
+    @JoinColumn(name = "actorId", insertable=false, updatable=false)
+    private Actor actor;
+	private int actorId;
 	
 	@OneToMany(mappedBy = "inCharge")
 	private List<Vehicle> vehicles;

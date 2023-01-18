@@ -19,6 +19,13 @@ public class VehicleMovementService {
 		return vehicleMovementRepository.findAll();
 	}
 	
+	public List<VehicleMovement> getVehicleMovements(String keyword) {
+		
+		return (keyword == null)
+				? vehicleMovementRepository.findAll()
+				: vehicleMovementRepository.search(keyword);
+	}
+	
 	public void save(VehicleMovement vehicleMovement) {
 		vehicleMovementRepository.save(vehicleMovement);
 	}

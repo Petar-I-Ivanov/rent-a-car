@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +34,10 @@ public class LocationController {
 
 	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/locations")
-	public String getLocations(Location location, Model model) {
+	public String getLocations(@Param("keyword") String keyword, Location location, Model model) {
 		
 		model = setModel(model);
+		model.addAttribute("locations", locationService.getLocations(keyword));
 		return "/globals/location";
 	}
 	

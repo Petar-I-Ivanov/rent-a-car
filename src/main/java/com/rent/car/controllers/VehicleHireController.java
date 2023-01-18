@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +31,9 @@ public class VehicleHireController {
 	@Autowired private LocationService locationService;
 
 	@GetMapping("/vehicleHires")
-	public String getVehicleHires(VehicleHire vehicleHire, Model model) {
+	public String getVehicleHires(@Param("keyword") String keyword, VehicleHire vehicleHire, Model model) {
 		model = setModel(model);
+		model.addAttribute("vehicleHires", vehicleHireService.getVehicleHires(keyword));
 		return "/vehicles/vehicleHire";
 	}
 	
@@ -48,7 +50,6 @@ public class VehicleHireController {
 		return "redirect:/vehicleHires";
 	}
 	
-	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/vehicleHires/findById")
 	@ResponseBody
 	public Optional<VehicleHire> findById(int id) {

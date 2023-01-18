@@ -19,6 +19,13 @@ public class VehicleMakeService {
 		return vehicleMakeRepository.findAll();
 	}
 	
+	public List<VehicleMake> getVehicleMake(String keyword) {
+		
+		return (keyword == null)
+				? vehicleMakeRepository.findAll()
+				: vehicleMakeRepository.search(keyword);
+	}
+	
 	public void save(VehicleMake vehicleMake) {
 		vehicleMakeRepository.save(vehicleMake);
 	}

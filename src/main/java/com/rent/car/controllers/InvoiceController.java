@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +29,9 @@ public class InvoiceController {
 	@Autowired private ClientService clientService;
 
 	@GetMapping("/invoices")
-	public String getInvoices(Invoice invoice, Model model) {
+	public String getInvoices(@Param("keyword") String keyword, Invoice invoice, Model model) {
 		model = setModel(model);
+		model.addAttribute("invoices", invoiceService.getInvoices(keyword));
 		return "/types/invoice";
 	}
 	
@@ -46,7 +48,6 @@ public class InvoiceController {
 		return "redirect:/invoices";
 	}
 	
-	@PreAuthorize("hasAnyAuthority('Human Resource', 'Manager', 'Admin', 'Super Admin')")
 	@RequestMapping("/invoices/findById")
 	@ResponseBody
 	public Optional<Invoice> findById(int id) {

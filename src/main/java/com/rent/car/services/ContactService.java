@@ -19,6 +19,13 @@ public class ContactService {
 		return contactRepository.findAll();
 	}
 	
+	public List<Contact> getContacts(String keyword) {
+		
+		return (keyword == null)
+				? contactRepository.findAll()
+				: contactRepository.search(keyword);
+	}
+	
 	public void save(Contact contact) {
 		contactRepository.save(contact);
 	}

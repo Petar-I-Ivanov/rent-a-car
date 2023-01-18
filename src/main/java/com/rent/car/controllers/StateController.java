@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,9 +32,10 @@ public class StateController {
 
 	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/states")
-	public String getStates(State state, Model model) {
+	public String getStates(@Param("keyword") String keyword, State state, Model model) {
 		
 		model = setModel(model);
+		model.addAttribute("states", stateService.getStates(keyword));
 		return "/globals/state";
 	}
 	

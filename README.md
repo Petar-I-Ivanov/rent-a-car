@@ -14,12 +14,15 @@
   - Header based on User (username, photo link)
   - Data Validation
   - Buisness logic
-
-# TODO:
   - Create connections Actor_Client and Actor_Employee to open profile based on that connection / role
   - Everyone can see and edit its own Profile
-  - Chats / Notifications / Search bar
-  - Replace thymeleaf front end with React
+  - Search Bar
+  - Change Password
+
+# TODO:
+  -	image upload/control
+  - Chats / Notifications ?
+  - Replace thymeleaf frontend with React
   - JUnit, Selenium, REST Assured tests
   - UseCase, Class, Sequence, Activity, State-Chart and so on.. diagrams
   - Documentation

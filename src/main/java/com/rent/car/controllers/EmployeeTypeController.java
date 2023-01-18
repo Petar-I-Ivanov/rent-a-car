@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +27,9 @@ public class EmployeeTypeController {
 
 	@PreAuthorize("hasAnyAuthority('Manager', 'Admin', 'Super Admin')")
 	@GetMapping("/employeeTypes")
-	public String getEmployeeTypes(EmployeeType employeeType, Model model) {
+	public String getEmployeeTypes(@Param("keyword") String keyword, EmployeeType employeeType, Model model) {
 
-		model.addAttribute("employeeTypes", employeeTypeService.getEmployeeTypes());
+		model.addAttribute("employeeTypes", employeeTypeService.getEmployeeTypes(keyword));
 		return "/types/employeeType";
 	}
 
