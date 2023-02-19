@@ -66,6 +66,8 @@
                       </div>
                     </div>
 
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:csrf="${_csrf.token}" />
+                    
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>

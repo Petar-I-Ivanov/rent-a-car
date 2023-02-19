@@ -2,7 +2,6 @@ package com.rent.car.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import com.rent.car.models.Actor;
 
 @Controller
@@ -15,11 +14,6 @@ public class ApplicationController {
 	
 	@GetMapping("/login")
 	public String getLogin() {
-		return "login";
-	}
-	
-	@GetMapping("/logout")
-	public String getLogout() {
 		return "login";
 	}
 	
